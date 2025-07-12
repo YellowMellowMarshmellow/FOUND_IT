@@ -1,0 +1,22 @@
+<footer class="bg-light text-center text-lg-start mt-5 py-4 border-top ">
+  <div class="container p-3 text-center">
+    <div class="d-flex flex-column align-items-center gap-2">
+      <%= image_tag('OnLibrary_logo.svg', width: 30, height: 30, alt: 'OnLibrary_logo', class: 'mb-2') %>
+      <h5>OnLibrary</h5>
+    </div>
+
+    <div class="mb-3">
+      <%= link_to "Home", root_path, class: "text-decoration-none mx-2 text-muted" %>
+      <%= link_to "All Books", books_path, class: "text-decoration-none mx-2 text-muted" %>
+      <%= link_to "Rent Your Book", new_book_path, class: "text-decoration-none mx-2 text-muted" %>
+    </div>
+
+    <div class="mb-3">
+      <a href="mailto:support@onlibrary.com" class="text-muted mx-2">support@onlibrary.com</a>
+      <a href="#" class="text-muted mx-2">Instagram</a>
+      <a href="#" class="text-muted mx-2">LinkedIn</a>
+    </div>
+
+    <p class="small text-muted mb-0">© 2025 OnLibrary. All rights reserved.</p>
+  </div>
+</footer>
