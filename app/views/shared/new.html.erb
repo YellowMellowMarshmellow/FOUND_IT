@@ -1,0 +1,21 @@
+<div class="mx-5 p-4">
+  <h1>Rent your book</h1>
+</div>
+
+<div class="mx-5 p-4 my-5">
+  <% if current_user.nil? %>
+    <h2>Oops, it seems like you need to log in first!</h2>
+    <%= link_to "Log in", new_user_session_path, data: { "turbo-method": :get }, class: "btn btn-primary" %>
+  <% else %>
+    <h2>Welcome back<% User.name %>!</h2>
+    <h3>Create a book</h3>
+
+    <%= simple_form_for @book do |f| %>
+      <%= f.input :title %>
+      <%= f.input :author %>
+      <%= f.input :categories %>
+      <%= f.input :description %>
+      <%= f.button :submit %>
+    <% end %>
+  <% end %>
+</div>
