@@ -9,6 +9,8 @@ gem "rails", "~> 7.1.5", ">= 7.1.5.1"
 gem "sprockets-rails"
 
 gem "devise"
+gem 'cloudinary'
+gem 'activestorage-cloudinary-service'
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
