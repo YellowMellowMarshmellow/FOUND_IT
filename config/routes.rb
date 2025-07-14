@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  resources :found_items
   devise_for :users
+  resources :found_items
+  resources :lost_items
+
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -10,5 +12,4 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-
 end
