@@ -1,0 +1,75 @@
+<style>
+  .alert-danger {
+    background-color: #ffe6e6;
+    padding: 10px;
+    border-left: 4px solid red;
+    margin-bottom: 20px;
+  }
+
+  .error {
+    color: red;
+    font-size: 0.9em;
+  }
+</style>
+
+<div class="mx-5 p-4">
+  <h1>Create a report</h1>
+</div>
+
+<div class="mx-5 p-4 my-5">
+  <% if current_user.nil? %>
+    <h2>Oops, it seems like you need to log in first!</h2>
+    <%= link_to "Log in", new_user_session_path, data: { "turbo-method": :get }, class: "btn btn-primary" %>
+  <% else %>
+    <h2>Welcome back, <%= current_user.first_name %> !</h2>
+    <h3>Create a book</h3>
+
+    <%= simple_form_for @found_item, html: { multipart: true } do |f| %>
+      <% if @found_item.errors.any? %>
+      <div class="alert alert-danger">
+        <h4><%= pluralize(@found_item.errors.count, "error") %> prohibited this report from being saved:</h4>
+        <ul>
+          <% @found_item.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+      <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
+      <%= f.input :title %>
+      <%= f.input :description %>
+      <%= f.input :location %>
+      <%= f.input :date_reported, as: :date %>
+
+      <div id="image-fields">
+        <%= f.file_field :images, multiple: false, name: "found_item[images][]", class: "form-control mb-2" %>
+      </div>
+      <button type="button" id="add-image-field" class="btn btn-secondary mb-4">Add Another Image</button>
+
+
+      <%= f.button :submit, "Report Found Item" %>
+    <% end %>
+
+  <% end %>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const addButton = document.getElementById("add-image-field");
+    const container = document.getElementById("image-fields");
+
+    addButton.addEventListener("click", () => {
+      const existingInputs = container.querySelectorAll("input[type='file']");
+      if (existingInputs.length < 3) {
+        const newInput = document.createElement("input");
+        newInput.type = "file";
+        newInput.name = "found_item[images][]";
+        newInput.className = "form-control mb-2";
+        container.appendChild(newInput);
+      } else {
+        alert("You can only upload up to 3 images.");
+      }
+    });
+  });
+  </script>
+
+</div>

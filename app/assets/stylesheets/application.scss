@@ -10,3 +10,15 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+.alert-danger {
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-left: 4px solid red;
+  margin-bottom: 20px;
+}
+
+.error {
+  color: red;
+  font-size: 0.9em;
+}
