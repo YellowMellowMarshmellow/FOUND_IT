@@ -1,7 +1,7 @@
 class LostItem < ApplicationRecord
   belongs_to :user
   has_many :matches, foreign_key: :lost_item_id
-  has_many :claims, through: :matches
+  has_many :found_items, through: :matches
   has_many_attached :images
 
   include ItemCategories
