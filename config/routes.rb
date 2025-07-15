@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       get :my_reports
     end
   end
+  resources :lost_items
 
   devise_for :users
   root to: "pages#home"
