@@ -1,0 +1,46 @@
+<%= form_with(model: found_item, local: true, html: { multipart: true }) do |form| %>
+  <% if found_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(found_item.errors.count, "error") %> prohibited this item from being saved:</h2>
+      <ul>
+        <% found_item.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :category %>
+    <%= form.text_field :category %>
+  </div>
+
+  <div class="field">
+    <%= form.label :location %>
+    <%= form.text_field :location %>
+  </div>
+
+  <div class="field">
+    <%= form.label :date_reported %>
+    <%= form.date_select :date_reported %>
+  </div>
+
+  <div class="field">
+    <%= form.label :images %>
+    <%= form.file_field :images, multiple: true %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
