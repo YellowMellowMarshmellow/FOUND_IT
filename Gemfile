@@ -11,6 +11,8 @@ gem "sprockets-rails"
 gem "devise"
 gem 'cloudinary'
 gem 'activestorage-cloudinary-service'
+gem 'dotenv-rails'
+
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
