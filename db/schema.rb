@@ -70,11 +70,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_14_181134) do
 
   create_table "matches", force: :cascade do |t|
     t.bigint "lost_items_id", null: false
-    t.bigint "found_item_id", null: false
+    t.bigint "found_items_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["found_items_id"], name: "index_matches_on_found_items_id"
     t.index ["lost_items_id"], name: "index_matches_on_lost_items_id"
-    t.index ["found_item_id"], name: "index_matches_on_found_item_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -95,6 +95,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_14_181134) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "found_items", "users"
   add_foreign_key "lost_items", "users"
-  add_foreign_key "matches", "claims"
-  add_foreign_key "matches", "found_items"
+  add_foreign_key "matches", "found_items", column: "found_items_id"
+  add_foreign_key "matches", "lost_items", column: "lost_items_id"
 end
