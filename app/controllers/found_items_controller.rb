@@ -43,6 +43,11 @@ class FoundItemsController < ApplicationController
     redirect_to found_items_path, notice: "Found item deleted."
   end
 
+  # ✅ New action to list current user's reports
+  def my_reports
+    @found_items = current_user.found_items.includes(:matches)
+  end
+
   private
 
   def found_item_params
