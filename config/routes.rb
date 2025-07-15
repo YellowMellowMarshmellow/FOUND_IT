@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'matches/index'
+  get 'matches/show'
+  get 'matches/create'
+  get 'matches/destroy'
   resources :found_items do
     collection do
       get :my_reports
