@@ -1,0 +1,27 @@
+<h1>My Found Item Reports</h1>
+
+<% if @found_items.empty? %>
+  <p>You haven't reported any found items yet.</p>
+<% else %>
+  <% @found_items.each do |item| %>
+    <div class="found-item-report" style="border: 1px solid #ccc; padding: 12px; margin-bottom: 16px;">
+      <h3><%= item.title %></h3>
+      <p><strong>Description:</strong> <%= item.description %></p>
+      <p><strong>Location:</strong> <%= item.location %></p>
+      <p><strong>Date Reported:</strong> <%= item.date_reported.strftime('%B %d, %Y') %></p>
+
+      <% if item.matches.any? %>
+        <p style="color: green;"><strong>Status:</strong> ✅ Matched</p>
+        <% thank_you = item.matches.first.claim&.thank_you_note %>
+        <% if thank_you.present? %>
+          <p><strong>Thank You Note:</strong> <%= thank_you %></p>
+        <% else %>
+          <p>No thank you note yet.</p>
+        <% end %>
+      <% else %>
+        <p style="color: orange;"><strong>Status:</strong> ⏳ Not matched</p>
+        <%= link_to "Edit Report", edit_found_item_path(item), class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
