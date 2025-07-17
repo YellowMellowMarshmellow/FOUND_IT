@@ -15,7 +15,7 @@
       <%= f.input :location %>
       <%= f.input :date_lost, as: :date %>
       <div id="image-fields">
-        <%= f.file_field :images, multiple: false, name: "found_item[images][]", class: "form-control mb-2" %>
+        <%= f.file_field :images, multiple: false, name: "lost_item[images][]", class: "form-control mb-2" %>
       </div>
 
       <%= f.button :submit, "Report Lost Item", class: "btn btn-primary mt-3" %>

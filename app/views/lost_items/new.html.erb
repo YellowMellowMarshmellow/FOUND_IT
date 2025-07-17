@@ -1,3 +1,14 @@
+<% if @lost_item.errors.any? %>
+  <div class="alert alert-danger">
+    <h4><%= pluralize(@lost_item.errors.count, "error") %> prohibited this report from being saved:</h4>
+    <ul>
+      <% @lost_item.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <%= render 'form', lost_item: @lost_item %>
 
 <%= link_to 'Back to Lost Items', lost_items_path %>
