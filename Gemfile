@@ -12,6 +12,7 @@ gem "devise"
 gem 'cloudinary'
 gem 'activestorage-cloudinary-service'
 gem 'dotenv-rails'
+gem 'geocoder'
 
 
 # Use postgresql as the database for Active Record

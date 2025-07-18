@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_14_181134) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_18_141152) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,19 +42,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_14_181134) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "claims", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.text "message"
-    t.string "category"
-    t.text "description"
-    t.string "title"
-    t.string "locations"
-    t.date "date_reported"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_claims_on_user_id"
-  end
-
   create_table "found_items", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -64,6 +51,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_14_181134) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "latitude"
+    t.float "longitude"
     t.index ["user_id"], name: "index_found_items_on_user_id"
   end
 
@@ -106,7 +95,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_14_181134) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "claims", "users"
   add_foreign_key "found_items", "users"
   add_foreign_key "lost_items", "users"
   add_foreign_key "matches", "found_items", column: "found_items_id"
