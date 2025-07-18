@@ -18,7 +18,7 @@ class LostItemsController < ApplicationController
     @lost_item.user = current_user
 
     if @lost_item.save
-      redirect_to @lost_item, notice: "Lost item reported successfully."
+      redirect_to root_path, notice: "Lost item reported successfully."
     else
       render :new, status: :unprocessable_entity
     end

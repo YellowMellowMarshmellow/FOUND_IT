@@ -10,8 +10,8 @@
 
     <%= simple_form_for @lost_item, html: { multipart: true } do |f| %>
       <%= f.input :title %>
-      <%= f.input :description %>
       <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
+      <%= f.input :description %>
       <%= f.input :location %>
       <%= f.input :date_lost, as: :date %>
       <div id="image-fields">
