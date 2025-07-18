@@ -1,0 +1,65 @@
+<% if user_signed_in? %>
+  <div class="container custom-width my-5">
+    <h2>Welcome back, <%= current_user.first_name %>!</h2>
+
+    <h3>Latest reports</h3>
+    <div class="row justify-content-center">
+      <% if @latest_found_item %>
+        <div class="card m-2" style="width: 18rem;">
+          <div class="card-header">Found Report</div>
+          <div class="card-body">
+            <p class="card-text"><strong>Title:</strong> <%= @latest_found_item.title %></p>
+            <p class="card-text"><strong>Description:</strong> <%= @latest_found_item.description %></p>
+            <p class="card-text"><strong>Location:</strong> <%= @latest_found_item.location %></p>
+            <%= link_to "View", found_item_path(@latest_found_item), class: "btn btn-primary" %>
+          </div>
+        </div>
+      <% end %>
+
+      <% if @latest_lost_item %>
+        <div class="card m-2" style="width: 18rem;">
+          <div class="card-header">Lost Report</div>
+          <div class="card-body">
+            <p class="card-text"><strong>Title:</strong> <%= @latest_lost_item.title %></p>
+            <p class="card-text"><strong>Description:</strong> <%= @latest_lost_item.description %></p>
+            <p class="card-text"><strong>Location:</strong> <%= @latest_lost_item.location %></p>
+            <%= link_to "View", lost_item_path(@latest_lost_item), class: "btn btn-primary" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <h3>Past reports</h3>
+    <div class="row">
+      <% @rest_found_items.each do |item| %>
+        <div class="card m-2" style="width: 18rem;">
+          <div class="card-header">Found Report</div>
+          <div class="card-body">
+            <p class="card-text"><strong>Title:</strong><%= item.title %></p>
+            <p class="card-text"><strong>Description:</strong><%= item.description %></p>
+            <p class="card-text"><strong>Location:</strong> <%= item.location %></p>
+            <%= link_to "View", found_item_path(item), class: "btn btn-primary" %>
+          </div>
+        </div>
+      <% end %>
+      <% @rest_lost_items.each do |item| %>
+        <div class="card m-2" style="width: 18rem;">
+          <div class="card-header">Lost Report</div>
+          <div class="card-body">
+            <p class="card-text"><strong>Title:</strong><%= item.title %></p>
+            <p class="card-text"><strong>Description:</strong><%= item.description %></p>
+            <p class="card-text"><strong>Location:</strong> <%= item.location %></p>
+            <%= link_to "View", lost_item_path(item), class: "btn btn-primary" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <% else %>
+    <div class="container custom-width my-5">
+          <h1>Welcome to FOUND_IT!</h1>
+          <p>This platform helps people reunite with their lost belongings.</p>
+          <%= link_to "Sign up", new_user_registration_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

@@ -4,11 +4,11 @@ Rails.application.routes.draw do
       get :my_reports
     end
   end
+  root "homepages#index"
   resources :lost_items
-
   devise_for :users
 
-  root to: "pages#home"
+  #root to: "pages#home"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

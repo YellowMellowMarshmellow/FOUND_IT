@@ -11,6 +11,21 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-light bg-light">
+      <div class="container main-bg">
+        <a class="navbar-brand" href="/">
+          <img src="<%= asset_path('found_it_logo.svg') %>" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+          Found It
+        </a>
+
+        <% if user_signed_in? %>
+          <span class="navbar-text"><%= current_user.first_name %></span>
+          <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "btn btn-outline-secondary btn-sm ms-2" %>
+        <% else %>
+          <%= link_to "Log in", new_user_session_path, class: "btn btn-outline-primary btn-sm" %>
+        <% end %>
+      </div>
+    </nav>
     <% flash.each do |key, message| %>
       <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>">
         <%= message %>

@@ -19,7 +19,7 @@ class FoundItemsController < ApplicationController
     @found_item.user = current_user
 
     if @found_item.save
-      redirect_to @found_item, notice: "Found item reported successfully."
+      redirect_to root_path, notice: "Found item reported successfully."
     else
       render :new, status: :unprocessable_entity
     end

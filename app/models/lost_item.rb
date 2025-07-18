@@ -8,7 +8,7 @@ class LostItem < ApplicationRecord
 
   validates :category, presence: true, inclusion: { in: ItemCategories::CATEGORIES }
   validates :title, :description, :location, :date_lost, :category, presence: true
-  validates :images, presence: true
+  #validates :images, presence: true
   validate :images_count_within_limit
 
   private
