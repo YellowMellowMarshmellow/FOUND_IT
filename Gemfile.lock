@@ -164,7 +164,7 @@ GEM
       activesupport (>= 6.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
-    importmap-rails (2.1.0)
+    importmap-rails (1.2.3)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
@@ -359,7 +359,7 @@ DEPENDENCIES
   dotenv-rails
   font-awesome-sass (~> 6.1)
   geocoder
-  importmap-rails
+  importmap-rails (~> 1.2.3)
   jbuilder
   pg (~> 1.1)
   puma (>= 5.0)
