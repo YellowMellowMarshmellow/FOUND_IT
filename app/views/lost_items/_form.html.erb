@@ -1,9 +1,9 @@
-<h1>Report a Lost Item</h1>
+<h1><%= @lost_item.persisted? ? "Edit Lost Item" : "Report a Lost Item" %></h1>
 
 <div class="mx-5 p-4 my-5">
   <% if current_user.nil? %>
     <h2>Oops, it seems like you need to log in first!</h2>
-    <%= link_to "Log in", new_user_session_path, data: { turbo_method: :get }, class: "btn btn-primary" %>
+    <%= link_to "Log in", new_user_session_path, class: "btn btn-primary" %>
   <% else %>
     <h2>Welcome back <%= current_user.email %>!</h2>
     <h3>Fill in the details below:</h3>
@@ -14,11 +14,21 @@
       <%= f.input :description %>
       <%= f.input :location %>
       <%= f.input :date_lost, as: :date %>
+
+      <% if @lost_item.images.attached? %>
+        <div class="mb-3">
+          <strong>Existing Images:</strong><br>
+          <% @lost_item.images.each do |image| %>
+            <%= image_tag image, style: "max-width: 200px; margin-right: 10px;" %>
+          <% end %>
+        </div>
+      <% end %>
+
       <div id="image-fields">
-        <%= f.file_field :images, multiple: false, name: "lost_item[images][]", class: "form-control mb-2" %>
+        <%= f.file_field :images, multiple: true, name: "lost_item[images][]", class: "form-control mb-2" %>
       </div>
 
-      <%= f.button :submit, "Report Lost Item", class: "btn btn-primary mt-3" %>
+      <%= f.button :submit, @lost_item.persisted? ? "Update Lost Item" : "Report Lost Item", class: "btn btn-primary mt-3" %>
     <% end %>
   <% end %>
 </div>

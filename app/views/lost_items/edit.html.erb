@@ -1,2 +1,5 @@
-<h1>LostItems#edit</h1>
-<p>Find me in app/views/lost_items/edit.html.erb</p>
+<h1>Edit Lost Item Report</h1>
+
+<%= render 'form', lost_item: @lost_item %>
+
+<%= link_to 'Back', lost_item_path(@lost_item), class: 'btn' %>

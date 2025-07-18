@@ -1,5 +1,6 @@
 class LostItemsController < ApplicationController
   before_action :authenticate_user!
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
     @lost_items = LostItem.all
@@ -47,5 +48,12 @@ class LostItemsController < ApplicationController
 
   def lost_item_params
     params.require(:lost_item).permit(:title, :description, :category, :location, :date_lost, images: [])
+  end
+
+  def authorize_user!
+    @lost_item = LostItem.find(params[:id])
+    unless @lost_item.user == current_user
+      redirect_to lost_items_path, alert: "You are not authorized to do that."
+    end
   end
 end
