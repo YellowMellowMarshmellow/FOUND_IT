@@ -11,7 +11,7 @@
             <p class="card-text"><strong>Title:</strong> <%= @latest_found_item.title %></p>
             <p class="card-text"><strong>Description:</strong> <%= @latest_found_item.description %></p>
             <p class="card-text"><strong>Location:</strong> <%= @latest_found_item.location %></p>
-            <%= link_to "View", found_item_path(@latest_found_item), class: "btn btn-primary" %>
+            <%= link_to "Edit", edit_found_item_path(@latest_found_item), class: "btn btn-primary" %>
           </div>
         </div>
       <% end %>
@@ -23,7 +23,7 @@
             <p class="card-text"><strong>Title:</strong> <%= @latest_lost_item.title %></p>
             <p class="card-text"><strong>Description:</strong> <%= @latest_lost_item.description %></p>
             <p class="card-text"><strong>Location:</strong> <%= @latest_lost_item.location %></p>
-            <%= link_to "View", lost_item_path(@latest_lost_item), class: "btn btn-primary" %>
+            <%= link_to "Edit", edit_lost_item_path(@latest_lost_item), class: "btn btn-primary" %>
           </div>
         </div>
       <% end %>
@@ -38,7 +38,7 @@
             <p class="card-text"><strong>Title:</strong><%= item.title %></p>
             <p class="card-text"><strong>Description:</strong><%= item.description %></p>
             <p class="card-text"><strong>Location:</strong> <%= item.location %></p>
-            <%= link_to "View", found_item_path(item), class: "btn btn-primary" %>
+            <%= link_to "Edit", edit_found_item_path(item), class: "btn btn-primary" %>
           </div>
         </div>
       <% end %>
@@ -49,7 +49,7 @@
             <p class="card-text"><strong>Title:</strong><%= item.title %></p>
             <p class="card-text"><strong>Description:</strong><%= item.description %></p>
             <p class="card-text"><strong>Location:</strong> <%= item.location %></p>
-            <%= link_to "View", lost_item_path(item), class: "btn btn-primary" %>
+            <%= link_to "Edit", edit_lost_item_path(item), class: "btn btn-primary" %>
           </div>
         </div>
       <% end %>
