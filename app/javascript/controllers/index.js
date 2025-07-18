@@ -2,3 +2,5 @@
 import { application } from "controllers/application"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 eagerLoadControllersFrom("controllers", application)
+import AddressAutocompleteController from "./address_autocomplete_controller.js"
+Stimulus.register("address-autocomplete", AddressAutocompleteController)
