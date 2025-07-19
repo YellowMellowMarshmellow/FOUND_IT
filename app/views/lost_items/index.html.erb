@@ -1,0 +1,12 @@
+<h1>All Lost Items</h1>
+
+<%= link_to 'Report New Lost Item', new_lost_item_path %>
+
+<ul>
+  <% @lost_items.each do |item| %>
+    <li>
+      <strong><%= link_to item.title, lost_item_path(item) %></strong><br>
+      <em><%= item.category %></em> | <%= item.location %> | <%= item.date_lost %>
+    </li>
+  <% end %>
+</ul>
