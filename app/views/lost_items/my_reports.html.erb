@@ -1,0 +1,39 @@
+<h1>My Lost Item Reports</h1>
+
+<% if @my_lost_items.blank? %>
+  <p>You haven't reported any lost items yet.</p>
+<% else %>
+  <div class="row">
+    <% @my_lost_items.each do |item| %>
+      <div class="col-md-6 mb-4">
+        <div class="card position-relative shadow-sm" style="cursor: pointer;" onclick="window.location='<%= lost_item_path(item) %>'">
+          <div class="card-body">
+            <!-- Edit icon -->
+            <%= link_to edit_lost_item_path(item), class: "position-absolute top-0 end-0 m-2 text-muted" do %>
+              <i class="bi bi-pencil-square"></i>
+            <% end %>
+
+            <!-- Date -->
+            <p class="text-muted small mb-1"><strong>Reported:</strong> <%= item.created_at.strftime("%d %b %Y") %></p>
+
+            <!-- Title -->
+            <h5 class="card-title"><%= item.title %></h5>
+
+            <!-- Description -->
+            <p class="card-text"><%= truncate(item.description, length: 100) %></p>
+
+            <!-- Location -->
+            <p class="mb-2"><strong>Location:</strong> <%= item.location %></p>
+
+            <!-- Status -->
+            <% if item.matches.any? %>
+              <span class="badge bg-success">Match found</span>
+            <% else %>
+              <span class="badge bg-warning text-dark">Pending match</span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

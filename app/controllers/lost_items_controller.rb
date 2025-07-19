@@ -44,6 +44,10 @@ class LostItemsController < ApplicationController
     redirect_to lost_items_path, notice: "Lost item deleted."
   end
 
+  def my_reports
+    @my_lost_items = current_user.lost_items.includes(:matches) || []
+  end
+
   private
 
   def lost_item_params

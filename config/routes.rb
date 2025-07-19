@@ -5,7 +5,11 @@ Rails.application.routes.draw do
     end
   end
   root "homepages#index"
-  resources :lost_items
+  resources :lost_items do
+    collection do
+      get :my_reports
+    end
+  end
   devise_for :users
 
   #root to: "pages#home"
