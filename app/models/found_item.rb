@@ -7,7 +7,8 @@ class FoundItem < ApplicationRecord
   include ItemCategories
 
   validates :category, presence: true, inclusion: { in: ItemCategories::CATEGORIES }
-  validates :title, :description, :location, :date_reported, :category, presence: true
+  validates :title, :location, :date_reported, :category, presence: true
+  validates :description, presence: true, length: { minimum: 30, message: "must be at least 30 characters long" }
   validates :images, presence: true
   validate :images_count_within_limit
 
