@@ -11,7 +11,7 @@
     <%= simple_form_for @lost_item, html: { multipart: true } do |f| %>
       <%= f.input :title %>
       <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
-      <%= f.input :description %>
+      <%= f.input :description, error: "must be at least 30 characters long"%>
       <%= f.input :location %>
       <%= f.input :date_lost, as: :date %>
 
@@ -29,7 +29,6 @@
       </div>
 
       <%= f.button :submit, @lost_item.persisted? ? "Update Lost Item" : "Report Lost Item", class: "btn btn-primary mt-3" %>
-      <%= f.input :description, error: "must be at least 30 characters long" %>
     <% end %>
   <% end %>
 </div>
