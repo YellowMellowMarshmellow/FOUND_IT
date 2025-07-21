@@ -1,6 +1,8 @@
 class LostItemsController < ApplicationController
   before_action :authenticate_user!
 
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
+
   def index
     @lost_items = LostItem.all
   end
@@ -18,7 +20,9 @@ class LostItemsController < ApplicationController
     @lost_item.user = current_user
 
     if @lost_item.save
-      redirect_to @lost_item, notice: "Lost item reported successfully."
+
+      redirect_to root_path, notice: "Lost item reported successfully."
+
     else
       render :new, status: :unprocessable_entity
     end
@@ -43,9 +47,20 @@ class LostItemsController < ApplicationController
     redirect_to lost_items_path, notice: "Lost item deleted."
   end
 
+  def my_reports
+    @my_lost_items = current_user.lost_items.includes(:matches) || []
+  end
+
   private
 
   def lost_item_params
     params.require(:lost_item).permit(:title, :description, :category, :location, :date_lost, images: [])
+  end
+
+  def authorize_user!
+    @lost_item = LostItem.find(params[:id])
+    unless @lost_item.user == current_user
+      redirect_to lost_items_path, alert: "You are not authorized to do that."
+    end
   end
 end

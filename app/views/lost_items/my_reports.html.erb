@@ -1,0 +1,38 @@
+<h1 class="text-center mb-4">My Lost Item Reports</h1>
+
+<% if @my_lost_items.blank? %>
+  <p class="text-center">You haven't reported any lost items yet.</p>
+<% else %>
+  <div class="d-flex flex-column align-items-center">
+    <% @my_lost_items.each do |item| %>
+      <div class="report-card position-relative mb-4" onclick="window.location='<%= lost_item_path(item) %>'">
+
+        <div class="text-center mb-3">
+          <h5> <%= item.title %> </h5>
+        </div>
+
+        <hr class="my-2">
+
+        <div class="row">
+          <div class="col-md-6">
+            <p class="text-muted mb-1"><%= item.created_at.strftime('%d.%m.%Y') %></p>
+            <p><strong>Description:</strong><br><%= item.description %></p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Location:</strong><br><%= item.location %></p>
+            <p><strong>Status:</strong>
+              <% if item.matches.any? %>
+                <span class="text-success">Match found</span>
+              <% else %>
+                <span class="text-warning">Pending match</span>
+              <% end %>
+            </p>
+            <%= link_to edit_lost_item_path(item), class: "edit-icon", data: { turbo: false } do %>
+              <i class="bi bi-pencil"></i>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
