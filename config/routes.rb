@@ -1,18 +1,20 @@
 Rails.application.routes.draw do
+  devise_for :users
+
   resources :found_items do
     collection do
       get :my_reports
     end
   end
-  root "homepages#index"
+
   resources :lost_items do
     collection do
       get :my_reports
     end
   end
-  devise_for :users
 
-  #root to: "pages#home"
+  root to: "homepages#index"
+end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

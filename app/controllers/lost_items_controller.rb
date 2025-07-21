@@ -1,5 +1,6 @@
 class LostItemsController < ApplicationController
   before_action :authenticate_user!
+
   before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
@@ -19,7 +20,9 @@ class LostItemsController < ApplicationController
     @lost_item.user = current_user
 
     if @lost_item.save
+
       redirect_to root_path, notice: "Lost item reported successfully."
+
     else
       render :new, status: :unprocessable_entity
     end

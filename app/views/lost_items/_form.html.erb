@@ -1,4 +1,10 @@
+
+<div class="mx-5 p-4">
+  <h1>Report a Lost Item</h1>
+</div>
+
 <h1><%= @lost_item.persisted? ? "Edit Lost Item" : "Report a Lost Item" %></h1>
+
 
 <div class="mx-5 p-4 my-5">
   <% if current_user.nil? %>
@@ -14,7 +20,6 @@
       <%= f.input :description, error: "must be at least 30 characters long"%>
       <%= f.input :location %>
       <%= f.input :date_lost, as: :date %>
-
       <% if @lost_item.images.attached? %>
         <div class="mb-3">
           <strong>Existing Images:</strong><br>
