@@ -1,6 +1,7 @@
 class FoundItem < ApplicationRecord
   belongs_to :user
-  has_many :matches, foreign_key: :found_item_id
+  has_many :matches
+  has_many :lost_items, through: :matches
   has_many :claims, through: :matches
   has_many_attached :images
 
@@ -12,10 +13,19 @@ class FoundItem < ApplicationRecord
   validates :images, presence: true
   validate :images_count_within_limit
 
+  before_save :normalize_fields
+
   private
+
+  def normalize_fields
+    self.location = location.strip.split.map(&:capitalize).join(' ')
+    matched_category = ItemCategories::CATEGORIES.find { |c| c.casecmp?(category.strip) }
+    self.category = matched_category || category.strip
+  end
 
   def images_count_within_limit
     return unless images.attached?
+
     errors.add(:images, "You can upload up to 3 images.") if images.count > 3
   end
 end
