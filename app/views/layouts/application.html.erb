@@ -20,8 +20,21 @@
         </a>
 
         <% if user_signed_in? %>
-          <span class="navbar-text"><%= current_user.first_name %></span>
-          <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "btn btn-outline-secondary btn-sm ms-2" %>
+          <div class="d-flex align-items-center ms-auto">
+            <span class="navbar-text me-3"> <%= current_user.first_name %></span>
+
+            <%= link_to notifications_path, class: "btn btn-outline-primary btn-sm position-relative me-3" do %>
+              <i class="bi bi-bell"></i>
+              <% unread_count = current_user.notifications.unread.count %>
+              <% if unread_count > 0 %>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  <%= unread_count %>
+                </span>
+              <% end %>
+            <% end %>
+
+            <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "btn btn-outline-secondary btn-sm" %>
+          </div>
         <% else %>
           <%= link_to "Log in", new_user_session_path, class: "btn btn-outline-primary btn-sm" %>
         <% end %>

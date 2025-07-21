@@ -1,16 +1,30 @@
 Rails.application.routes.draw do
+  get 'notifications/index'
+  get 'notifications/mark_as_read'
+
   resources :found_items do
     collection do
       get :my_reports
     end
   end
-  root "homepages#index"
+
   resources :lost_items do
     collection do
       get :my_reports
     end
   end
+
+  resources :notifications, only: [:index] do
+    member do
+      patch :mark_as_read
+    end
+  end
+
+  resources :matches, only: [:index, :update]
+
   devise_for :users
+
+  root "homepages#index"
 
   #root to: "pages#home"
 

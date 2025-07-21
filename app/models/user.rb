@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :lost_items
   has_many :found_items
+  has_many :notifications, dependent: :destroy
   validates :first_name, presence: true
   validates :last_name, presence: true
 end
