@@ -1,28 +1,32 @@
-<%= simple_form_for found_item, html: { multipart: true } do |f| %>
-  <%# Display full error messages at the top %>
-  <% if found_item.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(found_item.errors.count, "error") %> prohibited this item from being saved:</h2>
-      <ul>
-        <% found_item.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
+<div class="mx-5 p-4 my-5">
+  <%= simple_form_for @found_item, html: { multipart: true } do |f| %>
+
+    <%# Ajout de l’affichage des erreurs comme dans master %>
+    <% if @found_item.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@found_item.errors.count, "error") %> prohibited this item from being saved:</h2>
+        <ul>
+          <% @found_item.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= f.input :title %>
+
+    <%= f.input :description,
+        input_html: { rows: 5 },
+        hint: "Must be at least 30 characters long" %>
+
+    <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
+
+    <%= f.input :location %>
+
+    <%= f.input :date_reported, as: :date %>
+
+    <%= f.input :images, as: :file, input_html: { multiple: true } %>
+
+    <%= f.button :submit, class: "btn btn-primary mt-3" %>
   <% end %>
-
-  <%= f.input :title %>
-
-  <%# Add custom error message for description if validation fails %>
-  <%= f.input :description,
-        error: (found_item.errors[:description].any? ? "Must be at least 30 characters long" : nil) %>
-
-  <%= f.input :category %>
-  <%= f.input :location %>
-  <%= f.input :date_reported %>
-  <%= f.input :images, as: :file, input_html: { multiple: true } %>
-
-  <div class="actions">
-    <%= f.button :submit, "Save", class: "btn btn-primary" %>
-  </div>
-<% end %>
+</div>

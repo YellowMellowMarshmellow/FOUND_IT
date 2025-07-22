@@ -23,13 +23,20 @@ class LostItemsController < ApplicationController
 
         FoundItem.where(category: @lost_item.category, location: @lost_item.location).find_each do |found_item|
         Match.create!(lost_item: @lost_item, found_item: found_item)
+
+        Notification.create!(
+          user: @lost_item.user,
+          message: "A found item matches your lost item. : #{found_item.title}"
+        )
+
+        Notification.create!(
+          user: found_item.user,
+          message: "A lost item matches your found item : #{@lost_item.title}"
+        )
       end
 
 
       redirect_to root_path, notice: "Lost item reported successfully."
-
-    else
-      render :new, status: :unprocessable_entity
     end
   end
 
