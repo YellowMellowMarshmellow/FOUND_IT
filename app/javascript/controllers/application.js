@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const bell = document.getElementById("notification-bell");
     const dropdown = document.getElementById("notification-dropdown");
 
+    dropdown.style.display = 'none';
+
     if (bell && dropdown) {
         bell.addEventListener("click", (event) => {
             event.stopPropagation();
