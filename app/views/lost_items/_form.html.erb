@@ -1,17 +1,12 @@
-
 <div class="mx-5 p-4">
-  <h1>Report a Lost Item</h1>
+  <h1><%= @lost_item.persisted? ? "Edit Lost Item" : "Report a Lost Item" %></h1>
 </div>
 
-<h1><%= @lost_item.persisted? ? "Edit Lost Item" : "Report a Lost Item" %></h1>
-
-
-<div class="mx-5 p-4 my-5">
+<div class="mx-5 p-4 my-3">
   <% if current_user.nil? %>
     <h2>Oops, it seems like you need to log in first!</h2>
     <%= link_to "Log in", new_user_session_path, class: "btn btn-primary" %>
   <% else %>
-    <h2>Welcome back <%= current_user.email %>!</h2>
     <h3>Fill in the details below:</h3>
 
     <%= simple_form_for @lost_item, html: { multipart: true } do |f| %>
@@ -20,18 +15,6 @@
       <%= f.input :description, error: "must be at least 30 characters long"%>
       <%= f.input :location %>
       <%= f.input :date_lost, as: :date %>
-      <% if @lost_item.images.attached? %>
-        <div class="mb-3">
-          <strong>Existing Images:</strong><br>
-          <% @lost_item.images.each do |image| %>
-            <%= image_tag image, style: "max-width: 200px; margin-right: 10px;" %>
-          <% end %>
-        </div>
-      <% end %>
-
-      <div id="image-fields">
-        <%= f.file_field :images, multiple: true, name: "lost_item[images][]", class: "form-control mb-2" %>
-      </div>
 
       <%= f.button :submit, @lost_item.persisted? ? "Update Lost Item" : "Report Lost Item", class: "btn btn-primary mt-3" %>
     <% end %>
