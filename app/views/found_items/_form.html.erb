@@ -1,7 +1,6 @@
 <div class="mx-5 p-4 my-5">
   <%= simple_form_for @found_item, html: { multipart: true } do |f| %>
 
-    <%# Ajout de l’affichage des erreurs comme dans master %>
     <% if @found_item.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@found_item.errors.count, "error") %> prohibited this item from being saved:</h2>
