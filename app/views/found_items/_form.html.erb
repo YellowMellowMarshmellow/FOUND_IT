@@ -29,4 +29,42 @@
 
     <%= f.button :submit, class: "btn btn-primary mt-3" %>
   <% end %>
-</div>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :category %>
+    <%= form.text_field :category %>
+  </div>
+
+  <div class="field">
+    <%= form.label :location %>
+    <%= f.input :address,
+      input_html: {data: {address_autocomplete_target: "address"}},
+      wrapper_html: {data: {controller: "address-autocomplete", address_autocomplete_api_key_value: ENV["MAPBOX_API_KEY"]}}
+    %>
+  </div>
+
+
+  <div class="field">
+    <%= form.label :date_reported %>
+    <%= form.date_select :date_reported %>
+  </div>
+
+  <div class="field">
+    <%= form.label :images %>
+    <%= form.file_field :images, multiple: true %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

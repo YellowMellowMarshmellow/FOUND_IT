@@ -13,6 +13,8 @@ class FoundItem < ApplicationRecord
   validates :images, presence: true
   validate :images_count_within_limit
 
+  geocoded_by :location
+  after_validation :geocode, if: :will_save_change_to_location?
   before_save :normalize_fields
 
   private
