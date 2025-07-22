@@ -20,7 +20,7 @@ class FoundItemsController < ApplicationController
 
     if @found_item.save
       LostItem.where(category: @found_item.category, location: @found_item.location).find_each do |lost_item|
-        Match.create!(lost_item: lost_item, found_item: @found_item)
+      Match.create!(lost_item: lost_item, found_item: @found_item)
       end
 
       redirect_to root_path, notice: "Found item reported successfully."

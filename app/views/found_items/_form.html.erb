@@ -1,4 +1,5 @@
-<%= form_with(model: found_item, local: true, html: { multipart: true }) do |form| %>
+<%= simple_form_for found_item, html: { multipart: true } do |f| %>
+  <%# Display full error messages at the top %>
   <% if found_item.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(found_item.errors.count, "error") %> prohibited this item from being saved:</h2>
@@ -10,38 +11,18 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
+  <%= f.input :title %>
 
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
+  <%# Add custom error message for description if validation fails %>
+  <%= f.input :description,
+        error: (found_item.errors[:description].any? ? "Must be at least 30 characters long" : nil) %>
 
-  <div class="field">
-    <%= form.label :category %>
-    <%= form.text_field :category %>
-  </div>
-
-  <div class="field">
-    <%= form.label :location %>
-    <%= form.text_field :location %>
-  </div>
-
-  <div class="field">
-    <%= form.label :date_reported %>
-    <%= form.date_select :date_reported %>
-  </div>
-
-  <div class="field">
-    <%= form.label :images %>
-    <%= form.file_field :images, multiple: true %>
-  </div>
+  <%= f.input :category %>
+  <%= f.input :location %>
+  <%= f.input :date_reported %>
+  <%= f.input :images, as: :file, input_html: { multiple: true } %>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= f.button :submit, "Save", class: "btn btn-primary" %>
   </div>
-  <%= f.input :description, error: "must be at least 30 characters long" %>
 <% end %>
