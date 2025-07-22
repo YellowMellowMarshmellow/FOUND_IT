@@ -12,12 +12,6 @@
 
       <% if item.matches.any? %>
         <p style="color: green;"><strong>Status:</strong> ✅ Matched</p>
-        <% thank_you = item.matches.first.claim&.thank_you_note %>
-        <% if thank_you.present? %>
-          <p><strong>Thank You Note:</strong> <%= thank_you %></p>
-        <% else %>
-          <p>No thank you note yet.</p>
-        <% end %>
       <% else %>
         <p style="color: orange;"><strong>Status:</strong> ⏳ Not matched</p>
       <% end %>
