@@ -38,7 +38,9 @@
       <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
       <%= f.input :title %>
       <%= f.input :description %>
-      <%= f.input :location %>
+      <%= f.input :location,
+        input_html: {data: {address_autocomplete_target: "address"}},
+        wrapper_html: {data: {controller: "address-autocomplete", address_autocomplete_api_key_value: ENV["MAPBOX_API_KEY"]}}%>
       <%= f.input :date_reported, as: :date %>
 
       <div id="image-fields">
