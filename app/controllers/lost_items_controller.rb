@@ -1,5 +1,6 @@
 class LostItemsController < ApplicationController
   before_action :authenticate_user!
+
   before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
@@ -19,11 +20,14 @@ class LostItemsController < ApplicationController
     @lost_item.user = current_user
 
     if @lost_item.save
-      FoundItem.where(category: @lost_item.category, location: @lost_item.location).find_each do |found_item|
+
+        FoundItem.where(category: @lost_item.category, location: @lost_item.location).find_each do |found_item|
         Match.create!(lost_item: @lost_item, found_item: found_item)
       end
 
+
       redirect_to root_path, notice: "Lost item reported successfully."
+
     else
       render :new, status: :unprocessable_entity
     end
