@@ -24,4 +24,3 @@ end
 
   # Defines the root path route ("/")
   # root "posts#index"
-end
