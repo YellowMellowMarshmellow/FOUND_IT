@@ -2,7 +2,7 @@
   <div class="custom-wrapper my-5">
     <h2>Welcome back, <%= current_user.first_name %>!</h2>
 
-    <h3>Latest reports</h3>
+    <h3 class="my-5"><strong>Latest reports</strong></h3>
     <div class="card-container my-4">
       <% if @latest_found_item %>
         <div class="card custom-card my-3 p-3 bg-light">
@@ -44,7 +44,7 @@
       <% end %>
     </div>
 
-    <h3>Past reports</h3>
+    <h3 class="my-5"><strong>Past reports</strong></h3>
     <div class="card-container my-4">
       <% @rest_found_items.each do |item| %>
         <div class="card custom-card my-3 p-3 bg-light">
