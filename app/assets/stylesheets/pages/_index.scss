@@ -1,2 +1,13 @@
 // Import page-specific CSS files here.
 @import "home";
+
+.custom-width {
+  max-width: 1000px; // or 800px, depending on what you want
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.main-bg {
+  background-color: #D0E6D1;
+  height: 80px;
+}

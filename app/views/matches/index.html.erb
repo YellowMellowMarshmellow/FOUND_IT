@@ -1,0 +1,10 @@
+<h1>Matches</h1>
+
+<% @matches.each do |match| %>
+  <p>
+    Lost: <%= match.lost_item.title %><br>
+    Found: <%= match.found_item.title %>
+  </p>
+
+  <%= button_to "Confirm the match", match_path(match), method: :patch, data: { turbo_confirm: "Confirm this match ?" } %>
+<% end %>

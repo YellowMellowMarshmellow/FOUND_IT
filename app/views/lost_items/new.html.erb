@@ -1,3 +1,5 @@
+<h1>Report a Lost Item</h1>
+
 <% if @lost_item.errors.any? %>
   <div class="alert alert-danger">
     <h4><%= pluralize(@lost_item.errors.count, "error") %> prohibited this report from being saved:</h4>
@@ -9,6 +11,6 @@
   </div>
 <% end %>
 
-<%= render 'form', lost_item: @lost_item %>
+<%= render 'form', found_item: @lost_item, form_type: :lost %>
 
 <%= link_to 'Back to Lost Items', lost_items_path %>

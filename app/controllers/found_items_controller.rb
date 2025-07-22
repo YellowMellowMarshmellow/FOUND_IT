@@ -26,7 +26,17 @@ class FoundItemsController < ApplicationController
     @found_item.user = current_user
 
     if @found_item.save
-      redirect_to @found_item, notice: "Found item reported successfully."
+      LostItem.where(category: @found_item.category, location: @found_item.location).find_each do |lost_item|
+        Match.create!(lost_item: lost_item, found_item: @found_item)
+
+        Notification.create!(
+          user: lost_item.user,
+          message: "A potential match has been found for your lost object : #{lost_item.title}. Please confirm.",
+          notifiable: lost_item
+        )
+      end
+
+      redirect_to root_path, notice: "Found item reported successfully."
     else
       render :new, status: :unprocessable_entity
     end
@@ -66,5 +76,12 @@ class FoundItemsController < ApplicationController
 
   def found_item_params
     params.require(:found_item).permit(:title, :description, :category, :location, :date_reported, images: [])
+  end
+
+  def find_matches_for(found_item)
+    possible_lost_items = LostItem.where(category: found_item.category, location: found_item.location)
+    possible_lost_items.each do |lost_item|
+      Match.create(found_item: found_item, lost_item: lost_item)
+    end
   end
 end

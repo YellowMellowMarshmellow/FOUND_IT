@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_18_141152) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_22_135453) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,12 +71,25 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_18_141152) do
   end
 
   create_table "matches", force: :cascade do |t|
-    t.bigint "lost_items_id", null: false
-    t.bigint "found_items_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["found_items_id"], name: "index_matches_on_found_items_id"
-    t.index ["lost_items_id"], name: "index_matches_on_lost_items_id"
+    t.bigint "lost_item_id"
+    t.bigint "found_item_id"
+    t.boolean "confirmed"
+    t.index ["found_item_id"], name: "index_matches_on_found_item_id"
+    t.index ["lost_item_id"], name: "index_matches_on_lost_item_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "message"
+    t.boolean "read"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "notifiable_type"
+    t.bigint "notifiable_id"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -97,6 +110,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_18_141152) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "found_items", "users"
   add_foreign_key "lost_items", "users"
-  add_foreign_key "matches", "found_items", column: "found_items_id"
-  add_foreign_key "matches", "lost_items", column: "lost_items_id"
+  add_foreign_key "matches", "found_items"
+  add_foreign_key "matches", "lost_items"
+  add_foreign_key "notifications", "users"
 end

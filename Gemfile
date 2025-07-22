@@ -14,7 +14,6 @@ gem 'activestorage-cloudinary-service'
 gem 'dotenv-rails'
 gem 'geocoder'
 
-
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 
@@ -58,7 +57,6 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 
 group :development, :test do
-  gem "dotenv-rails"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
 end

@@ -1,6 +1,8 @@
 class LostItemsController < ApplicationController
   before_action :authenticate_user!
 
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
+
   def index
     @lost_items = LostItem.all
   end
@@ -18,9 +20,23 @@ class LostItemsController < ApplicationController
     @lost_item.user = current_user
 
     if @lost_item.save
-      redirect_to @lost_item, notice: "Lost item reported successfully."
-    else
-      render :new, status: :unprocessable_entity
+
+        FoundItem.where(category: @lost_item.category, location: @lost_item.location).find_each do |found_item|
+        Match.create!(lost_item: @lost_item, found_item: found_item)
+
+        Notification.create!(
+          user: @lost_item.user,
+          message: "A found item matches your lost item. : #{found_item.title}"
+        )
+
+        Notification.create!(
+          user: found_item.user,
+          message: "A lost item matches your found item : #{@lost_item.title}"
+        )
+      end
+
+
+      redirect_to root_path, notice: "Lost item reported successfully."
     end
   end
 
@@ -43,9 +59,27 @@ class LostItemsController < ApplicationController
     redirect_to lost_items_path, notice: "Lost item deleted."
   end
 
+  def my_reports
+    @my_lost_items = current_user.lost_items.includes(:matches) || []
+  end
+
   private
 
   def lost_item_params
     params.require(:lost_item).permit(:title, :description, :category, :location, :date_lost, images: [])
+  end
+
+  def authorize_user!
+    @lost_item = LostItem.find(params[:id])
+    unless @lost_item.user == current_user
+      redirect_to lost_items_path, alert: "You are not authorized to do that."
+    end
+  end
+
+  def find_matches_for(lost_item)
+    possible_found_items = FoundItem.where(category: lost_item.category, location: lost_item.location)
+    possible_found_items.each do |found_item|
+      Match.create(found_item: found_item, lost_item: lost_item)
+    end
   end
 end

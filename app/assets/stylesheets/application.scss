@@ -24,3 +24,36 @@
   color: red;
   font-size: 0.9em;
 }
+
+.main-bg {
+  background-color: #D0E6D1;
+  height: 80px;
+}
+
+.report-card {
+  background-color: #ffecec;
+  border: 1px solid #f3c6c6;
+  border-radius: 15px;
+  padding: 20px;
+  width: 100%;
+  max-width: 700px;
+  position: relative;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.report-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.edit-icon {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  color: #6c757d;
+  z-index: 10;
+}
+
+.edit-icon:hover {
+  color: #000;
+}

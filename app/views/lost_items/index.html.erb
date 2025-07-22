@@ -1,2 +1,27 @@
-<h1>LostItems#index</h1>
-<p>Find me in app/views/lost_items/index.html.erb</p>
+<h1>All Lost Items</h1>
+
+
+<%= link_to 'Report New Lost Item', new_lost_item_path %>
+
+<ul>
+  <% @lost_items.each do |item| %>
+    <li>
+      <strong><%= link_to item.title, lost_item_path(item) %></strong><br>
+      <em><%= item.category %></em> | <%= item.location %> | <%= item.date_lost %>
+    </li>
+  <% end %>
+</ul>
+=======
+<%= link_to 'Report New Lost Item', new_lost_item_path, class: 'btn btn-primary' %>
+
+<% @lost_items.each do |item| %>
+  <div class="card my-3 p-3 bg-light">
+    <h5><%= item.title %></h5>
+    <p><strong>Description:</strong> <%= item.description %></p>
+    <p><strong>Location:</strong> <%= item.location %></p>
+
+    <%= link_to 'Show', lost_item_path(item), class: 'btn btn-sm btn-outline-primary' %>
+    <%= link_to 'Edit', edit_lost_item_path(item), class: 'btn btn-sm btn-outline-secondary' %>
+    <%= link_to 'Delete', lost_item_path(item), method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-sm btn-danger' %>
+  </div>
+<% end %>
