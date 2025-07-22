@@ -11,7 +11,7 @@ class LostItem < ApplicationRecord
   validates :category, presence: true, inclusion: { in: ItemCategories::CATEGORIES }
 
   validates :title, :description, :location, :date_lost, :category, presence: true
-  validates :images, presence: true
+  validates :images, length: { maximum: 3 }, allow_blank: true
 
   validates :title, :location, :date_lost, :category, presence: true
   validates :description, presence: true, length: { minimum: 30, message: "must be at least 30 characters long" }
