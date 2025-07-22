@@ -10,7 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema[7.1].define(version: 2025_07_19_143454) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,7 +95,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_19_143454) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "found_items", "users"
   add_foreign_key "lost_items", "users"
-
   add_foreign_key "matches", "found_items"
   add_foreign_key "matches", "lost_items"
 end

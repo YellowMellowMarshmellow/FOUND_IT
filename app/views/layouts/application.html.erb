@@ -13,17 +13,16 @@
 
   <body>
     <nav class="navbar navbar-light bg-light">
-      <div class="container main-bg">
+      <div class="container-fluid main-bg">
         <a class="navbar-brand" href="/">
-          <img src="<%= asset_path('found_it_logo.svg') %>" width="30" height="30" class="d-inline-block align-top" alt="Logo">
-          Found It
+          <img src="<%= asset_path('found_it_logo.svg') %>" width="48" height="48" class="d-inline-block align-middle logo-img" alt="Logo">
+          <span class="brand-name ms-1 align-middle">Found it</span>
         </a>
 
         <% if user_signed_in? %>
-          <span class="navbar-text"><%= current_user.first_name %></span>
-          <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "btn btn-outline-secondary btn-sm ms-2" %>
+          <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "custom-outline-btn btn-sm ms-2", style: "margin-right: 6rem;" %>
         <% else %>
-          <%= link_to "Log in", new_user_session_path, class: "btn btn-outline-primary btn-sm" %>
+          <%= link_to "Log in", new_user_session_path, class: "custom-outline-btn btn-sm", style: "margin-right: 6rem;"%>
         <% end %>
       </div>
     </nav>
