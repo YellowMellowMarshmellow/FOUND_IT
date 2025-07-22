@@ -24,7 +24,8 @@ class FoundItemsController < ApplicationController
 
         Notification.create!(
           user: lost_item.user,
-          message: "A potential match has been found for your lost object : #{lost_item.title}. Please confirm."
+          message: "A potential match has been found for your lost object : #{lost_item.title}. Please confirm.",
+          notifiable: lost_item
         )
       end
 
