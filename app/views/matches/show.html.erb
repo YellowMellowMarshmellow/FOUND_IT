@@ -1,0 +1,40 @@
+<div class="match-card d-flex">
+  <% if @match.found_item.images.attached? %>
+    <div class="match-image">
+
+      <%= image_tag @match.found_item.images.first, class: "img-fluid main-image" %>
+
+      <% if @match.found_item.images.count > 1 %>
+        <div class="thumbnails d-flex flex-wrap">
+          <% @match.found_item.images.drop(1).each do |image| %>
+            <div class="thumbnail">
+              <%= image_tag image, class: "img-thumbnail" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="match-content">
+    <div class="match-text mb-4">
+      <h3><strong>📌 It's a match !</strong></h3>
+      <p><strong>Description:</strong> <%= @match.found_item.description %></p>
+      <p><strong>Is this item yours ?</strong></p>
+    </div>
+
+    <div class="match-buttons text-end">
+      <%= button_to "Confirm",
+            lost_item_match_path(@lost_item, @match),
+            method: :patch,
+            params: { match: { confirmed: true } },
+            class: "btn btn-warning me-2", style: "border-radius: 30px; width: 8rem; font-weight: bold; color: white;" %>
+
+      <%= button_to "Reject",
+            lost_item_match_path(@lost_item, @match),
+            method: :patch,
+            params: { match: { confirmed: false } },
+            class: "btn btn-light", style: "border-radius: 30px; border: solid 2px; width: 8rem; font-weight: bold;"  %>
+    </div>
+  </div>
+</div>
