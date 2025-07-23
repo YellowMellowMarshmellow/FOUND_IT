@@ -6,21 +6,27 @@ class MatchesController < ApplicationController
 
   def show
     @lost_item = LostItem.find(params[:lost_item_id])
-    @match = @lost_item.matches.find(params[:id])
+    @match = @lost_item.matches.includes(:found_item).find(params[:id])
+    @step = params[:step].to_i > 0 ? params[:step].to_i : 1
   end
 
   def update
     @lost_item = LostItem.find(params[:lost_item_id])
     @match = @lost_item.matches.find(params[:id])
 
+    step = params[:match][:step].to_i if params[:match][:step].present?
+
     if @match.update(match_params)
+      if @match.confirmed == false
 
-      next_match = @lost_item.matches.where("id > ?", @match.id).where(confirmed: [nil, false]).first
-
-      if next_match
-        redirect_to lost_item_match_path(@lost_item, next_match), notice: "Match updated !"
+        next_match = @lost_item.matches.where("id > ?", @match.id).where(confirmed: [nil, false]).first
+        if next_match
+          redirect_to lost_item_match_path(@lost_item, next_match), notice: "Match rejected, next."
+        else
+          redirect_to lost_item_path(@lost_item), notice: "No more matches."
+        end
       else
-        redirect_to lost_item_path(@lost_item), notice: "More matches to check"
+        redirect_to lost_item_match_path(@lost_item, @match, step: step || 1), notice: "Match updated."
       end
     else
       render :show, status: :unprocessable_entity
@@ -30,6 +36,6 @@ class MatchesController < ApplicationController
   private
 
   def match_params
-    params.require(:match).permit(:confirmed)
+    params.require(:match).permit(:confirmed, :step)
   end
 end
