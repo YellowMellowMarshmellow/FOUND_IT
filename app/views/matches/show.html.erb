@@ -1,9 +1,45 @@
+<h2>🔍 Debug info</h2>
+<p>params[:step] = <%= params[:step].inspect %></p>
+<p>@step (parsed) = <%= @step.inspect %></p>
+<p>@match.step (from DB) = <%= @match.step.inspect %></p>
+<p>@match.confirmed = <%= @match.confirmed.inspect %></p>
+<hr>
+
+<% step = @step %>
+<div class="match-steps-wrapper">
+  <div class="match-steps d-flex align-items-center justify-content-between">
+    <div class="text-center">
+      <span class="step <%= 'active' if step == 1 %>">1</span>
+      <% if step == 1 %>
+        <div class="step-label">Check your match</div>
+      <% end %>
+    </div>
+
+    <span class="connector"></span>
+
+    <div class="text-center">
+      <span class="step <%= 'active' if step == 2 %>">2</span>
+      <% if step == 2 %>
+        <div class="step-label">Retrieve your item</div>
+      <% end %>
+    </div>
+
+    <span class="connector"></span>
+
+    <div class="text-center">
+      <span class="step <%= 'active' if step == 3 %>">3</span>
+      <% if step == 3 %>
+        <div class="step-label">Confirm match</div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
 <div class="match-card d-flex">
   <% if @match.found_item.images.attached? %>
     <div class="match-image">
-
       <%= image_tag @match.found_item.images.first, class: "img-fluid main-image" %>
-
       <% if @match.found_item.images.count > 1 %>
         <div class="thumbnails d-flex flex-wrap">
           <% @match.found_item.images.drop(1).each do |image| %>
@@ -19,22 +55,72 @@
   <div class="match-content">
     <div class="match-text mb-4">
       <h3><strong>📌 It's a match !</strong></h3>
-      <p><strong>Description:</strong> <%= @match.found_item.description %></p>
-      <p><strong>Is this item yours ?</strong></p>
+      <% if step == 1 %>
+        <p><%= @match.found_item.title %></p>
+      <% end %>
+
+      <% if step == 2 %>
+        <p><%= @match.found_item.title %></p>
+        <p><strong>Description:</strong> <%= @match.found_item.description %></p>
+        <p><strong>Location:</strong> <%= @match.found_item.location %></p>
+        <!-- MAP area -->
+        <div id="map" style="height: 200px; width: 500px; background: #a1c0e3;">MAP PLACEHOLDER</div>
+      <% end %>
+
+      <% if step == 1 %>
+        <p><strong>Is this item yours ?</strong></p>
+      <% elsif step == 3 %>
+        <p><%= @match.found_item.title %></p>
+        <%= form_with url: lost_item_match_path(@lost_item, @match), method: :patch do |f| %>
+          <div class="mb-3" style="width: 450px; font-weight: bold;">
+            <%= f.label :review,"Leave a kind message to the finder:", class: "mb-2" %>
+            <%= f.text_area :review, rows: 3, class: "form-control", style: "border-radius: 8px" %>
+          </div>
+        <% end %>
+      <% end %>
     </div>
 
-    <div class="match-buttons text-end">
+    <div class="match-buttons d-flex gap-2 mt-3">
+      <% if step > 1 %>
+        <%= button_to "← Back",
+              lost_item_match_path(@lost_item, @match),
+              method: :patch,
+              params: { match: { confirmed: true, step: step - 1 } },
+              class: "btn btn-link",
+              style: "color: black; text-decoration: none;" %>
+      <% end %>
 
-      <%= button_to "Reject",
-            lost_item_match_path(@lost_item, @match),
-            method: :patch,
-            params: { match: { confirmed: false } },
-            class: "btn btn-light", style: "border-radius: 30px; border: solid 2px; width: 8rem; font-weight: bold;"  %>
-      <%= button_to "Confirm",
-            lost_item_match_path(@lost_item, @match),
-            method: :patch,
-            params: { match: { confirmed: true } },
-            class: "btn btn-warning me-2", style: "border-radius: 30px; width: 8rem; font-weight: bold; color: white;" %>
+      <% if step == 1 %>
+        <%= button_to "No",
+              lost_item_match_path(@lost_item, @match),
+              method: :patch,
+              params: { match: { confirmed: false } },
+              class: "btn btn-light",
+              style: "border-radius: 30px; border: solid 2px; width: 8rem; font-weight: bold;"  %>
+
+        <%= button_to "Yes",
+              lost_item_match_path(@lost_item, @match),
+              method: :patch,
+              params: { match: { confirmed: true, step: 2 } },
+              class: "btn btn-warning",
+              style: "border-radius: 30px; width: 8rem; font-weight: bold; color: white; background-color: #f5b220; border-color: #f5b220;" %>
+
+      <% elsif step == 2 %>
+        <%= button_to "Continue →",
+              lost_item_match_path(@lost_item, @match),
+              method: :patch,
+              params: { match: { confirmed: true, step: 3 } },
+              class: "btn btn-warning",
+              style: "border-radius: 30px; width: 8rem; font-weight: bold; color: white; margin-left: 17.4rem; background-color: #f5b220; border-color: #f5b220;" %>
+
+      <% elsif step == 3 %>
+        <%= button_to "FoundIt!",
+              lost_item_match_path(@lost_item, @match),
+              method: :patch,
+              params: { match: { confirmed: true, step: 3, finalize: true } },
+              class: "btn btn-success",
+              style: "border-radius: 30px; width: 8rem; font-weight: bold; color: white; border-color: #f5b220; margin-left: 16rem; background-color: #f5b220;" %>
+      <% end %>
     </div>
   </div>
 </div>
