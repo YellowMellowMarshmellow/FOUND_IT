@@ -34,7 +34,12 @@
 
 .custom-card .card-header {
   background-color: transparent;
-  border-bottom: 1,5px solid #c6c7c8;
+  border-bottom: 1, 5px solid #c6c7c8;
   padding-left: 0;
-  text-align: center;  /* Center aligns the text */
+  text-align: center;
+  /* Center aligns the text */
+}
+
+.hidden {
+  display: none;
 }
