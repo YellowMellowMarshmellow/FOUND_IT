@@ -37,7 +37,7 @@
               <!-- Dropdown notifications -->
               <div id="notification-dropdown"
                   class="dropdown-menu dropdown-menu-end p-2 shadow"
-                  style="display: block; position: absolute; top: 100%; right: 0; width: 400px !important; background: white; border: 1px solid #ccc;">
+                  style="position: absolute; top: 100%; right: 0; width: 400px !important; background: white; border: 1px solid #ccc;">
                 <ul class="list-unstyled mb-0">
                   <% @notifications.each do |notification| %>
                     <% if notification.notifiable.present? %>

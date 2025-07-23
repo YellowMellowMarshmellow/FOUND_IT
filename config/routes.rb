@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     collection do
       get :my_reports
     end
+    resources :matches, only: [:show, :update, :index]
   end
 
   resources :notifications, only: [:index] do
@@ -20,7 +21,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :matches, only: [:index, :update]
+  resources :matches, only: [:index]
 
   devise_for :users
 

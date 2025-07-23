@@ -1,21 +1,35 @@
 class MatchesController < ApplicationController
   def index
-    @matches = Match
-               .joins(:lost_item, :found_item)
-               .where("lost_items.user_id = ? OR found_items.user_id = ?", current_user.id, current_user.id)
-               .where(confirmed: false)
-               .includes(:lost_item, :found_item)
+    @lost_item = LostItem.find(params[:lost_item_id])
+    @matches = @lost_item.matches
+  end
+
+  def show
+    @lost_item = LostItem.find(params[:lost_item_id])
+    @match = @lost_item.matches.find(params[:id])
   end
 
   def update
-    @match = Match.find(params[:id])
+    @lost_item = LostItem.find(params[:lost_item_id])
+    @match = @lost_item.matches.find(params[:id])
 
-    unless [@match.lost_item.user_id, @match.found_item.user_id].include?(current_user.id)
-      redirect_to matches_path, alert: "Not authorized." and return
+    if @match.update(match_params)
+
+      next_match = @lost_item.matches.where("id > ?", @match.id).where(confirmed: [nil, false]).first
+
+      if next_match
+        redirect_to lost_item_match_path(@lost_item, next_match), notice: "Match updated !"
+      else
+        redirect_to lost_item_path(@lost_item), notice: "More matches to check"
+      end
+    else
+      render :show, status: :unprocessable_entity
     end
+  end
 
-    @match.update!(confirmed: true)
+  private
 
-    redirect_to matches_path, notice: "Match confirmed !"
+  def match_params
+    params.require(:match).permit(:confirmed)
   end
 end

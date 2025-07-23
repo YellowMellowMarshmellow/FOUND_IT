@@ -1,9 +1,10 @@
 import { Application } from "@hotwired/stimulus"
+import { definitionsFromContext } from "@hotwired/stimulus-loading"
 
 const application = Application.start()
+const context = require.context("./controllers", true, /\.js$/)
+application.load(definitionsFromContext(context))
 
-// Configure Stimulus development experience
-application.debug = false
 window.Stimulus = application
 
 export { application }
@@ -11,6 +12,8 @@ export { application }
 document.addEventListener("DOMContentLoaded", () => {
     const bell = document.getElementById("notification-bell");
     const dropdown = document.getElementById("notification-dropdown");
+
+    dropdown.style.display = 'none';
 
     if (bell && dropdown) {
         bell.addEventListener("click", (event) => {
