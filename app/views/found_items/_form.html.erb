@@ -1,11 +1,11 @@
-<div class="mx-5 p-4 my-5">
-  <%= simple_form_for @found_item, html: { multipart: true } do |f| %>
+<div class="mx-5 p-4 my-5" data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY']%>">
+  <%= simple_form_for found_item, html: { multipart: true } do |f| %>
 
     <% if @found_item.errors.any? %>
       <div id="error_explanation">
-        <h2><%= pluralize(@found_item.errors.count, "error") %> prohibited this item from being saved:</h2>
+        <h2><%= pluralize(found_item.errors.count, "error") %> prohibited this item from being saved:</h2>
         <ul>
-          <% @found_item.errors.full_messages.each do |msg| %>
+          <% found_item.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
           <% end %>
         </ul>
@@ -19,51 +19,15 @@
         hint: "Must be at least 30 characters long" %>
 
     <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
-
-    <%= f.input :location %>
+    <%= f.label :location %>
+    <div data-address-autocomplete-target="search"></div>
+    <%= f.input :location, as: :hidden, input_html: {data: {address_autocomplete_target: "address"}}%>
 
     <%= f.input :date_reported, as: :date %>
-
-    <%= f.input :images, as: :file, input_html: { multiple: true } %>
+    <%# image was not update, empty array >
+    <%#= f.input :images, as: :file, input_html: { multiple: true } %>
 
     <%= f.button :submit, class: "btn btn-primary mt-3" %>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :category %>
-    <%= form.text_field :category %>
-  </div>
-
-  <div class="field">
-    <%= form.label :location %>
-    <%= f.input :address,
-      input_html: {data: {address_autocomplete_target: "address"}},
-      wrapper_html: {data: {controller: "address-autocomplete", address_autocomplete_api_key_value: ENV["MAPBOX_API_KEY"]}}
-    %>
-  </div>
-
-
-  <div class="field">
-    <%= form.label :date_reported %>
-    <%= form.date_select :date_reported %>
-  </div>
-
-  <div class="field">
-    <%= form.label :images %>
-    <%= form.file_field :images, multiple: true %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>
