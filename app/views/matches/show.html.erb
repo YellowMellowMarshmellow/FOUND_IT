@@ -24,12 +24,12 @@
     </div>
 
     <div class="match-buttons text-end">
+
       <%= button_to "Reject",
             lost_item_match_path(@lost_item, @match),
             method: :patch,
             params: { match: { confirmed: false } },
             class: "btn btn-light", style: "border-radius: 30px; border: solid 2px; width: 8rem; font-weight: bold;"  %>
-
       <%= button_to "Confirm",
             lost_item_match_path(@lost_item, @match),
             method: :patch,
