@@ -15,10 +15,13 @@
 @import "components/matches_show";
 
 .alert-danger {
-  background-color: #ffe6e6;
-  padding: 10px;
-  border-left: 4px solid red;
-  margin-bottom: 20px;
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .error {
@@ -57,14 +60,4 @@
 
 .edit-icon:hover {
   color: #000;
-}
-
-.alert-danger {
-  color: #721c24;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
-  padding: 0.75rem 1.25rem;
-  border-radius: 0.25rem;
-  margin-bottom: 1rem;
-  text-align: center;
 }
