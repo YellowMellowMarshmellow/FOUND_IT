@@ -43,12 +43,12 @@
           <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
           <%= f.input :title %>
           <%= f.input :description %>
-          <div data-address-autocomplete-target="search"></div>
+          <div data-address-autocomplete-target="search" class="mb-3"></div>
           <%= f.input :location,
-            input_html: {data: {address_autocomplete_target: "address"}}%>
+            as: :hidden,
+            input_html: { data: { address_autocomplete_target: "address" } } %>
+
           <%= f.input :date_reported, as: :date %>
-
-
           <%= f.button :submit, "Report Found Item", class: "custom-action-btn" %>
         <% end %>
       <% end %>

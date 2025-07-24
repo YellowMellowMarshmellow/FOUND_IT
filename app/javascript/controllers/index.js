@@ -1,6 +1,12 @@
 // Import and register all your controllers from the importmap via controllers/**/*_controller
-import { application } from "controllers/application"
+import { Application } from "@hotwired/stimulus"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
-eagerLoadControllersFrom("controllers", application)
 import AddressAutocompleteController from "./address_autocomplete_controller.js"
-Stimulus.register("address-autocomplete", AddressAutocompleteController)
+
+const application = Application.start()
+
+// Eager-load other controllers in the folder
+eagerLoadControllersFrom("controllers", application)
+
+// Manually register the address autocomplete controller
+application.register("address-autocomplete", AddressAutocompleteController)
