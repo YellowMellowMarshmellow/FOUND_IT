@@ -1,0 +1,83 @@
+.stepper-vertical {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 3rem;
+  padding-left: 7rem;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.step {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #000000;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 52px 0;
+  position: relative;
+
+  // Number inside the circle
+  &::before {
+    content: attr(data-step);
+  }
+
+  // Vertical line between steps
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 136px; // 🔸 Match this to `margin: 40px 0`
+    background-color: #000000;
+  }
+
+  &:last-child::after {
+    display: none;
+  }
+}
+
+.stepper-content-container {
+  padding-top: 10px;
+}
+
+.step-with-text {
+  display: flex;
+  align-items: flex-end;
+  margin: 2px 0;
+  position: relative;
+}
+
+.step-text {
+  margin-left: 1.5rem;
+  max-width: 300px;
+
+  .step-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .step-description {
+    font-size: 0.95rem;
+    color: #333;
+  }
+}
+
+#stepper-image {
+  margin-left: 18rem; /* increase this value to push further right */
+}
