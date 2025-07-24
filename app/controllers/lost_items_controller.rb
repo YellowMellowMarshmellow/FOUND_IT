@@ -23,7 +23,7 @@ class LostItemsController < ApplicationController
     if @lost_item.save
 
       FoundItem.where(category: @lost_item.category, location: @lost_item.location).find_each do |found_item|
-        Match.create!(lost_item: @lost_item, found_item: found_item)
+        match = Match.create!(lost_item: @lost_item, found_item: found_item)
 
         Notification.create!(
           user: @lost_item.user,
