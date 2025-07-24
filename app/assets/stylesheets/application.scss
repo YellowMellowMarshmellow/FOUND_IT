@@ -14,6 +14,7 @@
 @import "pages/index";
 @import "components/matches_show";
 @import "components/button";
+@import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 .alert-danger {
   color: #721c24;
