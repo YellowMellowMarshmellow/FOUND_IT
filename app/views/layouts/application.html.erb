@@ -24,11 +24,12 @@
         <% if user_signed_in? %>
           <div class="d-flex align-items-center ms-auto">
             <!-- Cloche + dropdown -->
-            <div class="position-relative me-3">
-              <button id="notification-bell" type="button" class="btn position-relative">
+            <div class="position-relative me-3 d-inline-block" style="padding-right: 1rem;">
+              <button id="notification-bell" type="button" class="btn btn-lg px-4 py-3 position-relative" style="padding-right: 1rem;">
                 <i class="bi bi-bell"></i>
                 <% if @unread_notifications_count.to_i > 0 %>
-                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  <span class="position-absolute start-100 badge rounded-pill"
+                        style="background-color: #F5B221; top: 0.25rem; transform: translate(-40%, 0); font-size: 0.7rem; padding: 0.30em 0.4em;">
                     <%= @unread_notifications_count %>
                   </span>
                 <% end %>
@@ -41,9 +42,16 @@
                 <ul class="list-unstyled mb-0">
                   <% @notifications.each do |notification| %>
                     <% if notification.notifiable.present? %>
-                    <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %> position-relative">
-                      <%= link_to polymorphic_path(notification.notifiable),
-                          class: "text-decoration-none text-dark d-block w-100 h-100" do %>
+                      <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %> position-relative">
+                        <% if notification.notifiable_type == "Match" && notification.notifiable.respond_to?(:lost_item) %>
+                          <%= link_to lost_item_match_path(notification.notifiable.lost_item, notification.notifiable, step: 1), class: "text-decoration-none text-dark d-block w-100 h-100" do %>
+                            <%= notification.message %>
+                          <% end %>
+                        <% elsif notification.notifiable_type == "LostItem" %>
+                          <%= link_to lost_item_path(notification.notifiable), class: "text-decoration-none text-dark d-block w-100 h-100" do %>
+                            <div><%= notification.message %></div>
+                          <% end %>
+                        <% else %>
                           <div><%= notification.message %></div>
                         <% end %>
 
@@ -65,6 +73,7 @@
                   <% end %>
                 </ul>
               </div>
+
             </div>
           </div>
           <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "custom-outline-btn btn-sm ms-2", style: "margin-right: 6rem;" %>
@@ -74,14 +83,41 @@
       </div>
     </nav>
     <% flash.each do |key, message| %>
-      <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>">
+      <div
+        class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>"
+        data-controller="flash"
+        data-flash-timeout-value="4000"
+      >
         <%= message %>
       </div>
     <% end %>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
     <%= yield %>
     <%= render "shared/footer" %>
+
+
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const bell = document.getElementById('notification-bell');
+            const dropdown = document.getElementById('notification-dropdown');
+
+            bell.addEventListener('click', function(e) {
+              e.stopPropagation();
+              if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+              } else {
+                dropdown.style.display = 'block';
+              }
+            });
+
+            document.addEventListener('click', function() {
+              dropdown.style.display = 'none';
+            });
+
+            dropdown.addEventListener('click', function(e) {
+              e.stopPropagation();
+            });
+          });
+    </script>
   </body>
 </html>

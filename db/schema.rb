@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_22_135453) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_23_121850) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,6 +76,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_22_135453) do
     t.bigint "lost_item_id"
     t.bigint "found_item_id"
     t.boolean "confirmed"
+    t.integer "step"
     t.index ["found_item_id"], name: "index_matches_on_found_item_id"
     t.index ["lost_item_id"], name: "index_matches_on_lost_item_id"
   end
@@ -83,7 +84,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_22_135453) do
   create_table "notifications", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "message"
-    t.boolean "read"
+    t.boolean "read", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "notifiable_type"
