@@ -1,7 +1,9 @@
 <% if user_signed_in? %>
   <div class="custom-wrapper my-5">
     <div class="my-5">
-      <h2><strong>Welcome back, <%= current_user.first_name %>!</strong></h2>
+      <% if current_user %>
+        <h2><strong>Welcome back, <%= current_user.first_name %>!</strong></h2>
+      <% end %>
       <%= button_to "Create a new report", create_report_path, class: "custom-action-btn mt-3", method: :get %>
     </div>
     <h3 class="mb-5"><strong>Latest reports</strong></h3>
