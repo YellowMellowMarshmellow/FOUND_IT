@@ -13,3 +13,4 @@ eagerLoadControllersFrom("controllers", application)
 
 window.Stimulus = application
 export { application }
+import "controllers"

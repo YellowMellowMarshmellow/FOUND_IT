@@ -79,52 +79,52 @@
 </div>
 
 <script>
-  document.addEventListener("turbo:load", function() {
-    const foundRadio = document.getElementById("flexRadioDefault1");
-    const lostRadio = document.getElementById("flexRadioDefault2");
-    const foundForm = document.getElementById("found-form");
-    const lostForm = document.getElementById("lost-form");
+  document.addEventListener("turbo:load", initToggleForms);
+document.addEventListener("DOMContentLoaded", initToggleForms);
 
-    if (!foundRadio || !lostRadio || !foundForm || !lostForm) return;
+function initToggleForms() {
+  const foundRadio = document.getElementById("flexRadioDefault1");
+  const lostRadio = document.getElementById("flexRadioDefault2");
+  const foundForm = document.getElementById("found-form");
+  const lostForm = document.getElementById("lost-form");
 
-    // Hide both forms initially
-    function hideForms() {
-      foundForm.style.display = "none";
+  if (!foundRadio || !lostRadio || !foundForm || !lostForm) return;
+
+  // Initial hide
+  foundForm.style.display = "none";
+  lostForm.style.display = "none";
+
+  foundRadio.addEventListener("change", function () {
+    if (foundRadio.checked) {
+      foundForm.style.display = "block";
       lostForm.style.display = "none";
     }
-    hideForms();
+  });
 
-    foundRadio.addEventListener("change", function () {
-      if (foundRadio.checked) {
-        foundForm.style.display = "block";
-        lostForm.style.display = "none";
-      }
-    });
-
-    lostRadio.addEventListener("change", function () {
-      if (lostRadio.checked) {
-        lostForm.style.display = "block";
-        foundForm.style.display = "none";
-      }
-    });
-
-    // Add image upload input logic
-    const addButton = document.getElementById("add-image-field");
-    const container = document.getElementById("image-fields");
-
-    if (addButton && container) {
-      addButton.addEventListener("click", () => {
-        const existingInputs = container.querySelectorAll("input[type='file']");
-        if (existingInputs.length < 3) {
-          const newInput = document.createElement("input");
-          newInput.type = "file";
-          newInput.name = "found_item[images][]";
-          newInput.className = "form-control mb-2";
-          container.appendChild(newInput);
-        } else {
-          alert("You can only upload up to 3 images.");
-        }
-      });
+  lostRadio.addEventListener("change", function () {
+    if (lostRadio.checked) {
+      lostForm.style.display = "block";
+      foundForm.style.display = "none";
     }
   });
+
+  // Add image field logic
+  const addButton = document.getElementById("add-image-field");
+  const container = document.getElementById("image-fields");
+
+  if (addButton && container) {
+    addButton.addEventListener("click", () => {
+      const existingInputs = container.querySelectorAll("input[type='file']");
+      if (existingInputs.length < 3) {
+        const newInput = document.createElement("input");
+        newInput.type = "file";
+        newInput.name = "found_item[images][]";
+        newInput.className = "form-control mb-2";
+        container.appendChild(newInput);
+      } else {
+        alert("You can only upload up to 3 images.");
+      }
+    });
+  }
+}
 </script>

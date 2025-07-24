@@ -84,7 +84,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_23_121850) do
   create_table "notifications", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "message"
-    t.boolean "read"
+    t.boolean "read", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "notifiable_type"
