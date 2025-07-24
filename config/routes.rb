@@ -28,4 +28,6 @@ Rails.application.routes.draw do
   root "homepages#index"
 
   get "up" => "rails/health#show", as: :rails_health_check
+  get "/create_report", to: "pages#create_report"
+  post "/create_report", to: "pages#create_report"
 end

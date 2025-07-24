@@ -25,20 +25,3 @@
   padding-top: 0;
   padding-bottom: 0;
 }
-
-.custom-outline-btn {
-  border: 2px solid #000000;
-  color: #000000;
-  font-weight: 700;
-  height: 40px;
-  background-color: transparent;
-  border-radius: 30px;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.9rem;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    border: 2px solid #F5B221;
-    color: #F5B221;
-  }
-}

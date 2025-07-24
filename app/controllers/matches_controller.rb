@@ -14,20 +14,23 @@ class MatchesController < ApplicationController
     @lost_item = LostItem.find(params[:lost_item_id])
     @match = @lost_item.matches.find(params[:id])
 
-    step = params[:match][:step].to_i if params[:match][:step].present?
-
     if @match.update(match_params)
-      if @match.confirmed == false
+      finalize = params[:match][:finalize]
 
+      if @match.confirmed == false
         next_match = @lost_item.matches.where("id > ?", @match.id).where(confirmed: [nil, false]).first
         if next_match
-          redirect_to lost_item_match_path(@lost_item, next_match), notice: "Match rejected, next."
+          redirect_to lost_item_match_path(@lost_item, next_match, step: next_match.step || 1), notice: "Match rejected, next."
         else
           redirect_to lost_item_path(@lost_item), notice: "No more matches."
         end
+
+      elsif finalize.present?
+        redirect_to root_path, notice: "Thank you! Match confirmed."
       else
-        redirect_to lost_item_match_path(@lost_item, @match, step: step || 1), notice: "Match updated."
+        redirect_to lost_item_match_path(@lost_item, @match, step: @match.step), notice: "Match updated."
       end
+
     else
       render :show, status: :unprocessable_entity
     end
