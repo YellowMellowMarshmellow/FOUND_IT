@@ -16,7 +16,7 @@
   <h1>Create a report</h1>
 </div>
 
-<div class="mx-5 p-4 my-5" data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY']%>">
+<%# <div class="mx-5 p-4 my-5" data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY']%>"> %>
   <% if current_user.nil? %>
     <h2>Oops, it seems like you need to log in first!</h2>
     <%= link_to "Log in", new_user_session_path, data: { "turbo-method": :get }, class: "btn btn-primary" %>
@@ -37,7 +37,7 @@
       <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
       <%= f.input :title %>
       <%= f.input :description %>
-      <div data-address-autocomplete-target="search"></div>
+      <%# <div data-address-autocomplete-target="search"></div> %>
       <%= f.input :location,
         input_html: {data: {address_autocomplete_target: "address"}}%>
       <%= f.input :date_reported, as: :date %>
