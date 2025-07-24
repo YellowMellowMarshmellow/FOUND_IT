@@ -6,30 +6,13 @@
 <p><strong>Location:</strong> <%= @lost_item.location %></p>
 <p><strong>Date Lost:</strong> <%= @lost_item.date_lost %></p>
 
-<% if @lost_item.images.attached? %>
-  <h3>Images:</h3>
-  <% @lost_item.images.each do |img| %>
-    <%= image_tag img.variant(resize_to_limit: [300, 300]) if img.content_type.starts_with?('image') %>
-  <% end %>
-<% end %>
 
 <%= link_to 'Edit', edit_lost_item_path(@lost_item) %> |
 <%= link_to 'Back', lost_items_path %> |
 <%= link_to 'Delete', @lost_item, method: :delete, data: { confirm: 'Are you sure?' } %>
-=======
-<p><strong>Description:</strong> <%= @lost_item.description %></p>
-<p><strong>Category:</strong> <%= @lost_item.category %></p>
-<p><strong>Location:</strong> <%= @lost_item.location %></p>
-<p><strong>Date Lost:</strong> <%= @lost_item.date_lost.strftime("%B %d, %Y") if @lost_item.date_lost %></p>
 
-<% if @lost_item.images.attached? %>
-  <div>
-    <strong>Images:</strong><br>
-    <% @lost_item.images.each do |image| %>
-      <%= image_tag image, style: "max-width: 300px; height: auto;" %>
-    <% end %>
-  </div>
-<% end %>
+
+
 
 <% if @lost_item.user == current_user %>
   <%= link_to "Edit", edit_lost_item_path(@lost_item), class: "btn" %>
@@ -43,4 +26,3 @@
 <% end %>
 
 <%= link_to "Back", lost_items_path, class: "btn" %>
-

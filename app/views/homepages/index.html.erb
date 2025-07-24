@@ -1,8 +1,10 @@
 <% if user_signed_in? %>
   <div class="custom-wrapper my-5">
-    <h2>Welcome back, <%= current_user.first_name %>!</h2>
-
-    <h3 class="my-5"><strong>Latest reports</strong></h3>
+    <div class="my-5">
+      <h2><strong>Welcome back, <%= current_user.first_name %>!</strong></h2>
+      <%= button_to "Create a new report", create_report_path, class: "custom-action-btn mt-3", method: :get %>
+    </div>
+    <h3 class="mb-5"><strong>Latest reports</strong></h3>
     <div class="card-container my-4">
       <% if @latest_found_item %>
         <div class="card custom-card my-3 p-3 bg-light">
