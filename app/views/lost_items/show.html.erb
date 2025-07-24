@@ -11,7 +11,9 @@
 <%= link_to 'Back', lost_items_path %> |
 <%= link_to 'Delete', @lost_item, method: :delete, data: { confirm: 'Are you sure?' } %>
 
-
+<% if @match %>
+  <%= link_to "See the match", lost_item_match_path(@lost_item, @match, step: 1), class: "btn btn-primary" %>
+<% end %>
 
 
 <% if @lost_item.user == current_user %>
