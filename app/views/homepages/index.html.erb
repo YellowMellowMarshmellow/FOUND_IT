@@ -18,7 +18,11 @@
             </div>
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= @latest_found_item.location %></p>
-              <p class="card-text"><strong>Status:</strong> TBD</p>
+              <% if @latest_found_item_matched %>
+                <p class="card-text" style="color: green;"><strong>Status:</strong> Possible match found </p>
+              <% else %>
+                <p class="card-text" style="color: orange;"><strong>Status:</strong> Pending match </p>
+              <% end %>
               <%= link_to edit_found_item_path(@latest_found_item), class: "icon-link", title: "Edit" do %>
                 <img src="<%= asset_path('Edit.svg') %>" width="16" height="16" alt="Edit" class="edit-icon">
               <% end %>
@@ -37,7 +41,11 @@
             </div>
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= @latest_lost_item.location %></p>
-              <p class="card-text"><strong>Status:</strong> TBD</p>
+              <% if @latest_lost_item_matched %>
+                <p class="card-text" style="color: green;"><strong>Status:</strong> Possible match found </p>
+              <% else %>
+                <p class="card-text" style="color: orange;"><strong>Status:</strong> Pending match </p>
+              <% end %>
               <%= link_to edit_lost_item_path(@latest_lost_item), class: "icon-link", title: "Edit" do %>
                 <img src="<%= asset_path('Edit.svg') %>" width="16" height="16" alt="Edit" class="edit-icon">
               <% end %>
@@ -59,7 +67,11 @@
             </div>
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= item.location %></p>
-              <p class="card-text"><strong>Status:</strong> TBD</p>
+              <% if @latest_found_item_matched %>
+                <p class="card-text" style="color: green;"><strong>Status:</strong> Possible match found </p>
+              <% else %>
+                <p class="card-text" style="color: orange;"><strong>Status:</strong> Pending match </p>
+              <% end %>
               <%= link_to edit_found_item_path(item), class: "icon-link", title: "Edit" do %>
                 <img src="<%= asset_path('Edit.svg') %>" width="16" height="16" alt="Edit" class="edit-icon">
               <% end %>
@@ -78,7 +90,11 @@
             </div>
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= item.location %></p>
-              <p class="card-text"><strong>Status:</strong> TBD</p>
+              <% if @latest_found_item_matched %>
+                <p class="card-text" style="color: green;"><strong>Status:</strong> Possible match found </p>
+              <% else %>
+                <p class="card-text" style="color: orange;"><strong>Status:</strong> Pending match </p>
+              <% end %>
               <%= link_to edit_lost_item_path(item), class: "icon-link", title: "Edit" do %>
                 <img src="<%= asset_path('Edit.svg') %>" width="16" height="16" alt="Edit" class="edit-icon">
               <% end %>
