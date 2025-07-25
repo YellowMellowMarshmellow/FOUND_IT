@@ -10,6 +10,9 @@ class HomepagesController < ApplicationController
       @latest_found_item = @found_items.first
       @latest_lost_item = @lost_items.first
 
+      @latest_found_item_matched = @latest_found_item.matches.any? if @latest_found_item
+      @latest_lost_item_matched  = @latest_lost_item.matches.any? if @latest_lost_item
+
       @rest_found_items = @latest_found_item.present? ? @found_items.where.not(id: @latest_found_item.id) : @found_items
       @rest_lost_items  = @latest_lost_item.present?  ? @lost_items.where.not(id: @latest_lost_item.id)  : @lost_items
     end
