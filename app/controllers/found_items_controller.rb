@@ -26,22 +26,22 @@ class FoundItemsController < ApplicationController
     @found_item.user = current_user
 
     if @found_item.save
-      LostItem
-        .where(category: @found_item.category, location: @found_item.location)
-        .where.not(user_id: @found_item.user_id)
-        .find_each do |lost_item|
+      LostItem.where(category: @found_item.category)
+                .near([@found_item.latitude, @found_item.longitude], 5, units: :mi)
+                .where.not(user_id: @found_item.user_id)
+                .find_each do |lost_item|
 
-        match = Match.new(lost_item: lost_item, found_item: @found_item)
+         if openai_description_match?(@found_item.description, lost_item.description)
 
-        if match.save
+          Match.create!(lost_item: lost_item, found_item: @found_item)
+
           Notification.create!(
             user: lost_item.user,
-            message: "A potential match has been found for your lost object: #{lost_item.title}. Please confirm.",
-            notifiable: match
+            message: "A potential match has been found for your lost object : #{lost_item.title}. Please confirm.",
+            notifiable: lost_item
           )
-        end
-      end
-
+          end
+       end
       redirect_to root_path, notice: "Found item reported successfully."
     else
       render :new, status: :unprocessable_entity
