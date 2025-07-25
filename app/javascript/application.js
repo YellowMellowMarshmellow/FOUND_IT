@@ -15,6 +15,9 @@ eagerLoadControllersFrom("controllers", application)
 window.Stimulus = application
 // Export the application
 export { application }
+
+//import "controllers"
+
 // Notification dropdown functionality
 document.addEventListener("turbo:load", () => {
   const bell = document.getElementById("notification-bell");

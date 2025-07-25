@@ -5,6 +5,13 @@ class LostItemsController < ApplicationController
 
   def index
     @lost_items = LostItem.all
+    # The `geocoded` scope filters only lost items with coordinates:
+    @markers = @lost_items.geocoded.map do |lost_item|
+      {
+        lat: lost_item.latitude,
+        lng: lost_item.longitude
+      }
+    end
   end
 
   def show

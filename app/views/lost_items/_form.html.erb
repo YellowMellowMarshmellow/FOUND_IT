@@ -1,5 +1,5 @@
 <div class="mx-5 p-4">
-  <h1><%= @lost_item.persisted? ? "Edit Lost Item" : "Report a Lost Item" %></h1>
+  <h1><%= lost_item.persisted? ? "Edit Lost Item" : "Create a Lost Item Report" %></h1>
 </div>
 
 <div class="mx-5 p-4 my-3">
@@ -7,16 +7,33 @@
     <h2>Oops, it seems like you need to log in first!</h2>
     <%= link_to "Log in", new_user_session_path, class: "btn btn-primary" %>
   <% else %>
-    <h3>Fill in the details below:</h3>
+    <% if lost_item.errors.any? %>
+      <div class="alert alert-danger">
+        <h4><%= pluralize(lost_item.errors.count, "error") %> prohibited this report from being saved:</h4>
+        <ul>
+          <% lost_item.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-    <%= simple_form_for @lost_item, html: { multipart: true } do |f| %>
+    <%= simple_form_for lost_item, html: { multipart: true } do |f| %>
       <%= f.input :title %>
       <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
-      <%= f.input :description, error: "must be at least 30 characters long"%>
-      <%= f.input :location %>
+      <%= f.input :description, error: "must be at least 30 characters long" %>
+
+      <div data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+        <%= f.label :location %>
+        <div data-address-autocomplete-target="search"></div>
+        <%= f.input :location, label: false,
+              input_html: { data: { address_autocomplete_target: "address" },
+              style: "display:none;" } %>
+      </div>
+
       <%= f.input :date_lost, as: :date %>
 
-      <%= f.button :submit, @lost_item.persisted? ? "Update Lost Item" : "Report Lost Item", class: "btn btn-primary mt-3" %>
+      <%= f.button :submit, lost_item.persisted? ? "Update Lost Item" : "Report Lost Item", class: "btn btn-primary mt-3" %>
     <% end %>
   <% end %>
 </div>

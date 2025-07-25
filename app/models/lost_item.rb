@@ -18,6 +18,8 @@ class LostItem < ApplicationRecord
   validates :description, presence: true, length: { minimum: 30, message: "must be at least 30 characters long" }
   # validate :images_count_within_limit
 
+  geocoded_by :location
+  after_validation :geocode, if: :will_save_change_to_location?
   before_save :normalize_fields
 
   private
