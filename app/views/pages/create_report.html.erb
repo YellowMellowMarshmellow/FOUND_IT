@@ -43,6 +43,7 @@
           <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
           <%= f.input :title %>
           <%= f.input :description %>
+          <%= f.label :location %>
           <div data-address-autocomplete-target="search" class="mb-3"></div>
           <%= f.input :location,
             as: :hidden,
@@ -57,7 +58,7 @@
 
   <!-- Form for "I lost something" -->
   <div id="lost-form" style="display:none;">
-    <div class="mx-5 p-4 my-3">
+    <div class="mx-5 p-4 my-3" data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY']%>">
       <% if current_user.nil? %>
         <h2>Oops, it seems like you need to log in first!</h2>
         <%= link_to "Log in", new_user_session_path, class: "btn btn-primary" %>
@@ -68,9 +69,12 @@
           <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
           <%= f.input :title %>
           <%= f.input :description, input_html: { minlength: 30 } %>
-          <%= f.input :location %>
+          <%= f.label :location %>
+          <div data-address-autocomplete-target="search" class="mb-3"></div>
+          <%= f.input :location,
+            as: :hidden,
+            input_html: { data: { address_autocomplete_target: "address" } } %>
           <%= f.input :date_lost, as: :date %>
-
           <%= f.button :submit, @lost_item.persisted? ? "Update Lost Item" : "Report Lost Item", class: "custom-action-btn" %>
         <% end %>
       <% end %>
