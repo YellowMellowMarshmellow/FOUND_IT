@@ -16,6 +16,7 @@ class LostItemsController < ApplicationController
 
   def show
     @lost_item = LostItem.find(params[:id])
+    @match = @lost_item.matches.first
   end
 
   def new
@@ -29,18 +30,14 @@ class LostItemsController < ApplicationController
     if @lost_item.save
 
       FoundItem.where(category: @lost_item.category, location: @lost_item.location).find_each do |found_item|
-      Match.create!(lost_item: @lost_item, found_item: found_item)
+        match = Match.create!(lost_item: @lost_item, found_item: found_item)
 
-      Notification.create!(
-        user: @lost_item.user,
-        message: "A found item matches your lost item. : #{found_item.title}"
-      )
-
-      Notification.create!(
-        user: found_item.user,
-        message: "A lost item matches your found item : #{@lost_item.title}"
-      )
-    end
+        Notification.create!(
+          user: @lost_item.user,
+          message: "A found item matches your lost item. : #{found_item.title}",
+          notifiable: match
+        )
+      end
       redirect_to root_path, notice: "Lost item reported successfully."
     end
   end

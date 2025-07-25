@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   def home
+    #just checking heroku
   end
 
   def create_report
