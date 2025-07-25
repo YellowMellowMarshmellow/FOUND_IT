@@ -90,9 +90,47 @@
   </div>
 
 <% else %>
-  <div class="container custom-width custom-card my-5">
-    <h1>Welcome to FOUND_IT!</h1>
-    <p>This platform helps people reunite with their lost belongings.</p>
-    <%= link_to "Sign up", new_user_registration_path, class: "btn btn-primary" %>
+  <div class="custom-wrapper mt-4">
+    <h1 style="font-weight: 800;">Found it turns lost into found</h1>
   </div>
+
+  <div id="stepper-wrapper" style="display: flex; flex-direction: row; gap: 3rem; align-items: flex-start;">
+    <div class="stepper-vertical" id="stepper">
+      <div class="steps">
+        <div class="step-with-text">
+          <div class="step" data-step="1"></div>
+          <div class="step-text">
+            <div class="step-title">Report a lost or found item</div>
+            <div class="step-description">Post a photo and description — it only takes a minute.</div>
+          </div>
+        </div>
+
+        <div class="step-with-text">
+          <div class="step" data-step="2"></div>
+          <div class="step-text">
+            <div class="step-title">Connect with the right person</div>
+            <div class="step-description">We'll match and notify you with potential owners or finders.</div>
+          </div>
+        </div>
+
+        <div class="step-with-text">
+          <div class="step" data-step="3"></div>
+          <div class="step-text">
+            <div class="step-title">Share the location and reunite</div>
+            <div class="step-description">The finder drops a pin so the owner can pick up the item directly.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- New image + text block on the right -->
+    <div id="stepper-image" style="flex: 1;">
+      <img src="<%= asset_path('app_demo.png') %>" alt="Found it app demo impage" style="max-width: 40%; height: auto; border-radius: 8px;">
+    </div>
+  </div>
+
+  <!-- Place button OUTSIDE the stepper div -->
+  <div id="button-wrapper" class="mt-4">
+    <%= button_to "Sign up", new_user_registration_path, method: :get, id: "sign-up-btn" %>
+  </div>
+
 <% end %>
