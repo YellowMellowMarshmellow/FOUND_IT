@@ -1,5 +1,6 @@
 class HomepagesController < ApplicationController
   before_action :load_notifications
+
   def index
     if user_signed_in?
       @found_items = FoundItem.all.order(created_at: :desc)
@@ -10,8 +11,15 @@ class HomepagesController < ApplicationController
       @latest_found_item = @found_items.first
       @latest_lost_item = @lost_items.first
 
-      @latest_found_item_matched = @latest_found_item.matches.any? if @latest_found_item
-      @latest_lost_item_matched  = @latest_lost_item.matches.any? if @latest_lost_item
+      if @latest_found_item
+        @latest_found_item_matched = @latest_found_item.matches.any?
+        @latest_found_item_match = @latest_found_item.matches.first
+      end
+
+      if @latest_lost_item
+        @latest_lost_item_matched = @latest_lost_item.matches.any?
+        @latest_lost_item_match = @latest_lost_item.matches.first
+      end
 
       @rest_found_items = @latest_found_item.present? ? @found_items.where.not(id: @latest_found_item.id) : @found_items
       @rest_lost_items  = @latest_lost_item.present?  ? @lost_items.where.not(id: @latest_lost_item.id)  : @lost_items
