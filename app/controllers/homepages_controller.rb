@@ -2,8 +2,10 @@ class HomepagesController < ApplicationController
   before_action :load_notifications
   def index
     if user_signed_in?
-      @found_items = FoundItem.all.order(created_at: :desc)
-      @lost_items = LostItem.all.order(created_at: :desc)
+      # Make sure user only sees their found and lost reports
+      @found_items = current_user.found_items.order(created_at: :desc)
+      @lost_items = current_user.lost_items.order(created_at: :desc)
+      # User sees only their notification
       @notifications = current_user.notifications.order(created_at: :desc)
       @unread_count = current_user.notifications.where(read: false).count
 
