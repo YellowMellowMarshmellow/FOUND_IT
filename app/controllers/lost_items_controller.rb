@@ -24,7 +24,7 @@ class LostItemsController < ApplicationController
   end
 
   def create
-    @lost_item = LostItem.new(lost_item_params)
+    @lost_item = current_user.lost_items.build(lost_item_params)
     @lost_item.user = current_user
 
     if @lost_item.save
