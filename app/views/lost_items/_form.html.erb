@@ -33,7 +33,52 @@
 
       <%= f.input :date_lost, as: :date %>
 
+
+      <div id="image-fields">
+        <%= f.file_field :images, multiple: false, name: "lost_item[images][]", class: "form-control mb-2" %>
+      </div>
+      <button type="button" id="add-image-field" class="btn btn-secondary mb-4">Add Another Image</button>
+
       <%= f.button :submit, lost_item.persisted? ? "Update Lost Item" : "Report Lost Item", class: "btn btn-primary mt-3" %>
+
+    <% end %>
+    <% if lost_item.images.attached? %>
+      <div class="mb-3">
+        <h5>Uploaded images:</h5>
+        <ul class="list-unstyled">
+          <% lost_item.images.each do |image| %>
+            <li class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
+              <span class="me-3"><%= image.filename.to_s %></span>
+              <%= link_to '<i class="bi bi-trash"></i>'.html_safe, delete_image_lost_item_path(lost_item, image_id: image.id),
+                method: :delete,
+                data: { turbo_confirm: "Are you sure?" },
+                class: "btn btn-outline-danger btn-sm" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
   <% end %>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const addButton = document.getElementById("add-image-field");
+    const container = document.getElementById("image-fields");
+
+    if (addButton && container) {
+      addButton.addEventListener("click", () => {
+        const existingInputs = container.querySelectorAll("input[type='file']");
+        if (existingInputs.length < 3) {
+          const newInput = document.createElement("input");
+          newInput.type = "file";
+          newInput.name = "lost_item[images][]";
+          newInput.className = "form-control mb-2";
+          container.appendChild(newInput);
+        } else {
+          alert("You can only upload up to 3 images.");
+        }
+      });
+    }
+  });
+</script>

@@ -65,6 +65,13 @@ class LostItemsController < ApplicationController
     @my_lost_items = current_user.lost_items.includes(:matches) || []
   end
 
+  def delete_image
+    @lost_item = LostItem.find(params[:id])
+    image = @lost_item.images.find(params[:image_id])
+    image.purge
+    redirect_to edit_lost_item_path(params[:id]), notice: "Image deleted."
+  end
+
   private
 
   def lost_item_params

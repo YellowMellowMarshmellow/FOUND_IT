@@ -36,6 +36,25 @@
 
       <%= f.button :submit, found_item.persisted? ? "Update Found Item" : "Report Found Item", class: "btn btn-primary" %>
     <% end %>
+    <% if found_item.images.attached? %>
+      <div class="mb-3">
+        <h5>Uploaded images:</h5>
+        <ul class="list-unstyled">
+          <% found_item.images.each do |image| %>
+            <li class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
+              <span class="me-3"><%= image.filename.to_s %></span>
+
+              <%= button_to delete_image_found_item_path(found_item, image_id: image.id),
+                            method: :delete,
+                            data: { turbo_confirm: "Are you sure you want to delete this image?" },
+                            class: "btn btn-outline-danger btn-sm m-0" do %>
+                <i class="bi bi-trash"></i>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
   <% end %>
 </div>
 

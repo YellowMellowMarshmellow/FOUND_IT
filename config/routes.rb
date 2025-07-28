@@ -6,6 +6,10 @@ Rails.application.routes.draw do
     collection do
       get :my_reports
     end
+
+    member do
+      delete :delete_image
+    end
   end
 
   resources :lost_items do
@@ -13,6 +17,9 @@ Rails.application.routes.draw do
       get :my_reports
     end
     resources :matches, only: [:show, :update, :index]
+    member do
+      delete :delete_image
+    end
   end
 
   resources :notifications, only: [:index] do
