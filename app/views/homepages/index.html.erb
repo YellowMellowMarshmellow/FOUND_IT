@@ -44,7 +44,7 @@
               <p class="card-text"><strong>Location:</strong> <%= @latest_lost_item.location %></p>
                 <% if @latest_lost_item_matched && @latest_lost_item_match.present? %>
                   <p class="card-text" style="color: green;"><strong style="color: black;">Status:</strong> Possible match found </p>
-                  <%= button_to "View match", lost_item_match_path(@latest_lost_item, @latest_lost_item_match), class: "custom-action-btn mt-3", method: :get %>
+                  <%= button_to "View match", lost_item_match_path(@latest_lost_item, @latest_lost_item_match), class: "custom-outline-btn mt-3", method: :get %>
                 <% else %>
                   <p class="card-text" style="color: orange;"><strong style="color: black;">Status:</strong> Pending match </p>
                 <%= link_to edit_lost_item_path(@latest_lost_item), class: "icon-link", title: "Edit" do %>
@@ -96,7 +96,7 @@
               <% if item.matches.any? { |m| m.lost_item.user_id == current_user.id } %>
                 <p class="card-text" style="color: green;"><strong style="color: black;">Status:</strong> Possible match found </p>
                 <% match = item.matches.find { |m| m.lost_item.user_id == current_user.id } %>
-                <%= button_to "View match", lost_item_match_path(match.lost_item, match), method: :get, class: "custom-action-btn mt-3" if match %>
+                <%= button_to "View match", lost_item_match_path(item, match), class: "custom-outline-btn mt-3", method: :get %>
               <% else %>
                 <p class="card-text" style="color: orange;"><strong style="color: black;">Status:</strong> Pending match </p>
               <% end %>
