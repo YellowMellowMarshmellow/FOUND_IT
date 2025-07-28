@@ -49,7 +49,7 @@ class LostItemsController < ApplicationController
   def update
     @lost_item = LostItem.find(params[:id])
     if @lost_item.update(lost_item_params)
-      redirect_to @lost_item, notice: "Lost item updated successfully."
+      redirect_to root_path, notice: "Lost item updated successfully."
     else
       render :edit
     end
