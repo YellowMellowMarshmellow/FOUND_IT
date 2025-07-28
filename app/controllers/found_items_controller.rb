@@ -22,7 +22,7 @@ class FoundItemsController < ApplicationController
   end
 
   def create
-    @found_item = FoundItem.new(found_item_params)
+    @found_item = current_user.found_items.build(found_item_params)
     @found_item.user = current_user
 
     if @found_item.save
