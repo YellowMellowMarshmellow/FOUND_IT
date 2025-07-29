@@ -30,10 +30,15 @@
               input_html: { data: { address_autocomplete_target: "address" },
               style: "display:none;" } %>
       </div>
-
       <%= f.input :date_lost, as: :date %>
-
       <%= f.button :submit, lost_item.persisted? ? "Update Lost Item" : "Report Lost Item", class: "btn btn-primary mt-3" %>
+    <% end %>
+
+    <% if lost_item.persisted? %>
+      <%= button_to "Delete Lost Item", lost_item_path(lost_item),
+      method: :delete,
+      data: { confirm: "Are you sure you want to delete this lost item report?" },
+      class: "custom-outline-btn mt-3" %>
     <% end %>
   <% end %>
 </div>
