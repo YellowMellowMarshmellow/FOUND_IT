@@ -41,3 +41,6 @@
 *.swp
 .DS_Store
 .env*
+
+# Ignore all node_modules
+/node_modules
