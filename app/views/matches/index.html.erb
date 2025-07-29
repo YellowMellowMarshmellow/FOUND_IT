@@ -17,5 +17,5 @@
     data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
   </div>
 
-  <%= button_to "Confirm the match", match_path(match), method: :patch, data: { turbo_confirm: "Confirm this match ?" } %>
+  <%= button_to "Confirm the match", lost_item_match_path(@lost_item, match), method: :patch, data: { turbo_confirm: "Confirm this match ?" } %>
 <% end %>
