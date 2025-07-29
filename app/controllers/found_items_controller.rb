@@ -47,9 +47,9 @@ class FoundItemsController < ApplicationController
 
   def update
     if @found_item.update(found_item_params)
-      redirect_to @found_item, notice: "Found item updated successfully."
+      redirect_to root_path, notice: "Found item updated successfully."
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
