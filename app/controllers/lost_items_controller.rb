@@ -29,14 +29,20 @@ class LostItemsController < ApplicationController
 
     if @lost_item.save
 
-      FoundItem.where(category: @lost_item.category, location: @lost_item.location).find_each do |found_item|
-        match = Match.create!(lost_item: @lost_item, found_item: found_item)
+      FoundItem
+        .where(category: @lost_item.category, location: @lost_item.location)
+        .where.not(user_id: @lost_item.user_id)
+        .find_each do |found_item|
 
-        Notification.create!(
-          user: @lost_item.user,
-          message: "A found item matches your lost item. : #{found_item.title}",
-          notifiable: match
-        )
+        match = Match.new(lost_item: @lost_item, found_item: found_item)
+
+        if match.save
+          Notification.create!(
+            user: @lost_item.user,
+            message: "A potential match has been found for your lost object: #{@lost_item.title}. Please confirm.",
+            notifiable: match
+          )
+        end
       end
       redirect_to root_path, notice: "Lost item reported successfully."
     end
