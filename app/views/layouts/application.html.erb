@@ -38,21 +38,29 @@
                 <!-- Dropdown notifications -->
                 <div id="notification-dropdown"
                     class="dropdown-menu dropdown-menu-end p-2 shadow"
-                    style="position: absolute; top: 100%; right: 0; width: 400px !important; background: white; border: 1px solid #ccc;">
-                  <ul class="list-unstyled mb-0">
+                    style="display: none; position: absolute; top: 100%; right: 0; width: 400px !important; background: white; border: 1px solid #ccc;">
+                    <% if @notifications.where(read: false).any? %>
+                      <div class="text-end mb-2">
+                        <%= link_to "Mark all as read", 
+                            mark_all_as_read_notifications_path, 
+                            method: :patch, 
+                            remote: true, 
+                            class: "mark-all-as-read-btn btn btn-sm btn-outline-secondary" %>
+                      </div>
+                    <% end %>
+                    <ul class="list-unstyled mb-0">
                     <% @notifications.each do |notification| %>
                       <% if notification.notifiable.present? %>
-                        <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %> position-relative">
+                        <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %> position-relative <%= 'text-muted' if notification.read %>"
+                            data-notification-id="<%= notification.id %>">
                           <% if notification.notifiable_type == "Match" && notification.notifiable.respond_to?(:lost_item) %>
                             <%= link_to lost_item_match_path(notification.notifiable.lost_item, notification.notifiable, step: 1), class: "text-decoration-none text-dark d-block w-100 h-100" do %>
                               <%= notification.message %>
                             <% end %>
-                          <% elsif notification.notifiable_type == "LostItem" %>
-                            <%= link_to lost_item_path(notification.notifiable), class: "text-decoration-none text-dark d-block w-100 h-100" do %>
-                              <div><%= notification.message %></div>
-                            <% end %>
                           <% else %>
-                            <div><%= notification.message %></div>
+                            <%= link_to '#', class: "text-decoration-none text-dark d-block w-100 h-100 disabled-link" do %>
+                              <%= notification.message %>
+                            <% end %>
                           <% end %>
 
                           <% unless notification.read %>
@@ -61,13 +69,16 @@
                                   mark_as_read_notification_path(notification),
                                   method: :patch,
                                   remote: true,
+                                  class: "mark-as-read-link text-decoration-underline text-muted small",
                                   onclick: "event.stopPropagation();" %>
                             </div>
                           <% end %>
                         </li>
                       <% else %>
                         <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %>">
-                          <div><%= notification.message %></div>
+                          <%= link_to lost_item_match_path(notification.notifiable.lost_item, notification.notifiable, step: 1), class: "text-decoration-none text-dark d-block w-100 h-100" do %>
+                              <%= notification.message %>
+                          <% end %>
                         </li>
                       <% end %>
                     <% end %>
@@ -99,25 +110,37 @@
 
 
         <script>
-          document.addEventListener('DOMContentLoaded', function() {
+          document.addEventListener('turbo:load', function () {
             const bell = document.getElementById('notification-bell');
             const dropdown = document.getElementById('notification-dropdown');
 
-            bell.addEventListener('click', function(e) {
+            if (!bell || !dropdown) return;
+
+            let isDropdownOpen = false;
+
+            bell.addEventListener('click', function (e) {
               e.stopPropagation();
-              if (dropdown.style.display === 'block') {
-                dropdown.style.display = 'none';
+              isDropdownOpen = !isDropdownOpen;
+
+              if (isDropdownOpen) {
+                dropdown.style.setProperty('display', 'none', 'important');
+                console.log("Dropdown open");
               } else {
-                dropdown.style.display = 'block';
+                dropdown.style.setProperty('display', 'block', 'important');
+                console.log("Dropdown closed");
               }
             });
 
-            document.addEventListener('click', function() {
-              dropdown.style.display = 'none';
+            dropdown.addEventListener('click', function (e) {
+              e.stopPropagation();
             });
 
-            dropdown.addEventListener('click', function(e) {
-              e.stopPropagation();
+            document.addEventListener('click', function () {
+              if (isDropdownOpen) {
+                dropdown.style.setProperty('display', 'none', 'important');
+                isDropdownOpen = false;
+                console.log("Clicked outside -> dropdown closed");
+              }
             });
           });
     </script>
