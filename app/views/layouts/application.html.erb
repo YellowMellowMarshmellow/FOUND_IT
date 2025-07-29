@@ -25,11 +25,14 @@
             <div class="d-flex align-items-center ms-auto">
               <!-- Cloche + dropdown -->
               <div class="position-relative me-3 d-inline-block" style="padding-right: 1rem;">
-                <button id="notification-bell" type="button" class="btn btn-lg px-4 py-3 position-relative" style="padding-right: 1rem;">
+                <button id="notification-bell"
+                        type="button"
+                        class="btn btn-lg position-relative"
+                        style="padding: 0.5rem 0.75rem;">
                   <i class="bi bi-bell"></i>
                   <% if @unread_notifications_count.to_i > 0 %>
-                    <span class="position-absolute start-100 badge rounded-pill"
-                          style="background-color: #F5B221; top: 0.25rem; transform: translate(-40%, 0); font-size: 0.7rem; padding: 0.30em 0.4em;">
+                    <span class="position-absolute start-100 translate-middle badge rounded-circle my-2"
+                          style="background-color: #F5B221;width: 1.5em; height: 1.5em; font-size: 0.75rem; display: flex; align-items: center; justify-content: center;">
                       <%= @unread_notifications_count %>
                     </span>
                   <% end %>
