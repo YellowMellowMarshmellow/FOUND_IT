@@ -1,21 +1,26 @@
 <h1>Matches</h1>
 
 <% @matches.each do |match| %>
+  <% next if match.found_item.latitude.blank? || match.found_item.longitude.blank? %>
+
   <% markers = [{
-    lat: match.found_item.latitude,
-    lng: match.found_item.longitude
+    lat: match.found_item.latitude.to_f,
+    lng: match.found_item.longitude.to_f
   }] %>
+
+  <% puts "lat: #{match.found_item.latitude.inspect}, lng: #{match.found_item.longitude.inspect}" %>
 
   <p>
     Lost: <%= match.lost_item.title %><br>
     Found: <%= match.found_item.title %>
   </p>
 
-  <div style="width: 100%; height: 600px;"
+  <div style="width: 200px; height: 100px;"
     data-controller="map"
-    data-map-markers-value="<%= raw markers.to_json %>"
+    data-map-markers-value='<%= raw markers.to_json %>'
     data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
   </div>
 
-  <%= button_to "Confirm the match", lost_item_match_path(@lost_item, match), method: :patch, data: { turbo_confirm: "Confirm this match ?" } %>
+
+  <%= button_to "Confirm the match", lost_item_match_path(match.lost_item, match), method: :patch, data: { turbo_confirm: "Confirm this match ?" } %>
 <% end %>
