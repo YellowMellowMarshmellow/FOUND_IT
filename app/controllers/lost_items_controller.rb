@@ -64,7 +64,7 @@ class LostItemsController < ApplicationController
   def destroy
     @lost_item = LostItem.find(params[:id])
     @lost_item.destroy
-    redirect_to lost_items_path, notice: "Lost item deleted."
+    redirect_to root_path, notice: "Lost item deleted."
   end
 
   def my_reports
