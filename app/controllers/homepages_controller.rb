@@ -14,8 +14,9 @@ class HomepagesController < ApplicationController
       @found_items = current_user.found_items.order(created_at: :desc)
       @lost_items  = current_user.lost_items.order(created_at: :desc)
 
-      @notifications = current_user.notifications.order(created_at: :desc)
-      @unread_count = current_user.notifications.where(read: false).count
+      #@notifications and @unread_count are already defined in load_notifications method below
+      #@notifications = current_user.notifications.order(created_at: :desc)
+      #@unread_count = current_user.notifications.where(read: false).count
 
       @latest_found_item = @found_items.first
       @latest_lost_item  = @lost_items.first

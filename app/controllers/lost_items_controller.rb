@@ -28,14 +28,17 @@ class LostItemsController < ApplicationController
     @lost_item.user = current_user
 
     if @lost_item.save
+      FoundItem
+        .where(category: @lost_item.category, location: @lost_item.location)
+        .where.not(user_id: @lost_item.user_id)
+        .find_each do |found_item|
 
-      FoundItem.where(category: @lost_item.category, location: @lost_item.location).find_each do |found_item|
-        raise
-        match = Match.create!(lost_item: @lost_item, found_item: found_item)
+        match = Match.new(lost_item: @lost_item, found_item: found_item)
+
         if match.save?
           Notification.create!(
             user: @lost_item.user,
-            message: "A found item matches your lost item. : #{found_item.title}",
+            message: "A potential match has been found for your lost object: #{@lost_item.title}. Please confirm.",
             notifiable: match
           )
         end
@@ -60,7 +63,7 @@ class LostItemsController < ApplicationController
   def destroy
     @lost_item = LostItem.find(params[:id])
     @lost_item.destroy
-    redirect_to lost_items_path, notice: "Lost item deleted."
+    redirect_to root_path, notice: "Lost item deleted."
   end
 
   def my_reports
