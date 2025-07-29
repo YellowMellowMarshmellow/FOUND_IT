@@ -4,6 +4,10 @@
   <p>
     Lost: <%= match.lost_item.title %><br>
     Found: <%= match.found_item.title %>
+    <div style="width: 100%; height: 600px;"
+    data-controller="map"
+    data-map-markers-value="<%= @markers.to_json %>"
+    data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
   </p>
 
   <%= button_to "Confirm the match", match_path(match), method: :patch, data: { turbo_confirm: "Confirm this match ?" } %>
