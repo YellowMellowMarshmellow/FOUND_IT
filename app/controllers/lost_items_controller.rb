@@ -28,7 +28,6 @@ class LostItemsController < ApplicationController
     @lost_item.user = current_user
 
     if @lost_item.save
-
       FoundItem
         .where(category: @lost_item.category, location: @lost_item.location)
         .where.not(user_id: @lost_item.user_id)
@@ -36,7 +35,7 @@ class LostItemsController < ApplicationController
 
         match = Match.new(lost_item: @lost_item, found_item: found_item)
 
-        if match.save
+        if match.save?
           Notification.create!(
             user: @lost_item.user,
             message: "A potential match has been found for your lost object: #{@lost_item.title}. Please confirm.",
