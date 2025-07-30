@@ -44,46 +44,47 @@
                     style="display: none; position: absolute; top: 100%; right: 0; width: 400px !important; background: white; border: 1px solid #ccc;">
                     <% if @notifications.where(read: false).any? %>
                       <div class="text-end mb-2">
-                        <%= link_to "Mark all as read", 
-                            mark_all_as_read_notifications_path, 
-                            method: :patch, 
-                            remote: true, 
+                        <%= link_to "Mark all as read",
+                            mark_all_as_read_notifications_path,
+                            method: :patch,
+                            remote: true,
                             class: "mark-all-as-read-btn btn btn-sm btn-outline-secondary" %>
                       </div>
                     <% end %>
                     <ul class="list-unstyled mb-0">
                     <% @notifications.each do |notification| %>
                       <% if notification.notifiable.present? %>
-                        <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %> position-relative <%= 'text-muted' if notification.read %>"
-                            data-notification-id="<%= notification.id %>">
-                          <% if notification.notifiable_type == "Match" && notification.notifiable.respond_to?(:lost_item) %>
-                            <%= link_to lost_item_match_path(notification.notifiable.lost_item, notification.notifiable, step: 1), class: "text-decoration-none text-dark d-block w-100 h-100" do %>
+                        <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %> position-relative">
+                          <% if notification.notifiable_type == "Match" && notification.notifiable.respond_to?(:lost_item) && notification.notifiable.lost_item.present? %>
+                            <%= link_to lost_item_match_path(notification.notifiable.lost_item, notification.notifiable, step: 1),
+                                        class: "text-decoration-none text-dark d-block w-100 h-100" do %>
                               <%= notification.message %>
+                            <% end %>
+                          <% elsif notification.notifiable_type == "LostItem" %>
+                            <%= link_to lost_item_path(notification.notifiable),
+                                        class: "text-decoration-none text-dark d-block w-100 h-100" do %>
+                              <div><%= notification.message %></div>
                             <% end %>
                           <% else %>
-                            <%= link_to '#', class: "text-decoration-none text-dark d-block w-100 h-100 disabled-link" do %>
-                              <%= notification.message %>
-                            <% end %>
+                            <div><%= notification.message %></div>
                           <% end %>
 
                           <% unless notification.read %>
                             <div class="d-flex justify-content-between small text-muted">
                               <%= link_to "Mark as read",
-                                  mark_as_read_notification_path(notification),
-                                  method: :patch,
-                                  remote: true,
-                                  class: "mark-as-read-link text-decoration-underline text-muted small",
-                                  onclick: "event.stopPropagation();" %>
+                                          mark_as_read_notification_path(notification),
+                                          method: :patch,
+                                          remote: true,
+                                          onclick: "event.stopPropagation();" %>
                             </div>
                           <% end %>
                         </li>
                       <% else %>
                         <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %>">
-                          <%= link_to lost_item_match_path(notification.notifiable.lost_item, notification.notifiable, step: 1), class: "text-decoration-none text-dark d-block w-100 h-100" do %>
-                              <%= notification.message %>
-                          <% end %>
+                          <div><%= notification.message %></div>
                         </li>
                       <% end %>
+
                     <% end %>
                   </ul>
                 </div>
