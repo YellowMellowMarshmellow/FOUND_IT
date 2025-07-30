@@ -52,20 +52,44 @@
         <%= form_with model: [@lost_item, @match], method: :patch do |f| %>
           <div class="mb-3" style="width: 450px; font-weight: bold;">
             <%= f.label :review, "Leave a kind message to the finder:", class: "mb-2" %>
-            <%= f.text_area :review, rows: 3, class: "form-control", style: "border-radius: 8px" %>
           </div>
 
-          <%= f.hidden_field :confirmed, value: true %>
-          <%= f.hidden_field :step, value: 3 %>
-          <%= hidden_field_tag :finalize, true %>
+        <div data-controller="badge">
+          <%= f.text_area :review, rows: 3, class: "form-control", data: { badge_target: "textarea" }, style: "border-radius: 8px" %>
 
-          <%= f.submit "FoundIt!", class: "btn btn-success", style:"border-radius: 30px; width: 8rem; font-weight: bold; color: white; background-color: #f5b220; border-color: #f5b220; margin-left: 16rem;" %>
+          <div class="badges mt-2">
+            <% ["Thank you! ❤️", "You're the best 👍", "You saved my day! 🙏", "You're awesome! 🥳"].each do |badge| %>
+              <button
+                type="button"
+                class="badge-btn btn btn-outline-dark btn-sm me-2 mb-1"
+                data-badge-text="<%= badge %>"
+                data-action="click->badge#insertBadge"
+                style="border-radius: 30px; border: solid 2px; width: 11rem; font-weight: bold; padding: 11px; margin: 12px;">
+                <%= badge %>
+              </button>
+            <% end %>
+          </div>
+        </div>
+
+          <div class="form-buttons d-flex justify-content-between mt-5" style="width: 550px;">
+            <% if step > 1 %>
+              <%= button_to "← Back",
+                    lost_item_match_path(@lost_item, @match),
+                    method: :patch,
+                    params: { match: { confirmed: true, step: step - 1 } },
+                    class: "btn btn-link",
+                    style: "color: black; text-decoration: none; width: 6rem; padding-left: 0px;" %>
+            <% end %>
+
+            <%= f.submit "FoundIt!", class: "btn btn-success", style:"border-radius: 30px; width: 8rem; font-weight: bold; color: white; background-color: #f5b220; border-color: #f5b220;" %>
+          </div>
         <% end %>
+
       <% end %>
     </div>
 
     <div class="match-buttons d-flex gap-2 mt-3">
-      <% if step > 1 %>
+      <% if step > 1 && step != 3 %>
         <%= button_to "← Back",
               lost_item_match_path(@lost_item, @match),
               method: :patch,
