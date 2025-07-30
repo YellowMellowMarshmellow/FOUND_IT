@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
+import mapboxgl from 'mapbox-gl'
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
-// import mapboxgl from 'mapbox-gl'
-// import window.mapboxgl from 'mapbox-gl'
+//import window.mapboxgl from 'mapbox-gl'
 
 export default class extends Controller {
   static values = {
@@ -9,13 +9,14 @@ export default class extends Controller {
     markers: Array
   }
 
-
   connect() {
-    window.mapboxgl.accessToken = this.apiKeyValue
+    mapboxgl.accessToken = this.apiKeyValue
 
-    this.map = new window.window.mapboxgl.Map({
+    this.map = new mapboxgl.Map({
       container: this.element,
-      style: "mapbox://styles/mapbox/streets-v10"
+      style: "mapbox://styles/mapbox/streets-v10",
+      center:[this.markersValue[0].lng, this.markersValue[0].lat],
+      zoom: 12,
     })
 
     this.#addMarkersToMap()
@@ -27,14 +28,14 @@ export default class extends Controller {
 
   #addMarkersToMap() {
     this.markersValue.forEach((marker) => {
-    new window.window.mapboxgl.Marker()
+    new mapboxgl.Marker()
       .setLngLat([ marker.lng, marker.lat ])
       .addTo(this.map)
   })
   }
 
   #fitMapToMarkers() {
-  const bounds = new window.mapboxgl.LngLatBounds()
+  const bounds = new mapboxgl.LngLatBounds()
   this.markersValue.forEach(marker => bounds.extend([ marker.lng, marker.lat ]))
   this.map.fitBounds(bounds, { padding: 70, maxZoom: 15, duration: 0 })
 }
