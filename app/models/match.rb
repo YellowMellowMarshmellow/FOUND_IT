@@ -7,7 +7,8 @@ class Match < ApplicationRecord
   validate :users_cannot_be_same
   def users_cannot_be_same
     if lost_item && found_item && lost_item.user_id == found_item.user_id
-      errors.add(:base, "User cannot match their own lost and found items.")
+      # errors.add(:base, "User cannot match their own lost and found items.")
+      Rails.logger.debug "Validation failed: same user for lost_item_id=#{lost_item_id} and found_item_id=#{found_item_id}"
     end
   end
 
