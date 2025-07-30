@@ -1,4 +1,8 @@
-<div class="mx-5 p-4 my-5">
+<div class="custom-wrapper my-5">
+  <h1>Edit Found Item Report</h1>
+  <%= link_to '← Back', root_path,
+      class: "btn btn-link mb-5",
+      style: "color: black; text-decoration: none;" %>
   <% if current_user.nil? %>
     <h2>Oops, it seems like you need to log in first!</h2>
     <%= link_to "Log in", new_user_session_path, data: { "turbo-method": :get }, class: "btn btn-primary" %>
@@ -14,7 +18,16 @@
           </ul>
         </div>
       <% end %>
-
+      <div data-controller="add-image">
+        <div id="image-fields" data-add-image-target="container">
+          <%= f.file_field :images, multiple: false, name: "found_item[images][]", class: "form-control mb-2" %>
+        </div>
+        <button type="button"
+                class="btn btn-primary mb-4"
+                data-action="click->add-image#addField">
+          Add Another Image
+        </button>
+      </div>
       <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
       <%= f.input :title %>
       <%= f.input :description %>
@@ -26,37 +39,10 @@
           input_html: { data: { address_autocomplete_target: "address" },
           style: "display:none;" } %>
       </div>
-
       <%= f.input :date_reported, as: :date %>
-
-      <div id="image-fields">
-        <%= f.file_field :images, multiple: false, name: "found_item[images][]", class: "form-control mb-2" %>
+      <div>
+      <%= f.button :submit, found_item.persisted? ? "Update Found Item" : "Report Found Item", class: "custom-action-btn mt-3" %>
       </div>
-      <button type="button" id="add-image-field" class="btn btn-secondary mb-4">Add Another Image</button>
-
-      <%= f.button :submit, found_item.persisted? ? "Update Found Item" : "Report Found Item", class: "btn btn-primary" %>
     <% end %>
   <% end %>
 </div>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const addButton = document.getElementById("add-image-field");
-  const container = document.getElementById("image-fields");
-
-  if (addButton && container) {
-    addButton.addEventListener("click", () => {
-      const existingInputs = container.querySelectorAll("input[type='file']");
-      if (existingInputs.length < 3) {
-        const newInput = document.createElement("input");
-        newInput.type = "file";
-        newInput.name = "found_item[images][]";
-        newInput.className = "form-control mb-2";
-        container.appendChild(newInput);
-      } else {
-        alert("You can only upload up to 3 images.");
-      }
-    });
-  }
-});
-</script>
