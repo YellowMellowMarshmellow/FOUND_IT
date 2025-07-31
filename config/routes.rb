@@ -40,4 +40,10 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   get "/create_report", to: "pages#create_report"
   post "/create_report", to: "pages#create_report"
+
+  resource :profile, only: [:show]
+
+  resources :users do
+    resources :thank_you_notes, only: [:index, :new, :create]
+  end
 end
