@@ -24,7 +24,10 @@ Rails.application.routes.draw do
 
   resources :notifications, only: [:index] do
     member do
-      patch :mark_as_read
+      get :mark_as_read
+    end
+    collection do
+      get :mark_all_as_read
     end
   end
 

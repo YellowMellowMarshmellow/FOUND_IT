@@ -1,10 +1,22 @@
 class Match < ApplicationRecord
   belongs_to :lost_item
   belongs_to :found_item
-
   attribute :confirmed, :boolean, default: false
-
   after_update :send_thank_you_if_confirmed
+  after_destroy :destroy_notifications
+
+  def destroy_notifications
+    Notification.where(notifiable: self).destroy_all
+  end
+
+  validate :users_cannot_be_same
+  def users_cannot_be_same
+    if lost_item && found_item && lost_item.user_id == found_item.user_id
+      # errors.add(:base, "User cannot match their own lost and found items.")
+      Rails.logger.debug "Validation failed: same user for lost_item_id=#{lost_item_id} and found_item_id=#{found_item_id}"
+    end
+  end
+
 
   private
 

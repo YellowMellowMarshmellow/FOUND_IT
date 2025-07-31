@@ -26,14 +26,20 @@ class FoundItemsController < ApplicationController
     @found_item.user = current_user
 
     if @found_item.save
-      LostItem.where(category: @found_item.category, location: @found_item.location).find_each do |lost_item|
-        Match.create!(lost_item: lost_item, found_item: @found_item)
+      LostItem
+        .where(category: @found_item.category, location: @found_item.location)
+        .where.not(user_id: @found_item.user_id)
+        .find_each do |lost_item|
 
-        Notification.create!(
-          user: lost_item.user,
-          message: "A potential match has been found for your lost object : #{lost_item.title}. Please confirm.",
-          notifiable: lost_item
-        )
+        match = Match.new(lost_item: lost_item, found_item: @found_item)
+
+        if match.save
+          Notification.create!(
+            user: lost_item.user,
+            message: "A potential match has been found for your lost object: #{lost_item.title}. Please confirm.",
+            notifiable: match
+          )
+        end
       end
 
       redirect_to root_path, notice: "Found item reported successfully."
@@ -57,7 +63,7 @@ class FoundItemsController < ApplicationController
     end
 
     if @found_item.update(found_item_params)
-      redirect_to @found_item, notice: "Found item updated successfully."
+      redirect_to root_path, notice: "Found item updated successfully."
     else
       render :edit, status: :unprocessable_entity
     end

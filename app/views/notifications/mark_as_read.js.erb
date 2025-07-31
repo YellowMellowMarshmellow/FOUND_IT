@@ -1,0 +1,17 @@
+const notifElement = document.querySelector('[data-notification-id="<%= @notification.id %>"]');
+if (notifElement) {
+  notifElement.classList.remove('fw-bold');
+  notifElement.classList.add('text-muted');
+  const markLink = notifElement.querySelector('.mark-as-read-link');
+  if (markLink) markLink.remove(); // Supprime le lien "Mark as read"
+}
+
+// Met à jour le badge
+const badge = document.querySelector('#notification-bell .badge');
+if (badge) {
+  <% if @unread_notifications_count > 0 %>
+    badge.textContent = "<%= @unread_notifications_count %>";
+  <% else %>
+    badge.remove();
+  <% end %>
+}

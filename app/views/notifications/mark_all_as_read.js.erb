@@ -1,0 +1,16 @@
+document.querySelectorAll('[data-notification-id]').forEach(notifElement => {
+  notifElement.classList.remove('fw-bold');
+  notifElement.classList.add('text-muted');
+  const markLink = notifElement.querySelector('.mark-as-read-link');
+  if (markLink) markLink.remove();
+});
+
+const badge = document.querySelector('#notification-bell .badge');
+if (badge) {
+  badge.remove();
+}
+
+const markAllBtn = document.querySelector('.mark-all-as-read-btn');
+if (markAllBtn) {
+  markAllBtn.remove();
+}

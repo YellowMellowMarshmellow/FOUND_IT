@@ -1,4 +1,4 @@
-<div class="mx-5 my-3">
+<div class="custom-wrapper">
   <h1>Create A New Report</h1>
   <p>Please select one:</p>
 
@@ -18,14 +18,12 @@
 
   <!-- Form for "I found something" -->
   <div id="found-form" style="display:none;">
-    <div class="mx-5 p-4 my-5" data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY']%>">
+    <div class="my-5" data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY']%>">
       <% if current_user.nil? %>
         <h2>Oops, it seems like you need to log in first!</h2>
         <%= link_to "Log in", new_user_session_path, data: { "turbo-method": :get }, class: "btn btn-primary" %>
       <% else %>
-        <h3>Create a found report</h3>
-
-        <%= simple_form_for @found_item, url: create_report_path, html: { multipart: true } do |f| %>
+          <%= simple_form_for @found_item, url: create_report_path, html: { multipart: true } do |f| %>
           <% if @found_item.errors.any? %>
             <div class="alert alert-danger">
               <h4><%= pluralize(@found_item.errors.count, "error") %> prohibited this report from being saved:</h4>
@@ -58,13 +56,11 @@
 
   <!-- Form for "I lost something" -->
   <div id="lost-form" style="display:none;">
-    <div class="mx-5 p-4 my-3" data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY']%>">
+    <div class="my-5" data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY']%>">
       <% if current_user.nil? %>
         <h2>Oops, it seems like you need to log in first!</h2>
         <%= link_to "Log in", new_user_session_path, class: "btn btn-primary" %>
       <% else %>
-        <h3>Create a lost report</h3>
-
         <%= simple_form_for @lost_item, url: create_report_path, html: { multipart: true } do |f| %>
           <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
           <%= f.input :title %>
