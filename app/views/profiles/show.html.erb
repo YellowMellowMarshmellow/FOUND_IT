@@ -1,0 +1,33 @@
+<div class="container text-center mt-5">
+  <h3>Welcome back, <%= @user.first_name %>!</h3>
+  <img src="<%= image_path('default_avatar.png') %>" class="rounded-circle mt-3" width="120">
+
+  <div class="row mt-4 justify-content-center">
+    <div class="col-md-2 border rounded p-3">
+      <p>Good deeds level</p>
+      <div class="fs-1">🏅</div>
+      <strong><%= @level %></strong>
+    </div>
+    <div class="col-md-2 border rounded p-3">
+      <p class="fs-3"><%= @good_deeds_count %></p>
+      <p>good deeds</p>
+    </div>
+    <div class="col-md-2 border rounded p-3">
+      <p class="fs-3"><%= @reports_to_next_level %></p>
+      <p>found report<br>away to the next level</p>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <h5>Thank-you Notes:</h5>
+    <div class="row justify-content-center">
+      <% @thank_you_notes.each do |note| %>
+        <div class="col-md-4 border rounded p-3 m-2">
+          <small><%= note.created_at.strftime("%d.%m.%Y") %></small>
+          <p><%= note.message %></p>
+        </div>
+      <% end %>
+    </div>
+    <%= link_to "Read all notes", user_thank_you_notes_path(@user), class: "btn btn-outline-dark mt-3" %>
+  </div>
+</div>
