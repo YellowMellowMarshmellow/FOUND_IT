@@ -52,13 +52,30 @@
         <%= form_with model: [@lost_item, @match], method: :patch do |f| %>
           <div class="mb-3" style="width: 450px; font-weight: bold;">
             <%= f.label :review, "Leave a kind message to the finder:", class: "mb-2" %>
-            <%= f.text_area :review, rows: 3, class: "form-control", style: "border-radius: 8px" %>
           </div>
+
+        <div data-controller="badge">
+          <%= f.text_area :review, rows: 3, class: "form-control", data: { badge_target: "textarea" }, style: "border-radius: 8px" %>
+
+          <div class="badges mt-2">
+            <% ["Thank you! ❤️", "You're the best 👍", "You saved my day! 🙏", "You're awesome! 🥳"].each do |badge| %>
+              <button
+                type="button"
+                class="badge-btn btn btn-outline-dark btn-sm me-2 mb-1"
+                data-badge-text="<%= badge %>"
+                data-action="click->badge#insertBadge"
+                style="border-radius: 30px; border: solid 2px; width: 11rem; font-weight: bold; padding: 11px; margin: 12px;">
+                <%= badge %>
+              </button>
+            <% end %>
+          </div>
+        </div>
 
           <%= f.hidden_field :confirmed, value: true %>
           <%= f.hidden_field :step, value: 3 %>
           <%= hidden_field_tag :finalize, true %>
 
+        
           <%= f.submit "FoundIt!", class: "btn btn-success", style:"border-radius: 30px; width: 8rem; font-weight: bold; color: white; background-color: #f5b220; border-color: #f5b220; margin-left: 16rem;" %>
         <% end %>
       <% end %>
