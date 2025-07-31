@@ -26,7 +26,16 @@ class MatchesController < ApplicationController
         end
 
       elsif finalize
+        if @match.review.present?
+          Notification.create!(
+            user: @match.found_item.user,
+            notifiable: @match,
+            content: "#{current_user.first_name} left you a review: \"#{@match.review}\""
+          )
+        end
+
         redirect_to root_path, notice: "Thank you! Match confirmed."
+
       else
         redirect_to lost_item_match_path(@lost_item, @match, step: @match.step), notice: "Match updated."
       end
