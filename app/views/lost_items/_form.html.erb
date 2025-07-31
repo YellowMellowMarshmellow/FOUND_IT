@@ -34,9 +34,8 @@
         <%= f.input :date_lost, as: :date %>
         <div class="d-flex gap-2 mt-3">
           <% if lost_item.persisted? %>
-            <%= button_to "Delete Lost Item", lost_item_path(lost_item),
-            method: :delete,
-            data: { confirm: "Are you sure you want to delete this lost item report?" },
+            <%= link_to "Delete Lost Item", lost_item_path(lost_item),
+            data: { confirm: "Are you sure you want to delete this lost item report?", turbo_method: :delete },
             class: "custom-outline-btn mt-3" %>
           <% end %>
           <%= f.button :submit, lost_item.persisted? ? "Update Lost Item" : "Report Lost Item", class: "custom-action-btn mt-3" %>

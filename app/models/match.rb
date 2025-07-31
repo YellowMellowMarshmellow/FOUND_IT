@@ -3,6 +3,11 @@ class Match < ApplicationRecord
   belongs_to :found_item
   attribute :confirmed, :boolean, default: false
   after_update :send_thank_you_if_confirmed
+  after_destroy :destroy_notifications
+
+  def destroy_notifications
+    Notification.where(notifiable: self).destroy_all
+  end
 
   validate :users_cannot_be_same
   def users_cannot_be_same
