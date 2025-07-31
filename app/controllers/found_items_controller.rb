@@ -49,9 +49,19 @@ class FoundItemsController < ApplicationController
   end
 
   def edit
+    @found_item = FoundItem.find(params[:id])
   end
 
   def update
+    @found_item = FoundItem.find(params[:id])
+
+    if params[:found_item][:remove_image_ids]
+      params[:found_item][:remove_image_ids].each do |id|
+        image = @found_item.images.find(id)
+        image.purge
+      end
+    end
+
     if @found_item.update(found_item_params)
       redirect_to root_path, notice: "Found item updated successfully."
     else
@@ -66,6 +76,13 @@ class FoundItemsController < ApplicationController
 
   def my_reports
     @found_items = current_user.found_items.includes(:matches)
+  end
+
+  def delete_image
+    @found_item = FoundItem.find(params[:id])
+    image = @found_item.images.find(params[:image_id])
+    image.purge
+    redirect_to edit_found_item_path(params[:id]), notice: "Image deleted."
   end
 
   private
