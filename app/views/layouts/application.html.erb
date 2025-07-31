@@ -58,15 +58,15 @@
                           <% if notification.notifiable_type == "Match" && notification.notifiable.respond_to?(:lost_item) && notification.notifiable.lost_item.present? %>
                             <%= link_to lost_item_match_path(notification.notifiable.lost_item, notification.notifiable, step: 1),
                                         class: "text-decoration-none text-dark d-block w-100 h-100" do %>
-                              <%= notification.message %>
+                              <%= notification.content %>
                             <% end %>
                           <% elsif notification.notifiable_type == "LostItem" %>
                             <%= link_to lost_item_path(notification.notifiable),
                                         class: "text-decoration-none text-dark d-block w-100 h-100" do %>
-                              <div><%= notification.message %></div>
+                              <div><%= notification.content %></div>
                             <% end %>
                           <% else %>
-                            <div><%= notification.message %></div>
+                            <div><%= notification.content %></div>
                           <% end %>
 
                           <% unless notification.read %>
@@ -81,7 +81,7 @@
                         </li>
                       <% else %>
                         <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %>">
-                          <div><%= notification.message %></div>
+                          <div><%= notification.content %></div>
                         </li>
                       <% end %>
 
