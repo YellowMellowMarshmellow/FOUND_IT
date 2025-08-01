@@ -24,6 +24,13 @@
         <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
         <%= f.input :description, error: "must be at least 30 characters long" %>
 
+          <div data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+            <%= f.label :location %>
+            <div data-address-autocomplete-target="search"></div>
+            <%= f.input :location, label: false,
+                  input_html: { data: { address_autocomplete_target: "address" },
+                  style: "display:none;" } %>
+          </div>
 
 
       <div id="image-fields">
@@ -50,13 +57,6 @@
         </ul>
       </div>
 
-        <div data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
-          <%= f.label :location %>
-          <div data-address-autocomplete-target="search"></div>
-          <%= f.input :location, label: false,
-                input_html: { data: { address_autocomplete_target: "address" },
-                style: "display:none;" } %>
-        </div>
         <%= f.input :date_lost, as: :date %>
         <div class="d-flex gap-2 mt-3">
           <% if lost_item.persisted? %>
