@@ -39,15 +39,29 @@
     <div class="match-text mb-4">
       <h3><strong>📌 It's a match !</strong></h3>
 
+      <% markers = [{
+        lat: @match.found_item.latitude.to_f,
+        lng: @match.found_item.longitude.to_f
+      }] %>
+
       <% if step == 1 %>
         <p><%= @match.found_item.title %></p>
-        <p><strong>Is this item yours ?</strong></p>
+
+      <p><strong>Is this item yours ?</strong></p>
+
       <% elsif step == 2 %>
         <p><%= @match.found_item.title %></p>
         <p><strong>Description:</strong> <%= @match.found_item.description %></p>
         <p><strong>Location:</strong> <%= @match.found_item.location %></p>
-        <div id="map" style="height: 400px; width: 100%; max-width: 800px; marging: auto; background: #a1c0e3;">MAP PLACEHOLDER</div>
-      <% elsif step == 3 %>
+
+      <div style="height: 400px; width: 100%; max-width: 800px; marging: auto;"
+        data-controller="map"
+        data-map-markers-value='<%= raw markers.to_json %>'
+        data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+      </div>
+
+       <% elsif step == 3 %>
+      
         <p><%= @match.found_item.title %></p>
         <%= form_with model: [@lost_item, @match], method: :patch do |f| %>
           <div class="mb-3" style="width: 450px; font-weight: bold;">
