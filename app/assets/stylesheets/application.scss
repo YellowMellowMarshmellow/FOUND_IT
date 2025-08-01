@@ -63,3 +63,18 @@
 .edit-icon:hover {
   color: #000;
 }
+
+.status-pending {
+  color: #e63946; /* red */
+  font-weight: 600;
+}
+
+.status-possible {
+  color: #f4a261; /* amber/orange */
+  font-weight: 600;
+}
+
+.status-confirmed {
+  color: #28a745; /* green */
+  font-weight: 600;
+}
