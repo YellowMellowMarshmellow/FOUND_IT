@@ -5,7 +5,7 @@ class FoundItemsController < ApplicationController
 
   def index
     @found_items = FoundItem.all
-    # The `geocoded` scope filters only flats with coordinates:
+    # The `geocoded` scope filters only flats with coordinates
     @markers = @found_items.geocoded.map do |found_item|
       {
         lat: found_item.latitude,
