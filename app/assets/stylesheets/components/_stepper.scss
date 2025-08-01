@@ -79,5 +79,15 @@
 }
 
 #stepper-image {
-  margin-left: 18rem; /* increase this value to push further right */
+  margin-left: 18rem;
+  /* increase this value to push further right */
+}
+
+#button-wrapper {
+  margin-top: 2rem;
+  /* Espace au-dessus */
+  margin-bottom: 5rem;
+  /* Espace avant le footer */
+  display: flex;
+  justify-content: center;
 }
