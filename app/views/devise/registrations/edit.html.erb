@@ -21,6 +21,18 @@
                 hint: "we need your current password to confirm your changes",
                 required: true,
                 input_html: { autocomplete: "current-password" } %>
+
+    <div class="field mt-3">
+      <%= f.label :avatar, "Choose your avatar" %><br>
+      <% User::AVATARS.each do |avatar_url| %>
+          <img src="<%= asset_path(avatar_url) %>"
+              class="avatar-option rounded-circle border"
+              data-avatar-url="<%= asset_path(avatar_url) %>"
+              data-avatar-modal-target="avatar"
+              data-action="click->avatar-modal#selectAvatar"
+              style="width: 100px; height: 100px; cursor: pointer; object-fit: cover;">
+      <% end %>
+    </div>
   </div>
 
   <div class="form-actions">

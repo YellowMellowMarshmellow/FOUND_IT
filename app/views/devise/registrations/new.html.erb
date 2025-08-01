@@ -1,36 +1,86 @@
-<div class="container d-flex justify-content-center mt-5">
-  <div class="card p-4 shadow-sm" style="max-width: 500px; width: 100%;">
-    <h2 class="text-center mb-4">Sign up</h2>
+<div data-controller="avatar-modal">
+  <div class="container d-flex justify-content-center mt-5">
+    <div class="card p-4 shadow-sm" style="max-width: 500px; width: 100%;">
+      <h2 class="text-center mb-4">Sign up</h2>
 
-    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-      <%= f.error_notification %>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name),
+          html: { data: { avatar_modal_target: "form" } }) do |f| %>
+        <%= f.error_notification %>
 
-      <div class="form-inputs">
-        <%= f.input :first_name, required: true %>
-        <%= f.input :last_name, required: true %>
+        <% if resource.errors.any? %>
+          <div class="alert alert-danger">
+            <h4><%= pluralize(resource.errors.count, "error") %> prohibited this user from being saved:</h4>
+            <ul>
+              <% resource.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
 
-        <%= f.input :email,
-                    required: true,
-                    autofocus: true,
-                    input_html: { autocomplete: "email" } %>
+        <div class="form-inputs">
+          <%= f.input :first_name, required: true %>
+          <%= f.input :last_name, required: true %>
 
-        <%= f.input :password,
-                    required: true,
-                    hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                    input_html: { autocomplete: "new-password" } %>
+          <%= f.input :email,
+                      required: true,
+                      autofocus: true,
+                      input_html: { autocomplete: "email" } %>
 
-        <%= f.input :password_confirmation,
-                    required: true,
-                    input_html: { autocomplete: "new-password" } %>
+          <%= f.input :password,
+                      required: true,
+                      hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                      input_html: { autocomplete: "new-password" } %>
+
+          <%= f.input :password_confirmation,
+                      required: true,
+                      input_html: { autocomplete: "new-password" } %>
+
+          <%= f.hidden_field :avatar, id: "selected-avatar", data: { avatar_modal_target: "hiddenInput" } %>
+        </div>
+
+        <div class="form-actions mt-3">
+          <button type="button"
+              class="btn btn-outline-primary w-100"
+              id="open-avatar-modal"
+              data-action="click->avatar-modal#openModal">
+            Sign up
+          </button>
+        </div>
+
+      <% end %>
+
+
+      <div class="mt-3">
+        <%= render "devise/shared/links" %>
       </div>
+    </div>
+  </div>
 
-      <div class="form-actions mt-3">
-        <%= f.button :submit, "Sign up", class: "btn btn-outline-primary w-100" %>
+  <div class="modal fade" id="avatarModal" tabindex="-1" aria-labelledby="avatarModalLabel" aria-hidden="true" data-avatar-modal-target="modal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><strong>Choose your avatar 🎉</strong></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex flex-wrap justify-content-center gap-3">
+          <% User::AVATARS.each do |avatar_url| %>
+            <img src="<%= asset_path(avatar_url) %>"
+                class="avatar-option rounded-circle border"
+                data-avatar-url="<%= asset_path(avatar_url) %>"
+                data-avatar-modal-target="avatar"
+                data-action="click->avatar-modal#selectAvatar"
+                style="width: 100px; height: 100px; cursor: pointer; object-fit: cover;">
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary custom-outline-btn btn-sm ms-2" data-bs-dismiss="modal">Back</button>
+          <button type="button" class="btn custom-outline-btn btn-sm ms-2" data-action="click->avatar-modal#confirm">
+            Confirm & Submit
+          </button>
+        </div>
       </div>
-    <% end %>
-
-    <div class="mt-3">
-      <%= render "devise/shared/links" %>
     </div>
   </div>
 </div>
