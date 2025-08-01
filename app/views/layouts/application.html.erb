@@ -24,11 +24,11 @@
           <% if user_signed_in? %>
             <div class="d-flex align-items-center ms-auto">
               <!-- Cloche + dropdown -->
-              <div class="position-relative me-3 d-inline-block" style="padding-right: 1rem;">
+              <div class="position-relative d-inline-block" style="padding-right: 0rem;">
                 <button id="notification-bell"
                         type="button"
                         class="btn btn-lg position-relative"
-                        style="padding: 0.5rem 0.75rem;">
+                        style="padding: 0.5rem 0.75rem; padding-top: 0.2rem">
                   <i class="bi bi-bell"></i>
                   <% if @unread_notifications_count.to_i > 0 %>
                     <span class="position-absolute start-100 translate-middle badge rounded-circle my-2"
@@ -93,9 +93,13 @@
                   </ul>
                 </div>
 
+                  <%= link_to profile_path, class: "text-dark me-3", title: "Your Profile", style: "margin-left: 1rem;" do %>
+                    <i class="fa-regular fa-user" style="font-size: 1.4rem; margin-top: 1.1rem; padding-left: 0.2rem;"></i>
+                  <% end %>
+
               </div>
             </div>
-            <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "custom-outline-btn btn-sm ms-2", style: "margin-right: 6rem;" %>
+            <%= button_to " Log out", destroy_user_session_path, method: :delete, class: "custom-outline-btn btn-sm ms-2", style: "margin-right: 6rem;" %>
           <% else %>
             <%= button_to "Log in", new_user_session_path, class: "custom-outline-btn btn-sm ms-2", style: "margin-right: 6rem;"%>
           <% end %>
