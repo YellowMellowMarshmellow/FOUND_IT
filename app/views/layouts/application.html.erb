@@ -93,7 +93,7 @@
             </div>
             <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "custom-outline-btn btn-sm ms-2", style: "margin-right: 6rem;" %>
           <% else %>
-            <%= link_to "Log in", new_user_session_path, class: "custom-outline-btn btn-sm", style: "margin-right: 6rem;"%>
+            <%= button_to "Log in", new_user_session_path, class: "custom-outline-btn btn-sm ms-2", style: "margin-right: 6rem;"%>
           <% end %>
         </div>
       </nav>
