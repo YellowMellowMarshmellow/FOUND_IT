@@ -1,0 +1,11 @@
+<h2 class="mt-5">Write a Thank You Note to <%= @user.first_name %></h2>
+
+<%= form_with model: [@user, @thank_you_note], local: true do |f| %>
+  <div class="form-group">
+    <%= f.label :message %>
+    <%= f.text_area :message, class: "form-control", rows: 5 %>
+  </div>
+  <%= f.submit "Send Note", class: "btn btn-primary mt-3" %>
+<% end %>
+
+<%= link_to "← Back", user_thank_you_notes_path(@user), class: "btn btn-secondary mt-3" %>
