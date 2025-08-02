@@ -1,6 +1,5 @@
 class LostItemsController < ApplicationController
   before_action :authenticate_user!
-
   before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
@@ -28,24 +27,25 @@ class LostItemsController < ApplicationController
     @lost_item.user = current_user
 
     if @lost_item.save
-      FoundItem
-        .where(category: @lost_item.category, location: @lost_item.location)
-        .where.not(user_id: @lost_item.user_id)
-        .find_each do |found_item|
+      FoundItem.where(category: @lost_item.category)
+                .near([@lost_item.latitude, @lost_item.longitude], 5, units: :mi)
+                .where.not(user_id: @lost_item.user_id)
+                .find_each do |found_item|
 
-        match = Match.new(lost_item: @lost_item, found_item: found_item)
+         if openai_description_match?(found_item.description, @lost_item.description)
+          match = Match.create!(lost_item: @lost_item, found_item: found_item)
 
-        if match.save?
           Notification.create!(
             user: @lost_item.user,
-            message: "A potential match has been found for your lost object: #{@lost_item.title}. Please confirm.",
+            message: "A found item matched your lost item. : #{found_item.title}",
             notifiable: match
           )
-        end
+         end
       end
       redirect_to root_path, notice: "Lost item reported successfully."
     end
   end
+
 
   def edit
     @lost_item = LostItem.find(params[:id])
