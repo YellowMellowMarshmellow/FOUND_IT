@@ -3,6 +3,20 @@
     <div class="my-5">
       <% if current_user %>
         <h2><strong>Welcome back, <%= current_user.first_name %>!</strong></h2>
+
+        <div style="position: relative; display: inline-block; cursor: pointer;">
+    <%= link_to edit_user_registration_path do %>
+      <%= image_tag(current_user.avatar || 'default_avatar.png',
+                    class: 'rounded-circle',
+                    style: 'width: 120px; height: 120px; object-fit: cover;') %>
+      <span style="position: absolute; bottom: 5px; right: 5px; background: #007bff; border-radius: 50%;
+                   padding: 6px; color: white; font-size: 14px;">
+        <i class="bi bi-pencil"></i>
+      </span>
+
+    <% end %>
+
+  </div>
       <% end %>
       <%= button_to "Create a new report", create_report_path, class: "custom-action-btn mt-3", method: :get %>
     </div>

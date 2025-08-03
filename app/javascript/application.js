@@ -1,7 +1,7 @@
 // Import Turbo and Bootstrap
 import "@hotwired/turbo-rails"
 import "@popperjs/core"
-// import { Modal } from "bootstrap"
+import "bootstrap"
 // Import Rails UJS (if you need it, but usually not needed with Turbo)
 import Rails from "@rails/ujs"
 Rails.start()
@@ -17,6 +17,7 @@ window.Stimulus = application
 export { application }
 
 //import "controllers"
+
 
 // Notification dropdown functionality
 document.addEventListener("turbo:load", () => {
