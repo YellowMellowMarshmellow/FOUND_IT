@@ -54,13 +54,14 @@
         <p><strong>Description:</strong> <%= @match.found_item.description %></p>
         <p><strong>Location:</strong> <%= @match.found_item.location %></p>
 
-      <div style="width: 200px; height: 100px;"
+      <div style="height: 400px; width: 100%; max-width: 800px; marging: auto;"
         data-controller="map"
         data-map-markers-value='<%= raw markers.to_json %>'
         data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
       </div>
 
        <% elsif step == 3 %>
+      
         <p><%= @match.found_item.title %></p>
         <%= form_with model: [@lost_item, @match], method: :patch do |f| %>
           <div class="mb-3" style="width: 450px; font-weight: bold;">
