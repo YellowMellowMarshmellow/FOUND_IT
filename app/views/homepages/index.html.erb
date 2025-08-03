@@ -17,6 +17,10 @@
             <div class="left-section">
               <p class="card-text"><strong>Title:</strong> <%= @latest_found_item.title %></p>
               <p class="card-text"><strong>Description:</strong> <%= @latest_found_item.description %></p>
+              <%= link_to '<i class="bi bi-trash"></i>'.html_safe, found_item_path(@latest_found_item),
+                  method: :delete,
+                  data: { turbo_confirm: "Are you sure?" },
+                  class: "text-danger" %>
             </div>
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= @latest_found_item.location %></p>
@@ -49,7 +53,7 @@
               <p class="card-text"><strong>Location:</strong> <%= @latest_lost_item.location %></p>
               <% if @latest_lost_item_matched && @latest_lost_item_match.present? %>
                 <p class="card-text" style="color: green;"><strong style="color: black;">Status:</strong> Possible match found</p>
-                <%= button_to "View match", lost_item_match_path(@latest_lost_item, @latest_lost_item_match), class: "view-match-btn", method: :get %>
+                <%= button_to "View match", lost_item_match_path(@latest_lost_item, @latest_lost_item_match), class: "custom-action-btn", method: :get %>
               <% else %>
                 <p class="card-text" style="color: orange;"><strong style="color: black;">Status:</strong> Pending match</p>
               <% end %>
