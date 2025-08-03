@@ -13,6 +13,7 @@ gem 'cloudinary'
 gem 'activestorage-cloudinary-service'
 gem 'dotenv-rails'
 gem 'geocoder'
+gem "ruby-openai"
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
