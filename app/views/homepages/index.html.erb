@@ -48,6 +48,10 @@
             <div class="left-section">
               <p class="card-text"><strong>Title:</strong> <%= @latest_lost_item.title %></p>
               <p class="card-text"><strong>Description:</strong> <%= @latest_lost_item.description %></p>
+              <%= link_to '<i class="bi bi-trash"></i>'.html_safe, lost_item_path(@latest_lost_item),
+                  method: :delete,
+                  data: { turbo_confirm: "Are you sure?" },
+                  class: "text-danger" %>
             </div>
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= @latest_lost_item.location %></p>
