@@ -38,11 +38,12 @@
       <%= f.input :password_confirmation,
                   required: false,
                   input_html: { autocomplete: "new-password" } %>
-      <%= f.input :current_password,
-                  hint: "we need your current password to confirm your changes",
-                  required: true,
-                  input_html: { autocomplete: "current-password" } %>
-
+      <% if params[:user]&.dig(:password).present? || resource.encrypted_password.present? %>
+        <%= f.input :current_password,
+                    hint: "We need your current password to confirm your changes",
+                    required: true,
+                    input_html: { autocomplete: "current-password" } %>
+      <% end %>
       <div class="field mt-3">
         <%= f.label :avatar, "Choose your avatar 🎉" %><br>
 

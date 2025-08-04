@@ -3,7 +3,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   AVATARS = %w[bear_avatar.jpg beaver_avatar.jpg cheetah_avatar.jpg giraffe_avatar.jpg
                hippopotamus_avatar.jpg parrot_avatar.jpg]
-  validates :avatar, inclusion: { in: AVATARS }, allow_nil: true
+  validates :avatar, inclusion: { in: AVATARS }, allow_blank: true
+  validates :password, presence: true, confirmation: true, length: { minimum: 6 }, if: :password_required?
+
+  def password_required?
+    !password.blank? || !password_confirmation.blank?
+  end
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :lost_items
