@@ -1,0 +1,17 @@
+<h2 class="mt-5">Your Thank You Notes</h2>
+
+<% if @thank_you_notes.any? %>
+  <ul class="list-group mt-4">
+    <% @thank_you_notes.each do |note| %>
+      <li class="list-group-item">
+        <%= note.message %>
+        <br>
+        <small class="text-muted">Sent on <%= note.created_at.strftime("%d %B %Y") %></small>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="mt-4">No thank you notes yet.</p>
+<% end %>
+
+<%= link_to "← Back to Profile", profile_path, class: "btn btn-secondary mt-4" %>
