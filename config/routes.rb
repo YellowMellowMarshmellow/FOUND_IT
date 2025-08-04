@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'thank_you_notes/index'
   get 'notifications/index'
   get 'notifications/mark_as_read'
 
