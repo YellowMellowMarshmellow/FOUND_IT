@@ -15,6 +15,7 @@ class User < ApplicationRecord
   has_many :found_items
   has_many :notifications, dependent: :destroy
   has_many :received_notes, class_name: "ThankYouNote", foreign_key: :recipient_id
+  has_one_attached :avatar
   validates :first_name, presence: true
   validates :last_name, presence: true
 end
