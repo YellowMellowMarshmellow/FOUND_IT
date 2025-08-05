@@ -5,9 +5,9 @@
         <h2><strong>Welcome back, <%= current_user.first_name %>!</strong></h2>
         <div style="position: relative; display: inline-block; cursor: pointer;">
           <%= link_to edit_user_registration_path do %>
-            <%= image_tag(current_user.avatar || 'default_avatar.png',
-                          class: 'rounded-circle',
-                          style: 'width: 120px; height: 120px; object-fit: cover;') %>
+            <%= image_tag(current_user.avatar.attached? ? url_for(current_user.avatar) : 'default_avatar.png',
+              class: 'rounded-circle',
+              style: 'width: 120px; height: 120px; object-fit: cover;') %>
           <% end %>
 
         </div>
