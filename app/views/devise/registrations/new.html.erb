@@ -65,12 +65,12 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body d-flex flex-wrap justify-content-center gap-3">
-          <% User::AVATARS.each do |avatar_url| %>
-            <img src="<%= asset_path(avatar_url) %>"
+          <% AVATAR_OPTIONS.each do |avatar| %>
+            <img src="<%= avatar[:url] %>"
+                alt="<%= avatar[:name] %>"
                 class="avatar-option rounded-circle border"
-                data-avatar-url="<%= asset_path(avatar_url) %>"
                 data-avatar-modal-target="avatar"
-                data-action="click->avatar-modal#selectAvatar"
+                data-avatar-url="<%= avatar[:url] %>"
                 style="width: 100px; height: 100px; cursor: pointer; object-fit: cover;">
           <% end %>
         </div>

@@ -35,6 +35,12 @@ Rails.application.routes.draw do
   resources :matches, only: [:index]
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
+  resources :users, only: [:show, :edit, :update] do
+    member do
+      patch :update_avatar
+    end
+    resources :thank_you_notes, only: [:index, :new, :create]
+  end
 
   root "homepages#index"
 
@@ -44,7 +50,4 @@ Rails.application.routes.draw do
 
   resource :profile, only: [:show]
 
-  resources :users, only: [] do
-    resources :thank_you_notes, only: [:index, :new, :create]
-  end
 end

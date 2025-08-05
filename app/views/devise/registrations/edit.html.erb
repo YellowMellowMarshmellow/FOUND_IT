@@ -49,12 +49,12 @@
 
         <div data-controller="avatar-modal">
           <%= f.hidden_field :avatar, data: { avatar_modal_target: "hiddenInput" } %>
-
-          <% User::AVATARS.each do |avatar_url| %>
-            <img src="<%= asset_path(avatar_url) %>"
+          <% AVATAR_OPTIONS.each do |avatar| %>
+            <img src="<%= avatar[:url] %>"
+                alt="<%= avatar[:name] %>"
                 class="avatar-option rounded-circle border"
                 data-avatar-modal-target="avatar"
-                data-avatar-url="<%= asset_path(avatar_url) %>"
+                data-avatar-url="<%= avatar[:url] %>"
                 style="width: 100px; height: 100px; cursor: pointer; object-fit: cover;">
           <% end %>
         </div>

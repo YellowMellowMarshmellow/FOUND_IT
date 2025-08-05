@@ -43,34 +43,34 @@ export default class extends Controller {
   }
 
   selectAvatarDirectly(avatar) {
-    this.avatarTargets.forEach(img =>
-      img.classList.remove("border-primary", "border-3", "selected")
-    )
+  // Clear selection from all avatar images
+  this.avatarTargets.forEach(img =>
+    img.classList.remove("border-primary", "border-3", "selected")
+  )
 
-    avatar.classList.add("border-primary", "border-3", "selected")
-    const url = avatar.dataset.avatarUrl || avatar.src
-    const filename = url.split("/").pop()
-    const cleanedFilename = filename.replace(/(_|-)[0-9a-f]{32,}\.jpg$/, '.jpg')
+  // Highlight the selected one
+  avatar.classList.add("border-primary", "border-3", "selected")
 
-    if (this.hasHiddenInputTarget) {
-      this.hiddenInputTarget.value = cleanedFilename
-    }
+  // Use full Cloudinary URL from data-avatar-url (preferred), fallback to src
+  const fullUrl = avatar.dataset.avatarUrl || avatar.src
 
-    if (this.hasPreviewTarget) {
-      this.previewTarget.src = avatar.src
-    }
-
-    this.selectedAvatar = cleanedFilename
+  // Save full URL to hidden input and preview
+  if (this.hasHiddenInputTarget) {
+    this.hiddenInputTarget.value = fullUrl
   }
 
+  if (this.hasPreviewTarget) {
+    this.previewTarget.src = fullUrl
+  }
+
+  // Save selected value internally for confirm()
+  this.selectedAvatar = fullUrl
+}
+
   confirm() {
-    if (this.selectedAvatar) {
-      const filename = this.selectedAvatar.split("/").pop()
-
-      const cleanedFilename = filename.replace(/(_|-)[0-9a-f]{32,}\.jpg$/, '.jpg')
-      this.hiddenInputTarget.value = cleanedFilename
-
-      this.formTarget.submit()
+  if (this.selectedAvatar) {
+    this.hiddenInputTarget.value = this.selectedAvatar
+    this.formTarget.submit()
     } else {
       alert("Please select an avatar.")
     }

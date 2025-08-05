@@ -2,9 +2,8 @@
   <h3>Welcome back, <%= @user.first_name %>!</h3>
   <div style="position: relative; display: inline-block; cursor: pointer;">
     <%= link_to edit_user_registration_path do %>
-        <%= image_tag(current_user.avatar || 'default_avatar.png',
-                      class: 'rounded-circle',
-                      style: 'width: 120px; height: 120px; object-fit: cover;') %>
+        <%= image_tag current_user.avatar.attached? ? url_for(current_user.avatar) : 'default_avatar.png', class: 'rounded-circle' %>
+
         <span style="position: absolute; bottom: 5px; right: 5px; background: #007bff; border-radius: 50%;
                     padding: 6px; color: white; font-size: 14px;">
           <i class="bi bi-pencil"></i>
