@@ -1,9 +1,9 @@
-<div class="container mt-5">
+<div class="custom-wrapper my-5">
   <h3 style="left: auto; font-weight: bold">Welcome back, <%= @user.first_name %>!</h3>
 
-<div class="row mt-4 align-items-start">
+<div class="row mt-4 align-items-start justify-content-center">
   <div class="col-md-3 text-center">
-    <div style="position: relative; display: inline-block; cursor: pointer;">
+    <div style="position: relative; display: inline-block; cursor: pointer; margin-left: -7rem;">
       <%= link_to edit_user_registration_path do %>
         <%= image_tag(current_user.avatar || 'default_avatar.png',
                       class: 'rounded-circle',
