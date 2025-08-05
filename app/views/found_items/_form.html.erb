@@ -40,9 +40,19 @@
           style: "display:none;" } %>
       </div>
       <%= f.input :date_reported, as: :date %>
-      <div>
-      <%= f.button :submit, found_item.persisted? ? "Update Found Item" : "Report Found Item", class: "custom-action-btn mt-3" %>
+      <div class="d-flex gap-2 mt-3 mb-3">
+        <%= f.button :submit, found_item.persisted? ? "Update Found Item" : "Report Found Item", class: "custom-action-btn" %>
+
+        <% if found_item.persisted? %>
+          <%= button_to "Delete Report",
+                      found_item_path(found_item),
+                      method: :delete,
+                      data: { turbo_confirm: "Are you sure?" },
+                      class: "custom-outline-btn",
+                      style: "text-decoration: none; display: inline-block; text-align: center;"%>
+        <% end %>
       </div>
+
     <% end %>
     <% if found_item.images.attached? %>
       <div class="mb-3">

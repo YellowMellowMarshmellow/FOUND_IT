@@ -9,9 +9,11 @@
 
           <div class="mb-5" style="position: relative; display: inline-block; cursor: pointer; margin-left: 0.5rem;">
             <%= link_to edit_user_registration_path do %>
-              <%= image_tag(current_user.avatar || 'default_avatar.png',
-                            class: 'rounded-circle',
-                            style: 'width: 170px; height: 170px; object-fit: cover;') %>
+              <% if current_user.avatar.attached? %>
+                <%= image_tag current_user.avatar, class: 'rounded-circle', style: 'width: 170px; height: 170px; object-fit: cover;' %>
+              <% else %>
+                <%= image_tag 'default_avatar.png', class: 'rounded-circle', style: 'width: 170px; height: 170px; object-fit: cover;' %>
+              <% end %>
             <% end %>
           </div>
       <% end %>
@@ -31,10 +33,6 @@
             <div class="left-section">
               <p class="card-text"><strong>Title:</strong> <%= @latest_found_item.title %></p>
               <p class="card-text"><strong>Description:</strong> <%= @latest_found_item.description %></p>
-              <%= link_to '<i class="bi bi-trash"></i>'.html_safe, found_item_path(@latest_found_item),
-                  method: :delete,
-                  data: { turbo_confirm: "Are you sure?" },
-                  class: "text-danger" %>
             </div>
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= @latest_found_item.location %></p>
@@ -54,10 +52,6 @@
             <div class="left-section">
               <p class="card-text"><strong>Title:</strong> <%= @latest_lost_item.title %></p>
               <p class="card-text"><strong>Description:</strong> <%= @latest_lost_item.description %></p>
-              <%= link_to '<i class="bi bi-trash"></i>'.html_safe, lost_item_path(@latest_lost_item),
-                  method: :delete,
-                  data: { turbo_confirm: "Are you sure?" },
-                  class: "text-danger" %>
             </div>
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= @latest_lost_item.location %></p>
