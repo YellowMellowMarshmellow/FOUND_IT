@@ -9,7 +9,6 @@
               class: 'rounded-circle',
               style: 'width: 120px; height: 120px; object-fit: cover;') %>
           <% end %>
-
         </div>
       <% end %>
       <%= button_to "Create a new report", create_report_path, class: "custom-action-btn mt-3", method: :get %>
@@ -32,11 +31,7 @@
             </div>
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= @latest_found_item.location %></p>
-              <% if @latest_found_item.matches.any? { |m| m.lost_item.user_id == current_user.id } %>
-                <p class="card-text"><strong>Status:</strong> <span class="status-possible">Possible match found</span></p>
-              <% else %>
-                <p class="card-text"><strong>Status:</strong> <span class="status-pending">Pending match</span></p>
-              <% end %>
+              <p class="card-text"><strong>Status:</strong> <%= item_status(@latest_found_item, current_user) %></p>
               <%= link_to edit_found_item_path(@latest_found_item), class: "icon-link", title: "Edit" do %>
                 <img src="<%= asset_path('Edit.svg') %>" width="16" height="16" alt="Edit" class="edit-icon">
               <% end %>
@@ -59,12 +54,7 @@
             </div>
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= @latest_lost_item.location %></p>
-              <% if @latest_lost_item_matched && @latest_lost_item_match.present? %>
-                <p class="card-text" style="color: green;"><strong style="color: black;">Status:</strong> Possible match found</p>
-                <%= button_to "View match", lost_item_match_path(@latest_lost_item, @latest_lost_item_match), class: "custom-action-btn", method: :get %>
-              <% else %>
-                <p class="card-text"><strong>Status:</strong> <span class="status-pending">Pending match</span></p>
-              <% end %>
+              <p class="card-text"><strong>Status:</strong> <%= item_status(@latest_lost_item, current_user) %></p>
               <%= link_to edit_lost_item_path(@latest_lost_item), class: "icon-link", title: "Edit" do %>
                 <img src="<%= asset_path('Edit.svg') %>" width="16" height="16" alt="Edit" class="edit-icon">
               <% end %>
@@ -86,11 +76,7 @@
             </div>
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= item.location %></p>
-              <% if item.matches.any? { |m| m.lost_item.user_id == current_user.id } %>
-                <p class="card-text"><strong>Status:</strong> <span class="status-possible">Possible match found</span></p>
-              <% else %>
-                <p class="card-text"><strong>Status:</strong> <span class="status-pending">Pending match</span></p>
-              <% end %>
+              <p class="card-text"><strong>Status:</strong> <%= item_status(item, current_user) %></p>
               <%= link_to edit_found_item_path(item), class: "icon-link", title: "Edit" do %>
                 <img src="<%= asset_path('Edit.svg') %>" width="16" height="16" alt="Edit" class="edit-icon">
               <% end %>
@@ -109,17 +95,7 @@
             </div>
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= item.location %></p>
-              <% match = item.matches.find { |m| m.lost_item.user_id == current_user.id } %>
-              <% if match %>
-                <% if match.confirmed == true %>
-                  <p class="card-text"><strong>Status:</strong> <span class="status-confirmed">Match confirmed</span></p>
-                <% else %>
-                  <p class="card-text"><strong>Status:</strong> <span class="status-possible">Possible match found</span></p>
-                  <%= button_to "View match", lost_item_match_path(item, match), class: "custom-outline-btn mt-3", method: :get %>
-                <% end %>
-              <% else %>
-                <p class="card-text"><strong>Status:</strong> <span class="status-pending">Pending match</span></p>
-              <% end %>
+              <p class="card-text"><strong>Status:</strong> <%= item_status(item, current_user) %></p>
               <%= link_to edit_lost_item_path(item), class: "icon-link", title: "Edit" do %>
                 <img src="<%= asset_path('Edit.svg') %>" width="16" height="16" alt="Edit" class="edit-icon">
               <% end %>
@@ -130,11 +106,12 @@
     </div>
   </div>
 <% else %>
+  <!-- Unchanged public view content -->
   <div class="custom-wrapper mt-5">
     <h1 style="font-weight: 800;">Found it turns lost into found</h1>
   </div>
 
-    <div id="stepper-wrapper" style="display: flex; flex-direction: row; gap: 3rem; align-items: flex-start;">
+  <div id="stepper-wrapper" style="display: flex; flex-direction: row; gap: 3rem; align-items: flex-start;">
     <div class="stepper-vertical" id="stepper">
       <div class="steps">
         <div class="step-with-text">
@@ -160,18 +137,14 @@
             <div class="step-description">The finder drops a pin so the owner can pick up the item directly.</div>
           </div>
         </div>
-        <!-- Place button OUTSIDE the stepper div -->
         <div id="button-wrapper" class="mt-4">
           <%= button_to "Sign up", new_user_registration_path, method: :get, id: "sign-up-btn", style: "margin-top: 5rem; margin-right: 16rem;" %>
         </div>
       </div>
     </div>
 
-
-    <!-- New image + text block on the right -->
     <div id="stepper-image" style="display: flex; flex-direction: row; gap: 2rem; align-items: center; justify-content: center;">
       <img src="<%= asset_path('app_demo.png') %>" alt="Found it app demo impage" style="max-width: 300px; height: auto; border-radius: 8px;">
     </div>
   </div>
-
 <% end %>
