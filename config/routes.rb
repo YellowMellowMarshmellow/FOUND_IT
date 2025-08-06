@@ -34,11 +34,11 @@ Rails.application.routes.draw do
 
   resources :matches, only: [:index]
 
-  devise_for :users, controllers: { registrations: 'users/registrations' }
+  devise_for :users
+
+  resource :profiles, only: [:show, :edit, :update]
+
   resources :users, only: [:show, :edit, :update] do
-    member do
-      patch :update_avatar
-    end
     resources :thank_you_notes, only: [:index, :new, :create]
   end
 
@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   get "/create_report", to: "pages#create_report"
   post "/create_report", to: "pages#create_report"
 
-  resource :profile, only: [:show]
+  # We updates profile to profiles so we can use avatar with cloudinary
+  # resource :profile, only: [:show]
 
 end
