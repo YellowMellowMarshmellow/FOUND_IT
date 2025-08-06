@@ -53,7 +53,7 @@
         <p><%= @match.found_item.title %></p>
         <p><strong>Description:</strong> <%= @match.found_item.description %></p>
         <p><strong>Location:</strong> <%= @match.found_item.location %></p>
-        <div style="height: 200px; width: 100%; max-width: 500px; margin: auto;"
+        <div style="height: 220px; width: 100%; max-width: 500px;"
           data-controller="map"
           data-map-markers-value='<%= raw markers.to_json %>'
           data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
@@ -65,21 +65,21 @@
           <div class="mb-3" style="width: 450px; font-weight: bold;">
             <%= f.label :review, "Leave a kind message to the finder:", class: "mb-2" %>
           </div>
-        <div data-controller="badge">
-          <%= f.text_area :review, rows: 3, class: "form-control", data: { badge_target: "textarea" }, style: "border-radius: 8px" %>
-          <div class="badges mt-2">
-            <% ["Thank you! ❤️", "You're the best 👍", "You saved my day! 🙏", "You're awesome! 🥳"].each do |badge| %>
-              <button
-                type="button"
-                class="badge-btn btn btn-outline-dark btn-sm me-2 mb-1"
-                data-badge-text="<%= badge %>"
-                data-action="click->badge#insertBadge"
-                style="border-radius: 30px; border: solid 2px; width: 11rem; font-weight: bold; padding: 11px; margin: 12px;">
-                <%= badge %>
-              </button>
-            <% end %>
+          <div data-controller="badge">
+            <%= f.text_area :review, rows: 3, class: "form-control", data: { badge_target: "textarea" }, style: "border-radius: 8px" %>
+            <div class="badges mt-2">
+              <% ["Thank you! ❤️", "You're the best 👍", "You saved my day! 🙏", "You're awesome! 🥳"].each do |badge| %>
+                <button
+                  type="button"
+                  class="badge-btn btn btn-outline-dark btn-sm me-2 mb-1"
+                  data-badge-text="<%= badge %>"
+                  data-action="click->badge#insertBadge"
+                  style="border-radius: 30px; border: solid 2px; width: 11rem; font-weight: bold; padding: 11px; margin: 12px;">
+                  <%= badge %>
+                </button>
+              <% end %>
+            </div>
           </div>
-        </div>
 
           <%= f.hidden_field :confirmed, value: true %>
           <%= f.hidden_field :step, value: 3 %>
@@ -89,47 +89,41 @@
         <% end %>
 
 
-    <div class="match-buttons d-flex gap-2 mt-3">
-      <% if step > 1 %>
-        <%= button_to "← Back",
-              lost_item_match_path(@lost_item, @match),
-              method: :patch,
-              params: { match: { confirmed: true, step: step - 1 } },
-              class: "btn btn-link",
-              style: "color: black; text-decoration: none; width: 6rem; padding-left: 0px;" %>
-      <% end %>
-
-      <% if step == 1 %>
-        <%= button_to "No",
-              lost_item_match_path(@lost_item, @match),
-              method: :patch,
-              params: { match: { confirmed: false } },
-              class: "btn btn-light",
-              style: "border-radius: 30px; border: solid 2px; width: 8rem; font-weight: bold;"  %>
-
-        <%= button_to "Yes",
-              lost_item_match_path(@lost_item, @match),
-              method: :patch,
-              params: { match: { confirmed: true, step: 2 } },
-              class: "btn btn-warning",
-              style: "border-radius: 30px; width: 8rem; font-weight: bold; color: white; background-color: #f5b220; border-color: #f5b220;" %>
-
-      <% elsif step == 2 %>
-        <%= button_to "Continue →",
+      <div class="match-buttons d-flex gap-2 mt-3">
+        <% if step > 1 %>
+          <%= button_to "← Back",
                 lost_item_match_path(@lost_item, @match),
                 method: :patch,
-                params: { match: { confirmed: true, step: 3 } },
-                class: "btn btn-warning",
-                style: "border-radius: 30px; width: 8rem; margin-left: 17rem; font-weight: bold; color: white; background-color: #f5b220; border-color: #f5b220;" %>
-
-        <% if @match.found_item.latitude && @match.found_item.longitude %>
-          <div style="height: 200px; width: 500px;"
-              data-controller="map"
-              data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
-              data-map-markers-value="<%= raw [{ lat: @match.found_item.latitude, lng: @match.found_item.longitude }].to_json %>">
-          </div>
+                params: { match: { confirmed: true, step: step - 1 } },
+                class: "btn btn-link",
+                style: "color: black; text-decoration: none; width: 6rem; padding-left: 0px;" %>
         <% end %>
-      <% end %>
-    </div>
+
+        <% if step == 1 %>
+          <%= button_to "No",
+                lost_item_match_path(@lost_item, @match),
+                method: :patch,
+                params: { match: { confirmed: false } },
+                class: "btn btn-light",
+                style: "border-radius: 30px; border: solid 2px; width: 8rem; font-weight: bold;"  %>
+
+          <%= button_to "Yes",
+                lost_item_match_path(@lost_item, @match),
+                method: :patch,
+                params: { match: { confirmed: true, step: 2 } },
+                class: "btn btn-warning",
+                style: "border-radius: 30px; width: 8rem; font-weight: bold; color: white; background-color: #f5b220; border-color: #f5b220;" %>
+
+        <% elsif step == 2 %>
+          <%= button_to "Continue →",
+                  lost_item_match_path(@lost_item, @match),
+                  method: :patch,
+                  params: { match: { confirmed: true, step: 3 } },
+                  class: "btn btn-warning",
+                  style: "border-radius: 30px; width: 8rem; margin-left: 17rem; font-weight: bold; color: white; background-color: #f5b220; border-color: #f5b220;" %>
+
+
+        <% end %>
+      </div>
   </div>
 </div>
