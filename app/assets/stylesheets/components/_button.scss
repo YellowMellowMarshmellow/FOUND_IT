@@ -1,6 +1,10 @@
 .custom-outline-btn {
   border: 2px solid #000000;
   color: #000000;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   font-weight: 600;
   height: 48px;
   background-color: transparent;
@@ -8,10 +12,12 @@
   padding: 0.375rem 0.75rem;
   font-size: 0.9rem;
   transition: all 0.2s ease-in-out;
+  text-decoration: none !important;
 
   &:hover {
     border: 2px solid #F5B221;
     color: #F5B221;
+    text-decoration: none;
   }
 }
 
