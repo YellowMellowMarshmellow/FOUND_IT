@@ -1,0 +1,181 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card p-4 shadow-sm">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2>Edit Profile</h2>
+          <%= link_to "Back to Profile", profiles_path, class: "btn btn-outline-secondary" %>
+        </div>
+
+        <!-- Current Avatar Display -->
+        <div class="text-center mb-4">
+          <div class="position-relative d-inline-block">
+            <%= image_tag current_user.display_avatar,
+                class: "rounded-circle border",
+                style: "width: 120px; height: 120px; object-fit: cover;" %>
+            <span class="position-absolute bottom-0 end-0 bg-primary rounded-circle p-2">
+              <i class="bi bi-camera text-white"></i>
+            </span>
+          </div>
+          <p class="text-muted mt-2">Current avatar</p>
+        </div>
+
+        <%= simple_form_for current_user, url: profiles_path, method: :patch, local: true do |f| %>
+          <%= f.error_notification %>
+
+          <% if current_user.errors.any? %>
+            <div class="alert alert-danger">
+              <h4><%= pluralize(current_user.errors.count, "error") %> prohibited this profile from being saved:</h4>
+              <ul class="mb-0">
+                <% current_user.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <!-- Basic Profile Information -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">Basic Information</h5>
+              <div class="row">
+                <div class="col-md-6">
+                  <%= f.input :first_name, required: true, input_html: { value: current_user.first_name } %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.input :last_name, required: true, input_html: { value: current_user.last_name } %>
+                </div>
+              </div>
+              <%= f.input :email, required: true, input_html: { value: current_user.email } %>
+            </div>
+          </div>
+
+          <!-- Avatar Selection -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">Choose Your Avatar</h5>
+
+              <!-- File Upload Option -->
+              <div class="mb-4">
+                <label class="form-label"><strong>Upload Custom Avatar</strong></label>
+                <%= f.file_field :avatar,
+                    class: "form-control",
+                    accept: "image/*",
+                    onchange: "previewAvatar(event); clearCloudinarySelection();" %>
+                <small class="form-text text-muted">Upload your own image (JPG, PNG, GIF). Images will be automatically resized.</small>
+              </div>
+
+              <!-- Avatar Preview -->
+              <div class="mb-4 text-center">
+                <img id="avatar-preview"
+                     style="display: none; width: 100px; height: 100px; object-fit: cover;"
+                     class="rounded-circle border">
+                <p id="preview-text" style="display: none;" class="text-muted mt-2">Preview of new avatar</p>
+              </div>
+
+              <!-- Predefined Cloudinary Avatars -->
+              <div class="mb-3">
+                <label class="form-label"><strong>Or choose from our collection:</strong></label>
+                <div class="row g-3">
+                  <% AVATAR_OPTIONS.each do |avatar_option| %>
+                    <div class="col-md-2 col-sm-3 col-4 text-center">
+                      <div class="avatar-container">
+                        <img src="<%= avatar_option[:url] %>"
+                             class="avatar-option rounded-circle border"
+                             data-avatar-url="<%= avatar_option[:url] %>"
+                             onclick="selectCloudinaryAvatar('<%= avatar_option[:url] %>'); clearFileInput();"
+                             style="width: 80px; height: 80px; cursor: pointer; object-fit: cover; transition: all 0.2s;">
+                        <small class="d-block mt-2"><%= avatar_option[:name] %></small>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+                <input type="hidden" id="cloudinary-avatar-url" name="cloudinary_avatar_url">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions text-center">
+            <%= f.button :submit, "Update Profile", class: "btn btn-primary btn-lg me-3" %>
+            <%= link_to "Cancel", profiles_path, class: "btn btn-outline-secondary btn-lg" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.avatar-option:hover {
+  transform: scale(1.1);
+  border-color: #007bff !important;
+  border-width: 2px !important;
+}
+
+.avatar-container {
+  padding: 10px;
+  border-radius: 10px;
+  transition: background-color 0.2s;
+}
+
+.avatar-container:hover {
+  background-color: #f8f9fa;
+}
+</style>
+
+<script>
+function previewAvatar(event) {
+  const preview = document.getElementById('avatar-preview');
+  const previewText = document.getElementById('preview-text');
+  const file = event.target.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+      previewText.style.display = 'block';
+    }
+    reader.readAsDataURL(file);
+  }
+}
+
+function selectCloudinaryAvatar(avatarUrl) {
+  // Remove selection from all avatars
+  document.querySelectorAll('.avatar-option').forEach(img => {
+    img.classList.remove('border-primary');
+    img.style.borderWidth = '1px';
+    img.style.borderColor = '';
+  });
+
+  // Highlight selected avatar
+  const selected = document.querySelector(`[data-avatar-url="${avatarUrl}"]`);
+  selected.classList.add('border-primary');
+  selected.style.borderWidth = '4px';
+  selected.style.borderColor = '#007bff';
+
+  // Set hidden field
+  document.getElementById('cloudinary-avatar-url').value = avatarUrl;
+
+  // Hide file preview
+  document.getElementById('avatar-preview').style.display = 'none';
+  document.getElementById('preview-text').style.display = 'none';
+}
+
+function clearCloudinarySelection() {
+  // Clear Cloudinary selection when file is chosen
+  document.querySelectorAll('.avatar-option').forEach(img => {
+    img.classList.remove('border-primary');
+    img.style.borderWidth = '1px';
+    img.style.borderColor = '';
+  });
+  document.getElementById('cloudinary-avatar-url').value = '';
+}
+
+function clearFileInput() {
+  // Clear file input when Cloudinary avatar is chosen
+  document.querySelector('input[type="file"]').value = '';
+  document.getElementById('avatar-preview').style.display = 'none';
+  document.getElementById('preview-text').style.display = 'none';
+}
+</script>

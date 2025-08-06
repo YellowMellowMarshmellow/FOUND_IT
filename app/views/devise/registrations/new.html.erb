@@ -3,8 +3,7 @@
     <div class="card p-4 shadow-sm" style="max-width: 500px; width: 100%;">
       <h2 class="text-center mb-4">Sign up</h2>
 
-      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name),
-          html: { data: { avatar_modal_target: "form" } }) do |f| %>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <%= f.error_notification %>
 
         <% if resource.errors.any? %>
@@ -35,51 +34,12 @@
           <%= f.input :password_confirmation,
                       required: true,
                       input_html: { autocomplete: "new-password" } %>
-
-          <%= f.hidden_field :avatar, id: "selected-avatar", data: { avatar_modal_target: "hiddenInput" } %>
         </div>
-
-        <div class="form-actions mt-3">
-          <button type="button"
-              class="btn btn-outline-primary w-100"
-              id="open-avatar-modal"
-              data-action="click->avatar-modal#openModal">
-            Sign up
-          </button>
-        </div>
-
+          <%= f.button :submit, "Sign up", class: "btn btn-primary w-100" %>
       <% end %>
-
 
       <div class="mt-3">
         <%= render "devise/shared/links" %>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="avatarModal" tabindex="-1" aria-labelledby="avatarModalLabel" aria-hidden="true" data-avatar-modal-target="modal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><strong>Choose your avatar 🎉</strong></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body d-flex flex-wrap justify-content-center gap-3">
-          <% User::AVATARS.each do |avatar_url| %>
-            <img src="<%= asset_path(avatar_url) %>"
-                class="avatar-option rounded-circle border"
-                data-avatar-url="<%= asset_path(avatar_url) %>"
-                data-avatar-modal-target="avatar"
-                data-action="click->avatar-modal#selectAvatar"
-                style="width: 100px; height: 100px; cursor: pointer; object-fit: cover;">
-          <% end %>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary custom-outline-btn btn-sm ms-2" data-bs-dismiss="modal">Back</button>
-          <button type="button" class="btn custom-outline-btn btn-sm ms-2" data-action="click->avatar-modal#confirm">
-            Confirm & Submit
-          </button>
-        </div>
       </div>
     </div>
   </div>

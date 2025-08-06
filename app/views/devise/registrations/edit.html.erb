@@ -1,16 +1,6 @@
 <div class="container">
   <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-  <div class="position-relative d-inline-block mb-3" style="cursor: pointer;" data-action="click->avatar-modal#openModal">
-    <%= image_tag(resource.avatar.present? ? resource.avatar : "default_avatar.png",
-                  class: "rounded-circle",
-                  data: { avatar_modal_target: "preview" },
-                  style: "width: 120px; height: 120px; object-fit: cover;") %>
-    <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-primary p-2">
-      <i class="bi bi-pencil" style="color: white;"></i>
-    </span>
-  </div>
-
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
     <%= f.error_notification %>
       <% if resource.errors.any? %>
@@ -44,21 +34,6 @@
                     required: true,
                     input_html: { autocomplete: "current-password" } %>
       <% end %>
-      <div class="field mt-3">
-        <%= f.label :avatar, "Choose your avatar 🎉" %><br>
-
-        <div data-controller="avatar-modal">
-          <%= f.hidden_field :avatar, data: { avatar_modal_target: "hiddenInput" } %>
-
-          <% User::AVATARS.each do |avatar_url| %>
-            <img src="<%= asset_path(avatar_url) %>"
-                class="avatar-option rounded-circle border"
-                data-avatar-modal-target="avatar"
-                data-avatar-url="<%= asset_path(avatar_url) %>"
-                style="width: 100px; height: 100px; cursor: pointer; object-fit: cover;">
-          <% end %>
-        </div>
-      </div>
     </div>
 
     <div class="form-actions">
