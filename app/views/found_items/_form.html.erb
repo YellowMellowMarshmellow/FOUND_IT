@@ -37,7 +37,7 @@
       <%= f.input :date_reported, as: :date %>
       <div class="d-flex gap-2 mt-3 mb-3">
         <%= f.button :submit, found_item.persisted? ? "Update Found Item" : "Report Found Item", class: "custom-action-btn" %>
-
+        <%= f.submit found_item.persisted? ? "Update Found Item" : "Report Found Item", class: "btn btn-primary" %>
         <% if found_item.persisted? %>
           <%= button_to "Delete Report",
                       found_item_path(found_item),
@@ -47,7 +47,6 @@
                       style: "text-decoration: none; display: inline-block; text-align: center;"%>
         <% end %>
       </div>
-
     <% end %>
   <% end %>
 </div>

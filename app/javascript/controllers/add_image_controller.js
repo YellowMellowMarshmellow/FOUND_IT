@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="add-image"
 export default class extends Controller {
-  static targets = ["container", "button"];
+  static targets = ["container", "button", "fileInput"];
   static values = {
     existingCount: Number,
     max: { type: Number, default: 3 }
@@ -10,6 +10,19 @@ export default class extends Controller {
 
   connect() {
     this.updateButtonState();
+    this.checkLimit();
+  }
+
+  checkLimit() {
+    const existingImages = this.element.querySelectorAll(".image-preview").length;
+    const pendingImages = this.fileInputTarget.files.length;
+    const total = existingImages + pendingImages;
+
+    if (total >= 3) {
+      this.addButtonTarget.disabled = true;
+    } else {
+      this.addButtonTarget.disabled = false;
+    }
   }
 
   addField() {
