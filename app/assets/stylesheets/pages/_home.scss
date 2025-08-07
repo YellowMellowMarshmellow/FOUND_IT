@@ -47,3 +47,17 @@
 .custom-margin {
   margin-bottom: 160px;
 }
+
+.profiles-margin {
+  margin-bottom: 60px;
+}
+
+.profile-card {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border: 1px solid #c6c7c8;
+  min-height: 180px;
+  border-radius: 20px;
+  padding: 40px;
+}
