@@ -1,22 +1,41 @@
 import { Controller } from "@hotwired/stimulus";
 
+// Connects to data-controller="add-image"
 export default class extends Controller {
-  static targets = ["container"]
+  static targets = ["container", "button"];
+  static values = {
+    existingCount: Number,
+    max: { type: Number, default: 3 }
+  };
 
   connect() {
-    this.maxImages = 3;
+    this.updateButtonState();
   }
 
   addField() {
-    const existingInputs = this.containerTarget.querySelectorAll("input[type='file']");
-    if (existingInputs.length < this.maxImages) {
-      const newInput = document.createElement("input");
-      newInput.type = "file";
-      newInput.name = "found_item[images][]";
-      newInput.className = "form-control mb-2";
-      this.containerTarget.appendChild(newInput);
+    const newInput = document.createElement("input");
+    newInput.type = "file";
+    newInput.name = "found_item[images][]";
+    newInput.className = "form-control mb-2";
+
+    this.containerTarget.appendChild(newInput);
+    this.updateButtonState();
+  }
+
+  updateButtonState() {
+    const newInputs = this.containerTarget.querySelectorAll("input[type='file']");
+    const total = this.existingCountValue + newInputs.length;
+
+    if (total >= this.maxValue) {
+      this.buttonTarget.disabled = true;
     } else {
-      alert(`You can only upload up to ${this.maxImages} images.`);
+      this.buttonTarget.disabled = false;
     }
   }
+
+  decrementCount() {
+    this.existingCountValue = this.existingCountValue - 1;
+    this.updateButtonState();
+  }
+
 }

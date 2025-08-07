@@ -132,37 +132,43 @@
       document.addEventListener('turbo:load', function () {
         const bell = document.getElementById('notification-bell');
         const dropdown = document.getElementById('notification-dropdown');
-        if (!bell || !dropdown) return;
+
+        // Prevent attaching listeners more than once
+        if (!bell || !dropdown || bell.dataset.listenerAttached === "true") return;
 
         let isDropdownOpen = false;
 
+        function toggleDropdown(show) {
+          if (show) {
+            dropdown.style.display = 'block';
+            isDropdownOpen = true;
+            console.log("Dropdown is now open");
+          } else {
+            dropdown.style.display = 'none';
+            isDropdownOpen = false;
+            console.log("Dropdown is now closed");
+          }
+        }
+
+        toggleDropdown(false);
+
         bell.addEventListener('click', function (e) {
           e.stopPropagation();
-          isDropdownOpen = !isDropdownOpen;
-
-          if (isDropdownOpen) {
-            dropdown.style.display = "block !important";
-            console.log("Dropdown is whatever");
-          } else {
-            // dropdown.style.setProperty('display', 'none', 'important');
-            console.log("Dropdown is not");
-          }
+          toggleDropdown(!isDropdownOpen);
         });
-        // Prevent dropdown click from closing itself
+
         dropdown.addEventListener('click', function (e) {
           e.stopPropagation();
         });
 
-        // Clicking anywhere else closes dropdown
         document.addEventListener('click', function () {
-          if (dropdown.style.display === 'block') {
-            // dropdown.style.setProperty('display', 'none', 'important');
-            console.log("Dropdown is now closed");
-          } else {
-            dropdown.style.setProperty('display', 'block', 'important');
-            console.log("Dropdown is now open");
+          if (isDropdownOpen) {
+            toggleDropdown(false);
           }
         });
+
+        // ✅ Mark that listeners are attached
+        bell.dataset.listenerAttached = "true";
       });
     </script>
 

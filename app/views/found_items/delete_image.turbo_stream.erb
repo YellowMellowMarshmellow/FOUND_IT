@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "image-upload-section" do %>
+  <%= render partial: "found_items/image_upload_section", locals: { found_item: @found_item, f: view_context.simple_form_for(@found_item) } %>
+<% end %>

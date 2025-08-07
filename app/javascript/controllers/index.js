@@ -4,6 +4,7 @@ import AddressAutocompleteController from "./address_autocomplete_controller.js"
 import FlashController from "./flash_controller.js"
 import MapController from "./map_controller.js"
 import AvatarModalController from "./avatar_modal_controller"
+import AddImageController from "./add_image_controller"
 
 
 const application = Application.start()
@@ -15,3 +16,4 @@ application.register("address-autocomplete", AddressAutocompleteController)
 application.register("flash", FlashController)
 application.register("map", MapController)
 application.register("avatar-modal", AvatarModalController)
+application.register("add-image", AddImageController)
