@@ -25,7 +25,7 @@
           <% if user_signed_in? %>
             <div class="d-flex align-items-center ms-auto">
               <!-- Cloche + dropdown -->
-              <div class="position-relative d-inline-block" style="padding-right: 0rem;">
+              <div class="dropdown position-relative d-inline-block w-auto" style="padding-right: 0rem;">
                 <button id="notification-bell"
                         type="button"
                         class="btn btn-lg position-relative"
@@ -64,7 +64,7 @@
                             <% end %>
                           <% elsif notification.notifiable_type == "LostItem" %>
                             <%= link_to lost_item_path(notification.notifiable),
-                                        class: "text-decoration-none text-dark d-block w-100 h-100" do %>
+                                class: "text-decoration-none text-dark d-block" do %>
                               <div><%= notification.content %></div>
                               <div><%= notification.message %></div>
                             <% end %>
@@ -120,42 +120,43 @@
     </div>
 
     <%= render "shared/footer" %>
+    <script>
+      document.addEventListener('turbo:load', function () {
+        const bell = document.getElementById('notification-bell');
+        const dropdown = document.getElementById('notification-dropdown');
+        if (!bell || !dropdown) return;
 
+        let isDropdownOpen = false;
 
-        <script>
-          document.addEventListener('turbo:load', function () {
-            const bell = document.getElementById('notification-bell');
-            const dropdown = document.getElementById('notification-dropdown');
+        bell.addEventListener('click', function (e) {
+          e.stopPropagation();
+          isDropdownOpen = !isDropdownOpen;
 
-            if (!bell || !dropdown) return;
+          if (isDropdownOpen) {
+            dropdown.style.setProperty('display', 'block', 'important');
+            console.log("Dropdown is now open");
+          } else {
+            dropdown.style.setProperty('display', 'none', 'important');
+            console.log("Dropdown is now closed");
+          }
+        });
+        // Prevent dropdown click from closing itself
+        dropdown.addEventListener('click', function (e) {
+          e.stopPropagation();
+        });
 
-            let isDropdownOpen = false;
-
-            bell.addEventListener('click', function (e) {
-              e.stopPropagation();
-              isDropdownOpen = !isDropdownOpen;
-
-              if (isDropdownOpen) {
-                dropdown.style.setProperty('display', 'block', 'important');
-                console.log("Dropdown open");
-              } else {
-                dropdown.style.setProperty('display', 'none', 'important');
-                console.log("Dropdown closed");
-              }
-            });
-
-            dropdown.addEventListener('click', function (e) {
-              e.stopPropagation();
-            });
-
-            document.addEventListener('click', function () {
-              if (isDropdownOpen) {
-                dropdown.style.setProperty('display', 'none', 'important');
-                isDropdownOpen = false;
-                console.log("Clicked outside -> dropdown closed");
-              }
-            });
-          });
+        // Clicking anywhere else closes dropdown
+        document.addEventListener('click', function () {
+          if (dropdown.style.display === 'block') {
+            dropdown.style.setProperty('display', 'none', 'important');
+            console.log("Dropdown is now closed");
+          } else {
+            dropdown.style.setProperty('display', 'block', 'important');
+            console.log("Dropdown is now open");
+          }
+        });
+      });
     </script>
+
   </body>
 </html>

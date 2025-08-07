@@ -5,6 +5,7 @@ import FlashController from "./flash_controller.js"
 import MapController from "./map_controller.js"
 import AvatarModalController from "./avatar_modal_controller"
 
+
 const application = Application.start()
 
 // Eager-load other controllers in the folder
