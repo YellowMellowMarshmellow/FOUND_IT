@@ -1,8 +1,10 @@
 <div class="custom-wrapper my-5">
-  <h1>Edit Found Item Report</h1>
-  <%= link_to '← Back', root_path,
-      class: "btn btn-link mb-5",
-      style: "color: black; text-decoration: none;" %>
+  <div class="mb-4">
+    <h1>Edit Found Item Report</h1>
+    <%= link_to '← Back', root_path,
+        class: "btn btn-link mb-5",
+        style: "color: black; text-decoration: none;" %>
+  </div>
   <% if current_user.nil? %>
     <h2>Oops, it seems like you need to log in first!</h2>
     <%= link_to "Log in", new_user_session_path, data: { "turbo-method": :get }, class: "btn btn-primary" %>
