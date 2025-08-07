@@ -1,0 +1,60 @@
+.new_lost_item {
+    max-width: 600px;
+    margin-left: 0;
+    margin-right: auto;
+
+    input,
+    select,
+    textarea {
+        max-width: 600px;
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+.mapboxgl-ctrl-geocoder {
+    background-color: transparent !important;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+
+    .mapboxgl-ctrl-geocoder--input {
+        background-color: transparent !important;
+        color: inherit;
+        font-size: inherit;
+        font-family: inherit;
+        border: 1px solid #ccc;
+        padding: 0.70rem;
+        border-radius: 8px;
+        width: 100%;
+        padding-left: 2.5rem;
+        height: 48.8px;
+    }
+
+    .mapboxgl-ctrl-geocoder--icon-search {
+        margin-right: 1rem;
+    }
+}
+
+textarea#lost_item_description {
+    min-height: 110px !important;
+    height: 110px !important;
+    resize: vertical;
+    // background-color: #fff;
+}
+
+.form-check-input[type="radio"]:checked {
+    background-color: #2ecc71 !important;
+    border-color: #2ecc71 !important;
+}
+
+.form-check-input[type="radio"]:focus {
+    box-shadow: 0 0 0 0.25rem rgba(46, 204, 113, 0.25) !important;
+    border-color: #2ecc71 !important;
+}

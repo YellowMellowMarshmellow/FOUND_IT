@@ -15,6 +15,7 @@
 @import "components/matches_show";
 @import "components/button";
 @import "components/index";
+@import "components/form";
 
 .alert-danger {
   color: #721c24;
@@ -65,16 +66,19 @@
 }
 
 .status-pending {
-  color: #e63946; /* red */
+  color: #e63946;
+  /* red */
   font-weight: 600;
 }
 
 .status-possible {
-  color: #f4a261; /* amber/orange */
+  color: #f4a261;
+  /* amber/orange */
   font-weight: 600;
 }
 
 .status-confirmed {
-  color: #28a745; /* green */
+  color: #28a745;
+  /* green */
   font-weight: 600;
 }
