@@ -9,7 +9,7 @@
   <% else %>
     <%= simple_form_for found_item, html: { multipart: true } do |f| %>
       <% if found_item.errors.any? %>
-        <div class="alert alert-danger">
+        <div class="alert alert-danger alert-smaller">
           <h4><%= pluralize(found_item.errors.count, "error") %> prohibited this report from being saved:</h4>
           <ul>
             <% found_item.errors.full_messages.each do |msg| %>
@@ -18,16 +18,11 @@
           </ul>
         </div>
       <% end %>
-      <div data-controller="add-image">
-        <div id="image-fields" data-add-image-target="container">
-          <%= f.file_field :images, multiple: false, name: "found_item[images][]", class: "form-control mb-2" %>
-        </div>
-        <button type="button"
-                class="btn btn-primary mb-4"
-                data-action="click->add-image#addField">
-          Add Another Image
-        </button>
-      </div>
+      <!-- Show initial attached images -->
+
+      <!-- Deactivating and Reactivating Add more image button -->
+      <%= render partial: "image_upload_section", locals: { f: f, found_item: found_item } %>
+
       <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
       <%= f.input :title %>
       <%= f.input :description %>
@@ -53,25 +48,6 @@
         <% end %>
       </div>
 
-    <% end %>
-    <% if found_item.images.attached? %>
-      <div class="mb-3">
-        <h5>Uploaded images:</h5>
-        <ul class="list-unstyled">
-          <% found_item.images.each do |image| %>
-            <li class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
-              <span class="me-3"><%= image.filename.to_s %></span>
-
-              <%= button_to delete_image_found_item_path(found_item, image_id: image.id),
-                            method: :delete,
-                            data: { turbo_confirm: "Are you sure you want to delete this image?" },
-                            class: "btn btn-outline-danger btn-sm m-0" do %>
-                <i class="bi bi-trash"></i>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
     <% end %>
   <% end %>
 </div>
