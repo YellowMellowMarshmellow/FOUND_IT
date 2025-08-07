@@ -19,9 +19,9 @@ export default class extends Controller {
     const total = existingImages + pendingImages;
 
     if (total >= 3) {
-      this.addButtonTarget.disabled = true;
+      this.buttonTarget.disabled = true;
     } else {
-      this.addButtonTarget.disabled = false;
+      this.buttonTarget.disabled = false;
     }
   }
 

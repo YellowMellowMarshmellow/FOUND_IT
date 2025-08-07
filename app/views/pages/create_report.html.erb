@@ -37,7 +37,7 @@
           <div id="image-fields">
             <%= f.file_field :images, multiple: false, name: "found_item[images][]", class: "form-control mb-2" %>
           </div>
-          <button type="button" id="add-image-field" class="btn btn-primary mb-4">Add Another Image</button>
+          <button type="button" id="add-image-field" class="btn btn-primary mb-4">Add another image</button>
           <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
           <%= f.input :title %>
           <%= f.input :description %>
@@ -48,7 +48,7 @@
             input_html: { data: { address_autocomplete_target: "address" } } %>
 
           <%= f.input :date_reported, as: :date %>
-          <%= f.button :submit, "Report Found Item", class: "custom-action-btn" %>
+          <%= f.button :submit, "Report found item", class: "custom-action-btn" %>
         <% end %>
       <% end %>
     </div>

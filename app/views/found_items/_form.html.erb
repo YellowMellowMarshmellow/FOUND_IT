@@ -7,7 +7,9 @@
     <h2>Oops, it seems like you need to log in first!</h2>
     <%= link_to "Log in", new_user_session_path, data: { "turbo-method": :get }, class: "btn btn-primary" %>
   <% else %>
-    <%= simple_form_for found_item, html: { multipart: true } do |f| %>
+
+    <%= simple_form_for found_item, html: { multipart: true, data: { turbo: false } } do |f| %>
+
       <% if found_item.errors.any? %>
         <div class="alert alert-danger alert-smaller">
           <h4><%= pluralize(found_item.errors.count, "error") %> prohibited this report from being saved:</h4>
@@ -18,7 +20,6 @@
           </ul>
         </div>
       <% end %>
-      <!-- Show initial attached images -->
 
       <!-- Deactivating and Reactivating Add more image button -->
       <%= render partial: "image_upload_section", locals: { f: f, found_item: found_item } %>
@@ -36,10 +37,10 @@
       </div>
       <%= f.input :date_reported, as: :date %>
       <div class="d-flex gap-2 mt-3 mb-3">
-        <%= f.button :submit, found_item.persisted? ? "Update Found Item" : "Report Found Item", class: "custom-action-btn" %>
-        <%= f.submit found_item.persisted? ? "Update Found Item" : "Report Found Item", class: "btn btn-primary" %>
+        <%= f.submit found_item.persisted? ? "Update found item" : "Report Found Item", class: "custom-action-btn" %>
+
         <% if found_item.persisted? %>
-          <%= button_to "Delete Report",
+          <%= button_to "Delete report",
                       found_item_path(found_item),
                       method: :delete,
                       data: { turbo_confirm: "Are you sure?" },

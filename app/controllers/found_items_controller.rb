@@ -87,11 +87,11 @@ class FoundItemsController < ApplicationController
       render turbo_stream: turbo_stream.replace(
         "image-upload-section",
         partial: "found_items/image_upload_section",
-        locals: { found_item: @found_item, f: view_context.simple_form_for(@found_item) }
+        locals: { found_item: @found_item }
       )
+      end
+      format.html { redirect_to edit_found_item_path(@found_item), notice: "Image deleted." }
     end
-    format.html { redirect_to edit_found_item_path(@found_item), notice: "Image deleted." }
-  end
   end
 
   private
