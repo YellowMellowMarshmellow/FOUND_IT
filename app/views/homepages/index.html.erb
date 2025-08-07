@@ -2,25 +2,31 @@
   <div class="custom-wrapper my-5">
     <div class="my-5">
       <% if current_user %>
-        <h2 class="mb-5"><strong>Welcome back, <%= current_user.first_name %>!</strong></h2>
+        <h2 class="mb-5"><strong>Hi, <%= current_user.first_name %>!</strong></h2>
         <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 3rem;">
-          <div class="mb-5" style="position: relative; display: inline-block; cursor: pointer; margin-left: 0.5rem;">
-            <%= link_to edit_user_registration_path do %>
-              <% if current_user.avatar.attached? %>
-                <%= image_tag current_user.avatar, class: 'rounded-circle', style: 'width: 170px; height: 170px; object-fit: cover;' %>
-              <% else %>
-                <%= image_tag 'default_avatar.png', class: 'rounded-circle', style: 'width: 170px; height: 170px; object-fit: cover;' %>
-              <% end %>
+
+          <%= link_to edit_profiles_path do %>
+            <% if current_user.avatar.attached? %>
+              <%= image_tag current_user.avatar, class: 'rounded-circle', style: 'width: 170px; height: 170px; object-fit: cover;' %>
+            <% else %>
+              <div style="position: relative; display: inline-block;">
+                <%= image_tag 'default_avatar.png',
+                              class: 'rounded-circle border',
+                              style: 'width: 170px; height: 170px; object-fit: cover;' %>
+                <span style="position: absolute; bottom: 5px; right: 5px; background: #F5B221; border-radius: 50%;
+                            padding: 6px; color: white; font-size: 14px; width: 33px; height: 33px; display: flex; align-items: center; justify-content: center;">
+                  <i class="bi bi-pencil"></i>
+                </span>
+              </div>
             <% end %>
-          </div>
+          <% end %>
+
           <div class="text-center" style="margin-left: 3rem; margin-bottom: 2.5rem;">
             <p style="font-size: 1rem;"><strong>I want to create a report</strong></p>
             <%= button_to "Create Report", create_report_path, class: "custom-action-btn mt-3", style: "width: 11rem;", method: :get %>
           </div>
         </div>
       <% end %>
-
-    </div>
 
     <h3 class="mb-5"><strong>Latest reports</strong></h3>
 
