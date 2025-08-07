@@ -24,7 +24,15 @@
   <% end %>
 
   <div id="image-fields" data-add-image-target="container">
-    <%= f.file_field :images, multiple: true, name: "found_item[images][]", class: "form-control mb-2", data: { action: "change->add-image#checkLimit" } %>
+    <%= f.file_field :images,
+      multiple: true,
+      name: "found_item[images][]",
+      class: "form-control mb-2",
+      data: {
+        action: "change->add-image#checkLimit",
+        add_image_target: "fileInput"
+      } %>
+
   </div>
   <p class="text-muted">
     You have <%= found_item.images.count %> image<%= "s" if found_item.images.count != 1 %> uploaded. You can upload up to 3.
@@ -33,6 +41,6 @@
     class="btn btn-primary mb-4"
     data-action="click->add-image#addField"
     data-add-image-target="button">
-    Add Another Image
+    Add another image
   </button>
 </div>
