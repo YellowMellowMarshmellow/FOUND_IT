@@ -91,3 +91,20 @@
 .card-body {
   position: relative;
 }
+
+.custom-view-match-outline-btn {
+  background-color: transparent;
+  border: 2px solid #f98e4b;
+  color: #f98e4b;
+  font-weight: 600;
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    background-color: #f98e4b;
+    color: white;
+  }
+}

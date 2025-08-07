@@ -61,6 +61,16 @@
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= @latest_lost_item.location %></p>
               <p class="card-text"><strong>Status:</strong> <%= item_status(@latest_lost_item, current_user) %></p>
+
+              <% if @latest_lost_item_match.present? && !@latest_lost_item_match.confirmed? %>
+                <% match = @latest_lost_item_match %>
+                <%= button_to "View match",
+                    lost_item_match_path(@latest_lost_item, match, step: 1),
+                    method: :get,
+                    class: "custom-view-match-outline-btn mt-2",
+                    form: { data: { turbo: false } } %>
+              <% end %>
+
               <%= link_to edit_lost_item_path(@latest_lost_item), class: "icon-link", title: "Edit" do %>
                 <img src="<%= asset_path('Edit.svg') %>" width="16" height="16" alt="Edit" class="edit-icon">
               <% end %>
@@ -132,7 +142,7 @@
           <div class="step" data-step="2"></div>
           <div class="step-text">
             <div class="step-title">Connect with the right person</div>
-            <div class="step-description">We'll match and notify you with potential owners or finders.</div>
+            <div class="step-description">We’ll match and notify you with potential owners or finders.</div>
           </div>
         </div>
 
