@@ -1,15 +1,15 @@
-<div class="custom-wrapper my-5">
+<div class="container my-5 px-3">
   <h1><%= lost_item.persisted? ? "Edit Lost Item Report" : "Create a Lost Item Report" %></h1>
 
   <%= link_to '← Back', root_path,
-      class: "btn btn-link mb-5",
+      class: "text-dark d-inline-block mb-4",
       style: "color: black; text-decoration: none;" %>
 
   <% if current_user.nil? %>
     <h2>Oops, it seems like you need to log in first!</h2>
     <%= link_to "Log in", new_user_session_path, data: { "turbo-method": :get }, class: "btn btn-primary" %>
   <% else %>
-    <%= simple_form_for lost_item, html: { multipart: true } do |f| %>
+    <%= simple_form_for lost_item, html: { class: "custom-form simple_form new_lost_item", multipart: true } do |f| %>
       <% if lost_item.errors.any? %>
         <div class="alert alert-danger">
           <h4><%= pluralize(lost_item.errors.count, "error") %> prohibited this report from being saved:</h4>
@@ -32,33 +32,63 @@
         </button>
       </div>
 
-      <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
-      <%= f.input :title %>
-      <%= f.input :description %>
+        <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category",
+          label_html: { class: "form-label" },
+          input_html: { class: "form-select" },
+          wrapper_html: { class: "mb-3" } %>
 
-      <div data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
-        <%= f.label :location %>
-        <div data-address-autocomplete-target="search"></div>
-        <%= f.input :location, label: false,
-          input_html: { data: { address_autocomplete_target: "address" },
-          style: "display:none;" } %>
-      </div>
 
-      <%= f.input :date_lost, as: :date %>
+        <%= f.input :title,
+         label_html: { class: "form-label" },
+         input_html: {
+           placeholder: "What did you lose? What is the most visible trait?",
+           class: "form-control"
+          },
+          wrapper_html: { class: "mb-3" } %>
 
-      <div class="d-flex gap-2 mt-3 mb-3">
-        <%= f.button :submit, lost_item.persisted? ? "Update Lost Item" : "Report Lost Item", class: "custom-action-btn" %>
 
-        <% if lost_item.persisted? %>
-          <%= button_to "Delete Report",
-                        lost_item_path(lost_item),
-                        method: :delete,
-                        data: { turbo_confirm: "Are you sure?" },
-                        class: "custom-outline-btn",
-                        style: "text-decoration: none; display: inline-block; text-align: center;" %>
-        <% end %>
-      </div>
-    <% end %>
+        <%= f.input :description,
+          as: :text,
+          label_html: { class: "form-label" },
+          placeholder: "Color, material, etc. Be as detailed as possible.",
+          input_html: {
+            class: "form-control description-field",
+            style: "height: 150px; min-height: 150px;",
+            rows: 4
+          },
+          wrapper_html: { class: "mb-3" } %>
+
+
+        <div data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+          <%= f.label :location, class: "form-label" %>
+          <div data-address-autocomplete-target="search" class="mb-2"></div>
+          <%= f.input :location, label: false,
+            input_html: { type: "hidden", data: { address_autocomplete_target: "address" },
+            class: "form-control",
+            style: "height: 49px; min-height: 49px;"
+          },
+          wrapper_html: { class: "mb-3" }%>
+        </div>
+
+        <%= f.input :date_lost, as: :date,
+          label_html: { class: "form-label" },
+          input_html: { class: "form-select d-inline-block w-auto me-2" },
+          wrapper_html: { class: "mb-3" } %>
+
+        <div class="d-flex gap-2 mt-3 mb-3">
+          <%= f.button :submit, lost_item.persisted? ? "Update Lost Item" : "Report Lost Item", class: "custom-action-btn" %>
+
+          <% if lost_item.persisted? %>
+            <%= button_to "Delete Report",
+                          lost_item_path(lost_item),
+                          method: :delete,
+                          data: { turbo_confirm: "Are you sure?" },
+                          class: "custom-outline-btn",
+                          style: "text-decoration: none; display: inline-block; text-align: center;" %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
 
     <% if lost_item.images.attached? %>
       <div class="mb-3">
