@@ -69,8 +69,12 @@
                               <div><%= notification.message %></div>
                             <% end %>
                           <% else %>
-                            <div><%= notification.content %></div>
-                            <div><%= notification.message %></div>
+                              <%= link_to lost_item_path(notification.notifiable),
+                                class: "text-decoration-none text-dark d-block" do %>
+                              <div><%= notification.content %></div>
+                              <div><%= notification.message %></div>
+                            <% end %>
+
                           <% end %>
 
                           <% unless notification.read %>
@@ -85,8 +89,11 @@
                         </li>
                       <% else %>
                         <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %>">
-                          <div><%= notification.content %></div>
-                          <div><%= notification.message %></div>
+                            <%= link_to lost_item_path(notification.notifiable),
+                                class: "text-decoration-none text-dark d-block" do %>
+                              <div><%= notification.content %></div>
+                              <div><%= notification.message %></div>
+                            <% end %>
                         </li>
                       <% end %>
 
@@ -120,6 +127,7 @@
     </div>
 
     <%= render "shared/footer" %>
+
     <script>
       document.addEventListener('turbo:load', function () {
         const bell = document.getElementById('notification-bell');
@@ -133,11 +141,11 @@
           isDropdownOpen = !isDropdownOpen;
 
           if (isDropdownOpen) {
-            dropdown.style.setProperty('display', 'block', 'important');
-            console.log("Dropdown is now open");
+            dropdown.style.display = "block !important";
+            console.log("Dropdown is whatever");
           } else {
-            dropdown.style.setProperty('display', 'none', 'important');
-            console.log("Dropdown is now closed");
+            // dropdown.style.setProperty('display', 'none', 'important');
+            console.log("Dropdown is not");
           }
         });
         // Prevent dropdown click from closing itself
@@ -148,7 +156,7 @@
         // Clicking anywhere else closes dropdown
         document.addEventListener('click', function () {
           if (dropdown.style.display === 'block') {
-            dropdown.style.setProperty('display', 'none', 'important');
+            // dropdown.style.setProperty('display', 'none', 'important');
             console.log("Dropdown is now closed");
           } else {
             dropdown.style.setProperty('display', 'block', 'important');
