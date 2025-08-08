@@ -54,31 +54,37 @@
                       <% @notifications.each do |notification| %>
                         <% if notification.notifiable.present? %>
                           <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %> position-relative">
-                            <% if notification.notifiable_type == "Match" && notification.notifiable.respond_to?(:lost_item) && notification.notifiable.lost_item.present? %>
-                              <%= link_to lost_item_match_path(notification.notifiable.lost_item, notification.notifiable, step: 1), class: "text-decoration-none text-dark d-block w-100 h-100" do %>
+
+                            <% if notification.notifiable_type == "ThankYouNote" && notification.notifiable.recipient == current_user %>
+                              <!-- Finder's ThankYouNote -->
+                              <%= link_to mark_as_read_notification_path(notification, redirect_to: "profile"),
+                                          data: { turbo_method: :patch },
+                                          class: "text-decoration-none text-dark d-block w-100 h-100" do %>
                                 <div><%= notification.content %></div>
                                 <div><%= notification.message %></div>
                               <% end %>
-                            <% elsif notification.notifiable_type == "LostItem" %>
-                              <%= link_to lost_item_path(notification.notifiable), class: "text-decoration-none text-dark d-block" do %>
+
+                            <% elsif notification.notifiable_type == "Match" && notification.notifiable.respond_to?(:lost_item) && notification.notifiable.lost_item.present? %>
+                              <!-- Lost Item Match -->
+                              <%= link_to mark_as_read_notification_path(notification, redirect_to: "match", match_id: notification.notifiable.id),
+                                          data: { turbo_method: :patch },
+                                          class: "text-decoration-none text-dark d-block w-100 h-100" do %>
                                 <div><%= notification.content %></div>
                                 <div><%= notification.message %></div>
                               <% end %>
-                            <% elsif notification.notifiable_type == "ThankYouNote" %>
-                              <%= link_to mark_as_read_notification_path(notification, redirect_to: "profile"), method: :patch, class: "text-decoration-none text-dark d-block w-100 h-100" do %>
-                                <div><%= notification.content %></div>
-                                <div><%= notification.message %></div>
-                              <% end %>
+
                             <% else %>
-                              <%= link_to lost_item_path(notification.notifiable), class: "text-decoration-none text-dark d-block" do %>
+                              <!-- Non-clickable for all other notifications -->
+                              <div class="text-muted">
                                 <div><%= notification.content %></div>
                                 <div><%= notification.message %></div>
-                              <% end %>
+                              </div>
                             <% end %>
 
                             <% unless notification.read %>
                               <div class="d-flex justify-content-between small text-muted">
-                                <%= link_to "Mark as read", mark_as_read_notification_path(notification), method: :patch, remote: true, onclick: "event.stopPropagation();" %>
+                                <%= link_to "Mark as read", mark_as_read_notification_path(notification),
+                                            method: :patch, remote: true, onclick: "event.stopPropagation();" %>
                               </div>
                             <% end %>
                           </li>
@@ -98,17 +104,18 @@
                 <!-- Notification Dropdown ends -->
               </div>
               <!-- Notification Bell ends -->
+
               <!-- Profile begins -->
               <%= link_to profiles_path, class: "text-dark me-3", title: "Your Profile", style: "margin-left: 1rem;" do %>
                 <i class="fa-regular fa-user" style="font-size: 1.4rem; margin-top: 1.1rem; padding-left: 0.2rem;"></i>
               <% end %>
               <!-- Profile ends -->
+
               <%= button_to " Log out", destroy_user_session_path, method: :delete, class: "custom-outline-btn btn-sm ms-2", style: "margin-right: 6rem;" %>
           <% else %>
               <%= button_to "Log in", new_user_session_path, class: "custom-outline-btn btn-sm ms-2", style: "margin-right: 6rem;"%>
             </div>
           <% end %>
-
         </div>
       </nav>
 
@@ -130,21 +137,13 @@
         const bell = document.getElementById('notification-bell');
         const dropdown = document.getElementById('notification-dropdown');
 
-        // Prevent attaching listeners more than once
         if (!bell || !dropdown || bell.dataset.listenerAttached === "true") return;
 
         let isDropdownOpen = false;
 
         function toggleDropdown(show) {
-          if (show) {
-            dropdown.style.display = 'block';
-            isDropdownOpen = true;
-            console.log("Dropdown is now open");
-          } else {
-            dropdown.style.display = 'none';
-            isDropdownOpen = false;
-            console.log("Dropdown is now closed");
-          }
+          dropdown.style.display = show ? 'block' : 'none';
+          isDropdownOpen = show;
         }
 
         toggleDropdown(false);
@@ -159,12 +158,9 @@
         });
 
         document.addEventListener('click', function () {
-          if (isDropdownOpen) {
-            toggleDropdown(false);
-          }
+          if (isDropdownOpen) toggleDropdown(false);
         });
 
-        // ✅ Mark that listeners are attached
         bell.dataset.listenerAttached = "true";
       });
     </script>
