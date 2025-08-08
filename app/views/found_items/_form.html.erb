@@ -10,7 +10,7 @@
     <%= link_to "Log in", new_user_session_path, data: { "turbo-method": :get }, class: "btn btn-primary" %>
   <% else %>
 
-    <%= simple_form_for found_item, html: { multipart: true, data: { turbo: false } } do |f| %>
+    <%= simple_form_for found_item, html: { class: "custom-form simple_form new_found_item", multipart: true, data: { turbo: false } } do |f| %>
 
       <% if found_item.errors.any? %>
         <div class="alert alert-danger alert-smaller">
@@ -26,20 +26,46 @@
       <!-- Deactivating and Reactivating Add more image button -->
       <%= render partial: "image_upload_section", locals: { f: f, found_item: found_item } %>
 
-      <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
-      <%= f.input :title %>
-      <%= f.input :description %>
+      <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category",
+        label_html: { class: "form-label" },
+        input_html: { class: "form-select" },
+        wrapper_html: { class: "mb-3" } %>
+
+      <%= f.input :title,
+        label_html: { class: "form-label" },
+        input_html: { class: "form-control" },
+        wrapper_html: { class: "mb-3" } %>
+
+      <%= f.input :description,
+        as: :text,
+        label_html: { class: "form-label" },
+        input_html: {
+          class: "form-control description-field",
+          style: "height: 150px; min-height: 150px;",
+          rows: 4
+        },
+        wrapper_html: { class: "mb-3" } %>
 
       <div data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
-        <%= f.label :location %>
-        <div data-address-autocomplete-target="search"></div>
+        <%= f.label :location, class: "form-label" %>
+        <div data-address-autocomplete-target="search" class="mb-2"></div>
         <%= f.input :location, label: false,
-          input_html: { data: { address_autocomplete_target: "address" },
-          style: "display:none;" } %>
+          input_html: {
+            type: "hidden",
+            data: { address_autocomplete_target: "address" },
+            class: "form-control",
+            style: "height: 49px; min-height: 49px;"
+          },
+          wrapper_html: { class: "mb-3" } %>
       </div>
-      <%= f.input :date_reported, as: :date %>
+
+      <%= f.input :date_reported, as: :date 
+        label_html: { class: "form-label" },
+        input_html: { class: "form-select d-inline-block w-auto me-2" },
+        wrapper_html: { class: "mb-3" } %>
+
       <div class="d-flex gap-2 mt-3 mb-3">
-        <%= f.submit found_item.persisted? ? "Update found item" : "Report Found Item", class: "custom-action-btn" %>
+        <%= f.button :submit, found_item.persisted? ? "Update found item" : "Report Found Item", class: "custom-action-btn" %>
 
         <% if found_item.persisted? %>
           <%= button_to "Delete report",
