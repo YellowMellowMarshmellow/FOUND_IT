@@ -1,5 +1,8 @@
 <div class="custom-wrapper">
-  <h2 class="mt-5"><strong>Create A New Report</strong></h2>
+  <%= link_to '← Back', root_path,
+        class: "text-dark d-inline-block mt-5",
+        style: "color: black; text-decoration: none;" %>
+  <h2 class="mt-4"><strong>Create A New Report</strong></h2>
   <p>Please select one:</p>
 
   <div class="form-check">
@@ -37,7 +40,7 @@
           <div id="image-fields">
             <%= f.file_field :images, multiple: false, name: "found_item[images][]", class: "form-control mb-2" %>
           </div>
-          <button type="button" id="add-image-field" class="btn btn-primary mb-4">Add another image</button>
+          <button type="button" id="add-image-field" class="btn btn-rounded btn-primary mb-4">Add another image</button>
           <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
           <%= f.input :title %>
           <%= f.input :description %>
