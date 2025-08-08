@@ -1,6 +1,7 @@
 class LostItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_user!, only: [:edit, :update, :destroy]
+  before_action :set_lost_item, only: [:show, :edit, :update, :destroy]
 
   def index
     @lost_items = LostItem.all
@@ -28,31 +29,34 @@ class LostItemsController < ApplicationController
 
     if @lost_item.save
       FoundItem.where(category: @lost_item.category)
-                .near([@lost_item.latitude, @lost_item.longitude], 5, units: :mi)
-                .where.not(user_id: @lost_item.user_id)
-                .find_each do |found_item|
+              .near([@lost_item.latitude, @lost_item.longitude], 5, units: :mi)
+              .find_each do |found_item|
 
-         if openai_description_match?(found_item.description, @lost_item.description)
-          match = Match.create!(lost_item: @lost_item, found_item: found_item)
+        next if found_item.user_id == @lost_item.user_id  # 💥 Prevent self-matching
 
-          Notification.create!(
-            user: @lost_item.user,
-            message: "A found item matched your lost item. : #{found_item.title}",
-            notifiable: match
-          )
-         end
+        if openai_description_match?(found_item.description, @lost_item.description)
+          match = Match.new(lost_item: @lost_item, found_item: found_item)
+
+          if match.save
+            Notification.create!(
+              user: @lost_item.user,
+              message: "A found item matched your lost item: #{found_item.title}",
+              notifiable: match
+            )
+          end
+        end
       end
       redirect_to root_path, notice: "Lost item reported successfully."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
-
 
   def edit
     @lost_item = LostItem.find(params[:id])
   end
 
   def update
-    @lost_item = LostItem.find(params[:id])
     if @lost_item.update(lost_item_params)
       redirect_to root_path, notice: "Lost item updated successfully."
     else
@@ -61,7 +65,6 @@ class LostItemsController < ApplicationController
   end
 
   def destroy
-    @lost_item = LostItem.find(params[:id])
     @lost_item.destroy
     redirect_to root_path, notice: "Lost item deleted."
   end
@@ -96,4 +99,9 @@ class LostItemsController < ApplicationController
       Match.create(found_item: found_item, lost_item: lost_item)
     end
   end
+
+  def set_lost_item
+    @lost_item = LostItem.find(params[:id])
+  end
+
 end

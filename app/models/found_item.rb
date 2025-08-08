@@ -1,9 +1,10 @@
 class FoundItem < ApplicationRecord
   belongs_to :user
-  has_many :matches
+  has_many :matches, foreign_key: :found_item_id, dependent: :destroy
   has_many :lost_items, through: :matches
-  has_many :claims, through: :matches
   has_many_attached :images
+  has_many :notifications, as: :notifiable, dependent: :destroy
+
 
   include ItemCategories
 
