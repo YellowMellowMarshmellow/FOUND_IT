@@ -42,12 +42,13 @@
 
 #button-wrapper {
   width: 440px;
-  clear: both; /* ensure it clears floats if any */
+  clear: both;
+  /* ensure it clears floats if any */
   padding-left: 7rem;
   flex-shrink: 0;
 }
 
-#sign-up-btn{
+#sign-up-btn {
   border: 2px solid #F5B221;
   color: #FFFFFF;
   font-weight: 600;
@@ -56,7 +57,7 @@
   background-color: #F5B221;
   border-radius: 30px;
   padding: 0.375rem 1.75rem;
-  font-size: 1,2rem;
+  font-size: 1, 2rem;
   transition: all 0.2s ease-in-out;
   margin-top: 0rem;
 
@@ -108,4 +109,8 @@
     background-color: #f98e4b;
     color: white;
   }
+}
+
+button.btn-primary.btn-rounded {
+  border-radius: 8px !important;
 }

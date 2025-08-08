@@ -37,7 +37,7 @@
           <div id="image-fields">
             <%= f.file_field :images, multiple: false, name: "found_item[images][]", class: "form-control mb-2" %>
           </div>
-          <button type="button" id="add-image-field" class="btn btn-primary mb-4">Add another image</button>
+          <button type="button" id="add-image-field" class="btn btn-rounded btn-primary mb-4">Add another image</button>
           <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
           <%= f.input :title %>
           <%= f.input :description %>
