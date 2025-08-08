@@ -7,7 +7,6 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <!-- in app/views/layouts/application.html.erb -->
     <%= javascript_importmap_tags %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
@@ -24,7 +23,7 @@
 
           <% if user_signed_in? %>
             <div class="d-flex align-items-center ms-auto">
-              <!-- Cloche + dropdown -->
+              <!-- Notification Bell -->
               <div class="dropdown position-relative d-inline-block w-auto" style="padding-right: 0rem;">
                 <button id="notification-bell"
                         type="button"
@@ -53,57 +52,60 @@
                       </div>
                     <% end %>
                     <ul class="list-unstyled mb-0">
-                    <% @notifications.each do |notification| %>
-                      <% if notification.notifiable.present? %>
-                        <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %> position-relative">
-                          <% if notification.notifiable_type == "Match" && notification.notifiable.respond_to?(:lost_item) && notification.notifiable.lost_item.present? %>
-                            <%= link_to lost_item_match_path(notification.notifiable.lost_item, notification.notifiable, step: 1),
-                                        class: "text-decoration-none text-dark d-block w-100 h-100" do %>
-                              <%= notification.content %>
-                              <%= notification.message %>
-                            <% end %>
-                          <% elsif notification.notifiable_type == "LostItem" %>
-                            <%= link_to lost_item_path(notification.notifiable),
-                                class: "text-decoration-none text-dark d-block" do %>
-                              <div><%= notification.content %></div>
-                              <div><%= notification.message %></div>
-                            <% end %>
-                          <% else %>
+                      <% @notifications.each do |notification| %>
+                        <% if notification.notifiable.present? %>
+                          <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %> position-relative">
+                            <% if notification.notifiable_type == "Match" && notification.notifiable.respond_to?(:lost_item) && notification.notifiable.lost_item.present? %>
+                              <%= link_to lost_item_match_path(notification.notifiable.lost_item, notification.notifiable, step: 1),
+                                          class: "text-decoration-none text-dark d-block w-100 h-100" do %>
+                                <%= notification.content %>
+                                <%= notification.message %>
+                              <% end %>
+                            <% elsif notification.notifiable_type == "LostItem" %>
                               <%= link_to lost_item_path(notification.notifiable),
-                                class: "text-decoration-none text-dark d-block" do %>
-                              <div><%= notification.content %></div>
-                              <div><%= notification.message %></div>
-                            <% end %>
-
-                          <% end %>
-
-                          <% unless notification.read %>
-                            <div class="d-flex justify-content-between small text-muted">
-                              <%= link_to "Mark as read",
-                                          mark_as_read_notification_path(notification),
+                                          class: "text-decoration-none text-dark d-block" do %>
+                                <div><%= notification.content %></div>
+                                <div><%= notification.message %></div>
+                              <% end %>
+                            <% elsif notification.notifiable_type == "ThankYouNote" %>
+                              <%= link_to mark_as_read_notification_path(notification, redirect_to: "profile"),
                                           method: :patch,
-                                          remote: true,
-                                          onclick: "event.stopPropagation();" %>
-                            </div>
-                          <% end %>
-                        </li>
-                      <% else %>
-                        <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %>">
-                            <%= link_to lost_item_path(notification.notifiable),
-                                class: "text-decoration-none text-dark d-block" do %>
-                              <div><%= notification.content %></div>
-                              <div><%= notification.message %></div>
+                                          class: "text-decoration-none text-dark d-block w-100 h-100" do %>
+                                <div><%= notification.content %></div>
+                                <div><%= notification.message %></div>
+                              <% end %>
+                            <% else %>
+                              <%= link_to lost_item_path(notification.notifiable),
+                                          class: "text-decoration-none text-dark d-block" do %>
+                                <div><%= notification.content %></div>
+                                <div><%= notification.message %></div>
+                              <% end %>
                             <% end %>
-                        </li>
-                      <% end %>
 
-                    <% end %>
-                  </ul>
+                            <% unless notification.read %>
+                              <div class="d-flex justify-content-between small text-muted">
+                                <%= link_to "Mark as read",
+                                            mark_as_read_notification_path(notification),
+                                            method: :patch,
+                                            remote: true,
+                                            onclick: "event.stopPropagation();" %>
+                              </div>
+                            <% end %>
+                          </li>
+                        <% else %>
+                          <!-- Fallback when notifiable is missing -->
+                          <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %>">
+                            <div><%= notification.content %></div>
+                            <div><%= notification.message %></div>
+                          </li>
+                        <% end %>
+                      <% end %>
+                    </ul>
                 </div>
 
-                  <%= link_to profiles_path, class: "text-dark me-3", title: "Your Profile", style: "margin-left: 1rem;" do %>
-                    <i class="fa-regular fa-user" style="font-size: 1.4rem; margin-top: 1.1rem; padding-left: 0.2rem;"></i>
-                  <% end %>
+                <%= link_to profiles_path, class: "text-dark me-3", title: "Your Profile", style: "margin-left: 1rem;" do %>
+                  <i class="fa-regular fa-user" style="font-size: 1.4rem; margin-top: 1.1rem; padding-left: 0.2rem;"></i>
+                <% end %>
 
               </div>
             </div>
@@ -113,14 +115,13 @@
           <% end %>
         </div>
       </nav>
+
       <% flash.each do |key, message| %>
-        <div
-          class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>"
-          data-controller="flash"
-          data-flash-timeout-value="4000"
-        >
+        <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>"
+             data-controller="flash"
+             data-flash-timeout-value="4000">
           <%= message %>
-      </div>
+        </div>
       <% end %>
 
       <%= yield %>
@@ -171,6 +172,5 @@
         bell.dataset.listenerAttached = "true";
       });
     </script>
-
   </body>
 </html>
