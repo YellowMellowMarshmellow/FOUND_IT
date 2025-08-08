@@ -1,46 +1,43 @@
-<div id="image-upload-section"
-     data-controller="add-image"
-     data-add-image-existing-count-value="<%= found_item.images.count %>"
-     data-add-image-max-value="3">
-  <% if found_item.images.attached? %>
-    <div class="mb-3">
-      <h5>Uploaded images:</h5>
-      <ul class="list-unstyled">
-        <% found_item.images.each do |image| %>
-          <li class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
-            <span class="me-3"><%= image.filename.to_s %></span>
+<% if found_item.images.attached? %>
+  <div class="mb-3">
+    <h5>Uploaded images:</h5>
+    <div class="uploaded-images">
+      <% found_item.images.each do |image| %>
+        <div class="image-wrapper">
+          <%= image_tag url_for(image), class: "preview-image", width: 150, height: 150 %>
 
-            <%= button_to delete_image_found_item_path(found_item, image_id: image.id),
-                          method: :delete,
-                          data: { turbo_confirm: "Are you sure?" },
-                          form: { data: { turbo_stream: true } },
-                          class: "btn btn-outline-danger btn-sm m-0" do %>
-              <i class="bi bi-trash"></i>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
+          <%= button_to delete_image_found_item_path(found_item, image_id: image.id),
+                        method: :delete,
+                        data: { turbo_confirm: "Are you sure?" },
+                        form: { data: { turbo_stream: true } },
+                        class: "delete-btn" do %>
+            ✕
+          <% end %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-
-  <div id="image-fields" data-add-image-target="container">
-    <%= f.file_field :images,
-      multiple: true,
-      name: "found_item[images][]",
-      class: "form-control mb-2",
-      data: {
-        action: "change->add-image#checkLimit",
-        add_image_target: "fileInput"
-      } %>
-
   </div>
-  <p class="text-muted">
-    You have <%= found_item.images.count %> image<%= "s" if found_item.images.count != 1 %> uploaded. You can upload up to 3.
-  </p>
-  <button type="button"
-    class="btn btn-primary mb-4"
-    data-action="click->add-image#addField"
-    data-add-image-target="button">
-    Add another image
-  </button>
+<% end %>
+
+<div id="image-fields" data-add-image-target="container">
+  <%= f.file_field :images,
+    multiple: true,
+    name: "found_item[images][]",
+    class: "form-control mb-2 upload-image",
+    style: "max-width:1000px; width:100%; box-sizing:border-box;",
+    data: {
+      action: "change->add-image#checkLimit",
+      add_image_target: "fileInput"
+    } %>
 </div>
+
+<p class="text-muted">
+  You have <%= found_item.images.count %> image<%= "s" if found_item.images.count != 1 %> uploaded. You can upload up to 3.
+</p>
+
+<button type="button"
+  class="btn btn-primary mb-4"
+  data-action="click->add-image#addField"
+  data-add-image-target="button">
+  Add another image
+</button>

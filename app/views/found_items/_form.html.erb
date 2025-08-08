@@ -59,13 +59,13 @@
           wrapper_html: { class: "mb-3" } %>
       </div>
 
-      <%= f.input :date_reported, as: :date 
+      <%= f.input :date_reported, as: :date, 
         label_html: { class: "form-label" },
-        input_html: { class: "form-select d-inline-block w-auto me-2" },
+        input_html: { class: "form-select d-inline-block w-auto me-2 edit-date" },
         wrapper_html: { class: "mb-3" } %>
 
       <div class="d-flex gap-2 mt-3 mb-3">
-        <%= f.button :submit, found_item.persisted? ? "Update found item" : "Report Found Item", class: "custom-action-btn" %>
+        <%= f.submit found_item.persisted? ? "Update found item" : "Report Found Item", class: "custom-action-btn", onclick: "console.log('submit clicked')" %>
 
         <% if found_item.persisted? %>
           <%= button_to "Delete report",
@@ -73,7 +73,7 @@
                       method: :delete,
                       data: { turbo_confirm: "Are you sure?" },
                       class: "custom-outline-btn",
-                      style: "text-decoration: none; display: inline-block; text-align: center;"%>
+                      style: "text-decoration: none; display: inline-block; text-align: center;" %>
         <% end %>
       </div>
     <% end %>
