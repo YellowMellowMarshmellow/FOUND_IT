@@ -27,19 +27,21 @@ class FoundItemsController < ApplicationController
 
     if @found_item.save
       LostItem.where(category: @found_item.category)
-                .near([@found_item.latitude, @found_item.longitude], 5, units: :mi)
-                .where.not(user_id: @found_item.user_id)
-                .find_each do |lost_item|
+              .near([@found_item.latitude, @found_item.longitude], 5, units: :mi)
+              .find_each do |lost_item|
+
+        next if lost_item.user_id == @found_item.user_id  # 💥 Prevent self-matching
 
         if openai_description_match?(@found_item.description, lost_item.description)
+          match = Match.new(lost_item: lost_item, found_item: @found_item)
 
-          Match.create!(lost_item: lost_item, found_item: @found_item)
-
-          Notification.create!(
-            user: lost_item.user,
-            message: "A potential match has been found for your lost object : #{lost_item.title}. Please confirm.",
-            notifiable: lost_item
-          )
+          if match.save
+            Notification.create!(
+              user: lost_item.user,
+              message: "A potential match has been found for your lost object: #{lost_item.title}. Please confirm.",
+              notifiable: match
+            )
+          end
         end
       end
       redirect_to root_path, notice: "Found item reported successfully."
@@ -48,12 +50,12 @@ class FoundItemsController < ApplicationController
     end
   end
 
+
   def edit
-    @found_item = FoundItem.find(params[:id])
+
   end
 
   def update
-    @found_item = FoundItem.find(params[:id])
 
     if params[:found_item][:remove_image_ids]
       params[:found_item][:remove_image_ids].each do |id|
