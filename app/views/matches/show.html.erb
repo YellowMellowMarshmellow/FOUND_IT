@@ -22,7 +22,7 @@
 <div class="match-card d-flex">
   <% if @match.found_item.images.attached? %>
     <div class="match-image">
-      <%= image_tag @match.found_item.images.first, class: "img-fluid main-image" %>
+      <%= image_tag @match.found_item.images.first, class: "img-fluid main-image", style: "margin-left: 25rem;" %>
       <% if @match.found_item.images.count > 1 %>
         <div class="thumbnails d-flex flex-wrap">
           <% @match.found_item.images.drop(1).each do |image| %>
@@ -35,7 +35,7 @@
     </div>
   <% end %>
 
-  <div class="match-content">
+  <div class="match-content" style="margin-left: 10rem;">
 
       <h3><strong>📌 It's a match !</strong></h3>
 
