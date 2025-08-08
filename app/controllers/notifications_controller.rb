@@ -12,10 +12,15 @@ class NotificationsController < ApplicationController
     @unread_notifications_count = current_user.notifications.where(read: false).count
 
     respond_to do |format|
-      format.html { redirect_back fallback_location: notifications_path }
+      if params[:redirect_to] == "profile"
+        format.html { redirect_to profiles_path }
+      else
+        format.html { redirect_back fallback_location: notifications_path }
+      end
       format.js
     end
   end
+
 
   def mark_all_as_read
     current_user.notifications.where(read: false).update_all(read: true)

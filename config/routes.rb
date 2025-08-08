@@ -38,8 +38,9 @@ Rails.application.routes.draw do
 
   resource :profiles, only: [:show, :edit, :update]
 
+  # ✅ Updated here
   resources :users, only: [:show, :edit, :update] do
-    resources :thank_you_notes, only: [:index, :new, :create]
+    resources :thank_you_notes, only: [:index, :new, :create, :show]
   end
 
   root "homepages#index"
@@ -50,5 +51,4 @@ Rails.application.routes.draw do
 
   # We updates profile to profiles so we can use avatar with cloudinary
   # resource :profile, only: [:show]
-
 end
