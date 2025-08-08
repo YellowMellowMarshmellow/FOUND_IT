@@ -50,9 +50,12 @@ class FoundItemsController < ApplicationController
     end
   end
 
-
   def edit
+    @found_item = FoundItem.find(params[:id])
 
+    if @found_item.matches.any? { |match| match.confirmed? }
+      redirect_to found_item_path(@found_item), alert: "You cannot edit this item because a match has already been confirmed."
+    end
   end
 
   def update
