@@ -4,6 +4,8 @@ class LostItem < ApplicationRecord
   has_many :matches, foreign_key: :lost_item_id, dependent: :destroy
   has_many :found_items, through: :matches
   has_many_attached :images
+  has_many :notifications, as: :notifiable, dependent: :destroy
+
   # image from lost report is not needed
   # has_many_attached :images
 

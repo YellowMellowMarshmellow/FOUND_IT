@@ -89,11 +89,10 @@
                         </li>
                       <% else %>
                         <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %>">
-                            <%= link_to lost_item_path(notification.notifiable),
-                                class: "text-decoration-none text-dark d-block" do %>
-                              <div><%= notification.content %></div>
-                              <div><%= notification.message %></div>
-                            <% end %>
+                            <div class="text-muted">
+                              
+                              <div><%= notification.message || "This item no longer exists" %></div>
+                            </div>
                         </li>
                       <% end %>
 

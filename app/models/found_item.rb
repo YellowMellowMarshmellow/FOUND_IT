@@ -4,6 +4,7 @@ class FoundItem < ApplicationRecord
   has_many :lost_items, through: :matches
   has_many :claims, through: :matches
   has_many_attached :images
+  has_many :notifications, as: :notifiable, dependent: :destroy
 
   include ItemCategories
 
