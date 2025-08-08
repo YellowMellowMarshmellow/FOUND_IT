@@ -1,7 +1,5 @@
-<div id="image-upload-section"
-     data-controller="add-image"
-     data-add-image-existing-count-value="<%= found_item.images.count %>"
-     data-add-image-max-value="3">
+
+
   <% if found_item.images.attached? %>
     <div class="mb-3">
       <h5>Uploaded images:</h5>
@@ -27,7 +25,8 @@
     <%= f.file_field :images,
       multiple: true,
       name: "found_item[images][]",
-      class: "form-control mb-2",
+      class: "form-control mb-2 upload-image",
+      style: "max-width:1000px; width:100%; box-sizing:border-box;",
       data: {
         action: "change->add-image#checkLimit",
         add_image_target: "fileInput"
@@ -43,4 +42,3 @@
     data-add-image-target="button">
     Add another image
   </button>
-</div>

@@ -59,7 +59,7 @@
           wrapper_html: { class: "mb-3" } %>
       </div>
 
-      <%= f.input :date_reported, as: :date 
+      <%= f.input :date_reported, as: :date, 
         label_html: { class: "form-label" },
         input_html: { class: "form-select d-inline-block w-auto me-2" },
         wrapper_html: { class: "mb-3" } %>
@@ -73,7 +73,7 @@
                       method: :delete,
                       data: { turbo_confirm: "Are you sure?" },
                       class: "custom-outline-btn",
-                      style: "text-decoration: none; display: inline-block; text-align: center;"%>
+                      style: "text-decoration: none; display: inline-block; text-align: center;" %>
         <% end %>
       </div>
     <% end %>

@@ -16,6 +16,30 @@
     }
 }
 
+.edit_found_item {
+    max-width: 1000px;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+
+    input,
+    select,
+    textarea {
+        max-width: 1000px !important;
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+.edit_found_item input.upload-image {
+    max-width: 1000px !important;
+    width: 100% !important;
+    display: block;
+    /* utile si Bootstrap le rend inline */
+}
+
 .mapboxgl-ctrl-geocoder {
     background-color: transparent !important;
     max-width: 600px;
@@ -43,6 +67,17 @@
     }
 }
 
+.edit_found_item .mapboxgl-ctrl-geocoder {
+    max-width: 1000px !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    width: 100%;
+}
+
+.edit_found_item .mapboxgl-ctrl-geocoder--input {
+    max-width: 1000px !important;
+}
+
 textarea#lost_item_description,
 textarea#found_item_description {
     min-height: 110px !important;
@@ -59,4 +94,8 @@ textarea#found_item_description {
 .form-check-input[type="radio"]:focus {
     box-shadow: 0 0 0 0.25rem rgba(46, 204, 113, 0.25) !important;
     border-color: #2ecc71 !important;
+}
+
+.upload-image {
+    max-width: 1000px !important;
 }
