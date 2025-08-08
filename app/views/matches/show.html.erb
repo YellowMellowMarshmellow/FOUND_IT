@@ -19,23 +19,25 @@
   </div>
 </div>
 
-<div class="match-card d-flex">
-  <% if @match.found_item.images.attached? %>
-    <div class="match-image">
-      <%= image_tag @match.found_item.images.first, class: "img-fluid main-image" %>
-      <% if @match.found_item.images.count > 1 %>
-        <div class="thumbnails d-flex flex-wrap">
-          <% @match.found_item.images.drop(1).each do |image| %>
-            <div class="thumbnail">
-              <%= image_tag image, class: "img-thumbnail" %>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
+<div class="container my-5">
+  <div class="match-card d-flex flex-wrap gap-5 align-items-start">
 
-  <div class="match-content">
+    <% if @match.found_item.images.attached? %>
+      <div class="match-image flex-shrink-0 d-flex justify-content-end">
+        <%= image_tag @match.found_item.images.first, class: "img-fluid main-image" %>
+        <% if @match.found_item.images.count > 1 %>
+          <div class="thumbnails d-flex flex-wrap gap-2 mt-2">
+            <% @match.found_item.images.drop(1).each do |image| %>
+              <div class="thumbnail">
+                <%= image_tag image, class: "img-thumbnail" %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+  <div class="match-content flex-grow-1">
 
       <h3><strong>📌 It's a match !</strong></h3>
 
@@ -61,12 +63,15 @@
 
        <% elsif step == 3 %>
         <p><%= @match.found_item.title %></p>
+
         <%= form_with model: [@lost_item, @match], method: :patch do |f| %>
           <div class="mb-3" style="width: 450px; font-weight: bold;">
             <%= f.label :review, "Leave a kind message to the finder:", class: "mb-2" %>
-          </div>
+            <%= f.text_area :review, rows: 3, class: "form-control", style: "border-radius: 8px" %>
+          
+
           <div data-controller="badge">
-            <%= f.text_area :review, rows: 3, class: "form-control", data: { badge_target: "textarea" }, style: "border-radius: 8px" %>
+      
             <div class="badges mt-2">
               <% ["Thank you! ❤️", "You're the best 👍", "You saved my day! 🙏", "You're awesome! 🥳"].each do |badge| %>
                 <button
@@ -80,26 +85,29 @@
               <% end %>
             </div>
           </div>
-
+          
           <%= f.hidden_field :confirmed, value: true %>
           <%= f.hidden_field :step, value: 3 %>
           <%= hidden_field_tag :finalize, true %>
-          <%= f.submit "FoundIt!", class: "btn btn-success", style:"border-radius: 30px; width: 8rem; font-weight: bold; color: white; background-color: #f5b220; border-color: #f5b220; margin-left: 16rem;" %>
+          
+          <div class="d-flex align-items-center gap-3 mt-3">
+            <% if step > 1 %>
+              <%= button_to "← Back",
+                  lost_item_match_path(@lost_item, @match),
+                  method: :patch,
+                  params: { match: { confirmed: true, step: step - 1 } },
+                  class: "btn btn-link",
+                  style: "color: black; text-decoration: none; font-weight: bold;" %>
+              <% end %>
+
+            <%= f.submit "FoundIt!", class: "btn btn-success", style:"border-radius: 30px; width: 8rem; font-weight: bold; color: white; background-color: #f5b220; border-color: #f5b220; margin-left: 13rem;" %>
+          </div>
           <% end %>
         <% end %>
 
 
-      <div class="match-buttons d-flex gap-2 mt-3">
-        <% if step > 1 %>
-          <%= button_to "← Back",
-                lost_item_match_path(@lost_item, @match),
-                method: :patch,
-                params: { match: { confirmed: true, step: step - 1 } },
-                class: "btn btn-link",
-                style: "color: black; text-decoration: none; width: 6rem; padding-left: 0px;" %>
-        <% end %>
-
         <% if step == 1 %>
+        <div class="d-flex gap-3 mt-3">
           <%= button_to "No",
                 lost_item_match_path(@lost_item, @match),
                 method: :patch,
@@ -112,18 +120,28 @@
                 method: :patch,
                 params: { match: { confirmed: true, step: 2 } },
                 class: "btn btn-warning",
-                style: "border-radius: 30px; width: 8rem; font-weight: bold; color: white; background-color: #f5b220; border-color: #f5b220;" %>
-
+                style: "border-radius: 30px; width: 8rem; font-weight: bold; 
+                        color: white; background-color: #f5b220; border-color: #f5b220;" %>
+        </div>
         <% elsif step == 2 %>
-          <%= button_to "Continue →",
+          <div class="d-flex justify-content-between mt-3" style="max-width: 450px;">
+            <%= button_to "← Back",
                   lost_item_match_path(@lost_item, @match),
                   method: :patch,
-                  params: { match: { confirmed: true, step: 3 } },
-                  class: "btn btn-warning",
-                  style: "border-radius: 30px; width: 8rem; margin-left: 17rem; font-weight: bold; color: white; background-color: #f5b220; border-color: #f5b220;" %>
+                  params: { match: { confirmed: true, step: step - 1 } },
+                  class: "btn btn-link",
+                  style: "color: black; text-decoration: none; font-weight: bold;" %>
 
-
+            <%= button_to "Continue →",
+                    lost_item_match_path(@lost_item, @match),
+                    method: :patch,
+                    params: { match: { confirmed: true, step: 3 } },
+                    class: "btn btn-warning",
+                    style: "border-radius: 30px; width: 8rem; font-weight: bold; 
+                            color: white; background-color: #f5b220; border-color: #f5b220;" %>
+          </div>
         <% end %>
       </div>
+    </div>
   </div>
 </div>
