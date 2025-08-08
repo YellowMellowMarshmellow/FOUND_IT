@@ -65,12 +65,10 @@
         <p><%= @match.found_item.title %></p>
 
         <%= form_with model: [@lost_item, @match], method: :patch do |f| %>
-          <div class="mb-3" style="width: 450px; font-weight: bold;">
+          <div data-controller="badge" class="mb-3" style="width: 450px; font-weight: bold;">
             <%= f.label :review, "Leave a kind message to the finder:", class: "mb-2" %>
-            <%= f.text_area :review, rows: 3, class: "form-control", style: "border-radius: 8px" %>
+            <%= f.text_area :review, rows: 3, class: "form-control", style: "border-radius: 8px", data: { badge_target: "textarea" } %>
           
-
-          <div data-controller="badge">
       
             <div class="badges mt-2">
               <% ["Thank you! ❤️", "You're the best 👍", "You saved my day! 🙏", "You're awesome! 🥳"].each do |badge| %>
