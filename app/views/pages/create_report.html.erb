@@ -26,8 +26,7 @@
         <h2>Oops, it seems like you need to log in first!</h2>
         <%= link_to "Log in", new_user_session_path, data: { "turbo-method": :get }, class: "btn btn-primary" %>
       <% else %>
-          <!-- <%= simple_form_for @found_item, url: create_report_path, html: { multipart: true } do |f| %> -->
-          <%= simple_form_for @found_item, url: found_items_path, html: { multipart: true } do |f| %>
+          <%= simple_form_for @found_item, url: create_report_path, html: { multipart: true } do |f| %>
           <% if @found_item.errors.any? %>
             <div class="alert alert-danger">
               <h4><%= pluralize(@found_item.errors.count, "error") %> prohibited this report from being saved:</h4>
@@ -53,7 +52,7 @@
 
           <%= f.input :date_reported, as: :date %>
           <%= f.button :submit, "Report found item", class: "custom-action-btn" %>
-          <% end %>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -65,8 +64,7 @@
         <h2>Oops, it seems like you need to log in first!</h2>
         <%= link_to "Log in", new_user_session_path, class: "btn btn-primary" %>
       <% else %>
-        <!-- <%= simple_form_for @lost_item, url: create_report_path, html: { multipart: true } do |f| %> -->
-        <%= simple_form_for @lost_item, url: lost_items_path, html: { multipart: true } do |f| %>
+        <%= simple_form_for @lost_item, url: create_report_path, html: { multipart: true } do |f| %>
           <%= f.input :category, collection: ItemCategories::CATEGORIES, prompt: "Select a category" %>
           <%= f.input :title %>
           <%= f.input :description, input_html: { minlength: 30 } %>
@@ -77,7 +75,7 @@
             input_html: { data: { address_autocomplete_target: "address" } } %>
           <%= f.input :date_lost, as: :date %>
           <%= f.button :submit, @lost_item.persisted? ? "Update Lost Item" : "Report Lost Item", class: "custom-action-btn" %>
-          <% end %>
+        <% end %>
       <% end %>
     </div>
   </div>
