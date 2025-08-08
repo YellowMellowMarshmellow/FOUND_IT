@@ -10,11 +10,11 @@
     <%= link_to "Log in", new_user_session_path, data: { "turbo-method": :get }, class: "btn btn-primary" %>
   <% else %>
     <%= simple_form_for lost_item, html: { class: "custom-form simple_form new_lost_item", multipart: true } do |f| %>
-      <% if lost_item.errors.any? %>
+      <% if @lost_item.errors.any? %>
         <div class="alert alert-danger">
-          <h4><%= pluralize(lost_item.errors.count, "error") %> prohibited this report from being saved:</h4>
+          <h4><%= pluralize(@lost_item.errors.count, "error") %> prohibited this item from being saved:</h4>
           <ul>
-            <% lost_item.errors.full_messages.each do |msg| %>
+            <% @lost_item.errors.full_messages.each do |msg| %>
               <li><%= msg %></li>
             <% end %>
           </ul>

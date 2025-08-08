@@ -46,8 +46,9 @@ class LostItemsController < ApplicationController
           end
         end
       end
-      redirect_to root_path, notice: "Lost item reported successfully."
+      redirect_to root_path, notice: "Lost item reported successfully.", status: :see_other
     else
+      logger.debug "LOST ITEM CREATION FAILED: #{@lost_item.errors.full_messages}"
       render :new, status: :unprocessable_entity
     end
   end
