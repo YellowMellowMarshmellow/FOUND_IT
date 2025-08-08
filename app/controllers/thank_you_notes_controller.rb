@@ -6,6 +6,14 @@ class ThankYouNotesController < ApplicationController
     @thank_you_notes = ThankYouNote.where(recipient: @user)
   end
 
+  def show
+    @thank_you_note = ThankYouNote.find(params[:id])
+
+    unless @thank_you_note.recipient == current_user
+      redirect_to root_path, alert: "You are not authorized to view this thank-you note."
+    end
+  end
+
   def new
     @thank_you_note = ThankYouNote.new
   end

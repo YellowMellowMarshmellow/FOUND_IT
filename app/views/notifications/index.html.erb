@@ -3,7 +3,9 @@
 <ul>
   <% @notifications.each do |notification| %>
     <li style="<%= 'font-weight: bold;' unless notification.read %>">
-      <%= notification.message %>
+      <%= link_to notification.message,
+            mark_as_read_notification_path(notification, redirect_to: "profile"),
+            method: :patch %>
       <% unless notification.read %>
         <%= link_to "Mark as read", mark_as_read_notification_path(notification), method: :patch %>
       <% end %>
