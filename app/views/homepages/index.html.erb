@@ -42,8 +42,10 @@
             <div class="right-section text-start">
               <p class="card-text"><strong>Location:</strong> <%= @latest_found_item.location %></p>
               <p class="card-text"><strong>Status:</strong> <%= item_status(@latest_found_item, current_user) %></p>
-              <%= link_to edit_found_item_path(@latest_found_item), class: "icon-link", title: "Edit" do %>
-                <img src="<%= asset_path('Edit.svg') %>" width="16" height="16" alt="Edit" class="edit-icon">
+              <% unless @latest_found_item.matches.any? { |match| match.confirmed? } %>
+                <%= link_to edit_found_item_path(@latest_found_item), class: "icon-link", title: "Edit" do %>
+                  <img src="<%= asset_path('Edit.svg') %>" width="16" height="16" alt="Edit" class="edit-icon">
+                <% end %>
               <% end %>
             </div>
           </div>
