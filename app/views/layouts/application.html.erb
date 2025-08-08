@@ -28,7 +28,7 @@
                 <button id="notification-bell"
                         type="button"
                         class="btn btn-lg position-relative"
-                        style="padding: 0.5rem 0.75rem; padding-top: 0.2rem">
+                        style="padding: 0.5rem 0.75rem; padding-top: 0.2rem; margin-top: 15px;">
                   <i class="bi bi-bell"></i>
                   <% if @unread_notifications_count.to_i > 0 %>
                     <span class="position-absolute start-100 translate-middle badge rounded-circle my-2"
@@ -100,7 +100,7 @@
               <!-- Notification Bell ends -->
               <!-- Profile begins -->
               <%= link_to profiles_path, class: "text-dark me-3", title: "Your Profile", style: "margin-left: 1rem;" do %>
-                <i class="fa-regular fa-user" style="font-size: 1.4rem; margin-top: 1.1rem; padding-left: 0.2rem;"></i>
+                <i class="fa-regular fa-user" style="font-size: 1.4rem; margin-top: 10px; padding-left: 0.2rem;"></i>
               <% end %>
               <!-- Profile ends -->
               <%= button_to " Log out", destroy_user_session_path, method: :delete, class: "custom-outline-btn btn-sm ms-2", style: "margin-right: 6rem;" %>
