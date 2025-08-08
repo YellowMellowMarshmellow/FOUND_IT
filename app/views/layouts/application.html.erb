@@ -82,23 +82,25 @@
                               <% end %>
                             <% end %>
 
-                            <% unless notification.read %>
-                              <div class="d-flex justify-content-between small text-muted">
-                                <%= link_to "Mark as read",
-                                            mark_as_read_notification_path(notification),
-                                            method: :patch,
-                                            remote: true,
-                                            onclick: "event.stopPropagation();" %>
-                              </div>
-                            <% end %>
-                          </li>
-                        <% else %>
-                          <!-- Fallback when notifiable is missing -->
-                          <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %>">
-                            <div><%= notification.content %></div>
-                            <div><%= notification.message %></div>
-                          </li>
-                        <% end %>
+                          <% end %>
+
+                          <% unless notification.read %>
+                            <div class="d-flex justify-content-between small text-muted">
+                              <%= link_to "Mark as read",
+                                          mark_as_read_notification_path(notification),
+                                          method: :patch,
+                                          remote: true,
+                                          onclick: "event.stopPropagation();" %>
+                            </div>
+                          <% end %>
+                        </li>
+                      <% else %>
+                        <li class="mb-2 p-2 <%= 'fw-bold' unless notification.read %>">
+                            <div class="text-muted">
+                              
+                              <div><%= notification.message || "This item no longer exists" %></div>
+                            </div>
+                        </li>
                       <% end %>
                     </ul>
                 </div>
